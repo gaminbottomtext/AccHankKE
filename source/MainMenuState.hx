@@ -112,7 +112,7 @@ class MainMenuState extends MusicBeatState
 					}});
 			else
 				menuItem.y = 60 + (i * 260);
-				menuItem.x 100 + (i * 40);	// Targeting Online VS menu Maybe?
+				menuItem.x = 100 + (i * 40);	// Targeting Online VS menu Maybe?
 		}
 
 		firstStart = false;
@@ -261,7 +261,7 @@ class MainMenuState extends MusicBeatState
 
 	function changeItem(huh:Int = 0)
 	{
-		imageThing = new FlxSprite(300, 150).loadGraphic(Paths.image(optionShit[curSelected], 'shared');
+		imageThing = new FlxSprite(300, 150).loadGraphic(Paths.image(optionShit[curSelected], 'shared'));
 		
 		if (finishedFunnyMove)
 		{
