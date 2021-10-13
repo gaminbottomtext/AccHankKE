@@ -287,6 +287,12 @@ class Character extends FlxSprite
 				animation.addByPrefix('deathLoop', "BF Dead Loop", 24, true);
 				animation.addByPrefix('deathConfirm', "BF Dead confirm", 24, false);
 
+
+				animation.addByPrefix('hurt', 'BF hit', 24, false);
+				animation.addByPrefix('pre-attack', 'bf pre attack', 24, false);
+				animation.addByPrefix('attack', 'boyfriend attack', 24, false);
+				animation.addByPrefix('dodge', 'boyfriend dodge', 24, false);
+
 				animation.addByPrefix('scared', 'BF idle shaking', 24);
 
 				addOffset('idle', -5);
@@ -303,6 +309,11 @@ class Character extends FlxSprite
 				addOffset('deathLoop', 37, 5);
 				addOffset('deathConfirm', 37, 69);
 				addOffset('scared', -4);
+
+				addOffset('hurt', -5);
+				addOffset('pre-attack', -5, -20);
+				addOffset('attack', 295, 270);
+				addOffset('dodge', -5);
 
 				playAnim('idle');
 
@@ -517,8 +528,8 @@ class Character extends FlxSprite
 					animation.addByPrefix('scaredShootTiky', 'HankScaredShootsTiky', 24, false);
 					addOffset('idle');
 					addOffset("singUP");
-					addOffset("singRIGHT");
-					addOffset("singLEFT");
+					addOffset("singRIGHT", 127,-12);
+					addOffset("singLEFT", 339, 0);
 					addOffset("singDOWN");
 	
 					addOffset('shootDown');

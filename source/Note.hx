@@ -128,18 +128,21 @@ class Note extends FlxSprite
 					}
 					if (noteType == 2)
 						{
-							loadGraphic(Paths.image('warningNote'));
-							setGraphicSize(Std.int(width * 0.7));
-							updateHitbox();
-							antialiasing = true;
+							frames = Paths.getSparrowAtlas('ALL_deathnotes');
+							animation.addByPrefix('greenScroll', 'Bullet UP');
+							animation.addByPrefix('redScroll', 'Bullet RIGHT');
+							animation.addByPrefix('blueScroll', 'Bullet DOWN');
+							animation.addByPrefix('purpleScroll', 'Bullet LEFT');
 						}
 		}
 		if (warning)
 		{
-            loadGraphic(Paths.image('warningNote'));
-		    setGraphicSize(Std.int(width * 0.7));
-		    updateHitbox();
-		    antialiasing = true;
+			frames = Paths.getSparrowAtlas('NOTE_bullet');
+			animation.addByPrefix('greenScroll', 'Bullet UP');
+			animation.addByPrefix('redScroll', 'Bullet RIGHT');
+			animation.addByPrefix('blueScroll', 'Bullet DOWN');
+			animation.addByPrefix('purpleScroll', 'Bullet LEFT');
+			setGraphicSize(Std.int(width * 0.96));
 		}
 
 		switch (noteData)

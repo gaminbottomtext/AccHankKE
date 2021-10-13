@@ -101,6 +101,8 @@ class PlayState extends MusicBeatState
 
 	var halloweenLevel:Bool = false;
 
+	var daNote:Note;
+
 	var songLength:Float = 0;
 	var kadeEngineWatermark:FlxText;
 	
@@ -1635,7 +1637,7 @@ class PlayState extends MusicBeatState
 		}
 		var beats = 600*(100/songData.bpm);// tag me @gaminbottemtext#3433 if it works 
 		
-		if (SONG.song.toLowerCase() == 'accelerant') // adding dad.curcharacter cuz only hank shoots lmao
+		if (SONG.song.toLowerCase() == 'accelerant' && storyDifficulty < 3) // adding dad.curcharacter cuz only hank shoots lmao
 			{
                for (x in 0...bulletArray.length)
 				{
@@ -2099,7 +2101,7 @@ class PlayState extends MusicBeatState
 		/* if (FlxG.keys.justPressed.NINE)
 			FlxG.switchState(new Charting()); */
 
-		#if debug
+		#if cpp
 		if (FlxG.keys.justPressed.SIX)
 		{
 			if (useVideo)
@@ -2610,6 +2612,11 @@ class PlayState extends MusicBeatState
 
 					if (daNote.isSustainNote)
 						daNote.x += daNote.width / 2 + 17;
+
+					if (daNote.warning)
+						{
+							daNote.x += 42;
+						}
 					
 
 					//trace(daNote.y);
@@ -3717,7 +3724,9 @@ class PlayState extends MusicBeatState
 
 	var fastCarCanDrive:Bool = true;
 
-	function badNoteHit():Void
+	var CharacterIsPreloading:Bool = false;
+
+	function badNoteHit():Void // deez
 		{
 			boyfriend.playAnim('hit', true);
 			FlxG.sound.play(Paths.soundRandom('badnoise', 1, 3), FlxG.random.float(0.7, 1));
