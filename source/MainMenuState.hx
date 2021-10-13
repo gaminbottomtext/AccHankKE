@@ -46,6 +46,8 @@ class MainMenuState extends MusicBeatState
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
 	public static var finishedFunnyMove:Bool = false;
+	
+	var imageThing:FlxSprite;
 
 	override function create()
 	{
@@ -131,6 +133,9 @@ class MainMenuState extends MusicBeatState
 			controls.setKeyboardScheme(KeyboardScheme.Duo(true), true);
 
 		changeItem();
+		
+		imageThing = new FlxSprite(300, 150).loadGraphic(Paths.image(optionShit[curSelected], 'shared'));
+		add(imageThing);
 
 		super.create();
 	}
@@ -256,6 +261,8 @@ class MainMenuState extends MusicBeatState
 
 	function changeItem(huh:Int = 0)
 	{
+		imageThing = new FlxSprite(300, 150).loadGraphic(Paths.image(optionShit[curSelected], 'shared');
+		
 		if (finishedFunnyMove)
 		{
 			curSelected += huh;
