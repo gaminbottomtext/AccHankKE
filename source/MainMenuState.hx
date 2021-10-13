@@ -109,7 +109,8 @@ class MainMenuState extends MusicBeatState
 						changeItem();
 					}});
 			else
-				menuItem.y = 60 + (i * 160);
+				menuItem.y = 60 + (i * 260);
+				menuItem.x 100 + (i * 40);	// Targeting Online VS menu Maybe?
 		}
 
 		firstStart = false;
