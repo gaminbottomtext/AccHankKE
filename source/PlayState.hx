@@ -2615,7 +2615,7 @@ class PlayState extends MusicBeatState
 
 					if (daNote.warning)
 						{
-							daNote.x += 42;
+							daNote.x += 43.1;
 						}
 					
 
