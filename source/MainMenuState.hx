@@ -110,13 +110,13 @@ class MainMenuState extends MusicBeatState
 						changeItem();
 					}});
 			else
-				menuItem.y = 60 + (i * 260);
-				menuItem.x = 100 + (i * 40);	// Targeting Online VS menu Maybe?
+				menuItem.y = 4 + (i * 260);
+				menuItem.x = 100 + (i * 160);	// Targeting Online VS menu Maybe?
 		}
 
 		firstStart = false;
 
-		FlxG.camera.follow(camFollow, null, 0.60 * (60 / FlxG.save.data.fpsCap));
+		FlxG.camera.follow(camFollow, null, 1);
 
 		var versionShit:FlxText = new FlxText(12, FlxG.height - 24, 0, 'Accelerant KE (1.5.4)', 12);
 		versionShit.scrollFactor.set();
@@ -137,8 +137,8 @@ class MainMenuState extends MusicBeatState
 
 		changeItem();
 		
-		imageThing = new FlxSprite(300, 150).loadGraphic(Paths.image(optionShit[curSelected], 'shared'));
-		add(imageThing);
+		//imageThing = new FlxSprite(300, 300).loadGraphic(Paths.image(optionShit[curSelected], 'shared'));
+		//imageThing.scrollFactor.set();
 
 		super.create();
 	}
@@ -239,7 +239,7 @@ class MainMenuState extends MusicBeatState
 
 		menuItems.forEach(function(spr:FlxSprite)
 		{
-			spr.screenCenter(X);
+			//spr.screenCenter(X);
 		});
 	}
 	
@@ -262,9 +262,7 @@ class MainMenuState extends MusicBeatState
 
 	function changeItem(huh:Int = 0)
 	{
-		imageThing = new FlxSprite(300, 150).loadGraphic(Paths.image(optionShit[curSelected], 'shared'));
-		curSelectedText.text = '${optionShit[curSelected]}'
-		
+		remove(imageThing);
 		if (finishedFunnyMove)
 		{
 			curSelected += huh;
@@ -281,10 +279,16 @@ class MainMenuState extends MusicBeatState
 			if (spr.ID == curSelected && finishedFunnyMove)
 			{
 				spr.animation.play('selected');
-				camFollow.setPosition(spr.getGraphicMidpoint().x, spr.getGraphicMidpoint().y);
+				//camFollow.setPosition(spr.getGraphicMidpoint().x, spr.getGraphicMidpoint().y);
 			}
 
 			spr.updateHitbox();
 		});
+
+		curSelectedText.text = '${optionShit[curSelected]}';
+		remove(imageThing);
+		imageThing = new FlxSprite(700, 150).loadGraphic(Paths.image(optionShit[curSelected], 'shared'));
+		imageThing.scrollFactor.set();
+		add(imageThing);
 	}
 }
