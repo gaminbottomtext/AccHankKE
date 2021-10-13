@@ -34,6 +34,7 @@ class MainMenuState extends MusicBeatState
 
 	var newGaming:FlxText;
 	var newGaming2:FlxText;
+	var curSelectedText:FlxText;
 	public static var firstStart:Bool = true;
 
 	public static var nightly:String = "";
@@ -117,7 +118,11 @@ class MainMenuState extends MusicBeatState
 
 		FlxG.camera.follow(camFollow, null, 0.60 * (60 / FlxG.save.data.fpsCap));
 
-		var versionShit:FlxText = new FlxText(5, FlxG.height - 18, 0, 'Accelerant KE (1.5.4)', 12);
+		var versionShit:FlxText = new FlxText(12, FlxG.height - 24, 0, 'Accelerant KE (1.5.4)', 12);
+		versionShit.scrollFactor.set();
+		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(versionShit);
+		curSelectedText = new FlxText(12, FlxG.height - 44, 0, '${optionShit[curSelected]}', 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
@@ -260,6 +265,7 @@ class MainMenuState extends MusicBeatState
 	function changeItem(huh:Int = 0)
 	{
 		imageThing = new FlxSprite(300, 150).loadGraphic(Paths.image(optionShit[curSelected], 'shared'));
+		curSelectedText.text = '${optionShit[curSelected]}'
 		
 		if (finishedFunnyMove)
 		{
