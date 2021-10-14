@@ -166,6 +166,12 @@ class HankSelectSubstate extends MusicBeatSubstate
                 changeDiff(-1);
             }
         }
+
+        /*
+        if (FlxG.keys.justPressed.ENTER) {
+            PUT CODE HERE!! THIS IS JUST FOR REFERENCE
+        }
+        */
     }
 
     function changeDiff(change:Int = 0) {
