@@ -52,6 +52,8 @@ class HankSelectSubstate extends MusicBeatSubstate
     var pressEnter:FlxSprite;
     var pbText:FlxText;
     var arrow:FlxSprite;
+    var leftArrowHitBox:FlxSprite;
+    var rightArrowHitBox:FlxSprite;
 
 	override function create()
 	{
@@ -120,6 +122,14 @@ class HankSelectSubstate extends MusicBeatSubstate
         arrow.animation.play('static');
         add(arrow);
 
+        leftArrowHitBox = new FlxSprite(600, 320).makeGraphic(42, 76, FlxColor.WHITE);
+        leftArrowHitBox.alpha = 0;
+        add(leftArrowHitBox);
+
+        rightArrowHitBox = new FlxSprite(620, 320).makeGraphic(42, 76, FlxColor.WHITE);
+        rightArrowHitBox.alpha = 0;
+        add(rightArrowHitBox);
+
         changeDiff();
 
         //pbText.text = 'BEST RUN: \nScore: ${Highscore.getScore('accelerant', curSelected)}\nCombo: ${Highscore.getCombo('accelerant', curSelected)}';
@@ -153,12 +163,6 @@ class HankSelectSubstate extends MusicBeatSubstate
         }
 
         if (FlxG.mouse.overlaps(imageDiff)) {
-            if (FlxG.mouse.justPressed) {
-                changeDiff(1);
-            }
-            if (FlxG.mouse.justPressedRight) {
-                changeDiff(-1);
-            }
             if (FlxG.mouse.wheel == 1) {
                 changeDiff(1);
             }
@@ -166,6 +170,17 @@ class HankSelectSubstate extends MusicBeatSubstate
                 changeDiff(-1);
             }
         }
+
+        if (FlxG.mouse.overlaps(leftArrowHitBox)) {
+            if (FlxG.mouse.justPressed) {
+                changeDiff(-1);
+            }
+        }
+        if (FlxG.mouse.overlaps(rightArrowHitBox)) {
+            if (FlxG.mouse.justPressed) {
+                changeDiff(1);
+            }
+        } 
 
         /*
         if (FlxG.keys.justPressed.ENTER) {
@@ -185,11 +200,16 @@ class HankSelectSubstate extends MusicBeatSubstate
         switch (curDiff) {
             case 0:
                 imageDiff.animation.play('baby');
+                rightArrowHitBox.x = 857;
             case 1:
                 imageDiff.animation.play('hard');
+                rightArrowHitBox.x = 867;
             case 2:
                 imageDiff.animation.play('fucked');
+                rightArrowHitBox.x = 932;
         }
+
+        trace(rightArrowHitBox.x);
 
         //pbText.text = 'BEST RUN: \nScore: ${Highscore.getScore('accelerant', curSelected)}\nCombo: ${Highscore.getCombo('accelerant', curSelected)}';
 
@@ -202,7 +222,7 @@ class HankSelectSubstate extends MusicBeatSubstate
         FlxTween.tween(hank, {y: -900}, 0.2, {ease: FlxEase.expoInOut});
         FlxTween.tween(imageDiff, {x: 1280}, 0.2, {ease: FlxEase.expoInOut});
         FlxTween.tween(accelerantWord, {x: -400}, 0.1, {ease: FlxEase.expoInOut});
-        new FlxTimer().start(0.2, function(tmr:FlxTimer)
+        new FlxTimer().start(0.3, function(tmr:FlxTimer)
             {
                 MainMenuState.selectedSomethin = false;
                 MainMenuState.finishedFunnyMove = false;
