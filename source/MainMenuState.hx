@@ -34,6 +34,7 @@ class MainMenuState extends MusicBeatState
 	#if !switch
 	var optionShit:Array<String> = ['challenge', 'options'];
 	#end
+	var backdropColors:Array<Int> = [0xFFc02c2c, 0xFF9064ec];
 
 	var newGaming:FlxText;
 	var newGaming2:FlxText;
@@ -60,6 +61,7 @@ class MainMenuState extends MusicBeatState
 		// Updating Discord Rich Presence
 		DiscordClient.changePresence("In the Menus", null);
 		#end
+		HankSelectSubstate.tweened = false;
 
 		Conductor.changeBPM(102);
 
@@ -72,6 +74,7 @@ class MainMenuState extends MusicBeatState
 
 		persistentUpdate = persistentDraw = true;
 
+		/*
 		var bg:FlxSprite = new FlxSprite(-100).loadGraphic(Paths.image('menuBG'));
 		bg.scrollFactor.x = 0;
 		bg.scrollFactor.y = 0.10;
@@ -79,18 +82,17 @@ class MainMenuState extends MusicBeatState
 		bg.updateHitbox();
 		bg.screenCenter();
 		bg.antialiasing = true;
-		add(bg);
+		add(bg);*/
 
-		backdrop = new FlxBackdrop('assets/images/menuBG.png', 1, 0, true, false, 0, 0);
-		backdrop.scrollFactor.set();
+		backdrop = new FlxBackdrop(Paths.image('menuBG'));
 		backdrop.y = 0;
-		backdrop.x = 0;
-		backdrop.antialiasing = true;
+		backdrop.velocity.set(-50, 0);
 		add(backdrop);
 
 		camFollow = new FlxObject(0, 0, 1, 1);
 		add(camFollow);
 
+		/*
 		magenta = new FlxSprite(-80).loadGraphic(Paths.image('menuDesat'));
 		magenta.scrollFactor.x = 0;
 		magenta.scrollFactor.y = 0.10;
@@ -101,7 +103,7 @@ class MainMenuState extends MusicBeatState
 		magenta.antialiasing = true;
 		magenta.color = 0xFFfd719b;
 		add(magenta);
-		// magenta.scrollFactor.set();
+		// magenta.scrollFactor.set();*/
 
 		var behindOptions = new FlxSprite(0, 0).loadGraphic(Paths.image('behind_options', 'shared'));
 		behindOptions.scrollFactor.set();
@@ -140,7 +142,7 @@ class MainMenuState extends MusicBeatState
 
 		firstStart = false;
 
-		FlxG.camera.follow(camFollow, null, 1);
+		//FlxG.camera.follow(camFollow, null, 1);
 
 		var versionShit:FlxText = new FlxText(12, FlxG.height - 24, 0, 'Accelerant KE (1.5.4)', 12);
 		versionShit.scrollFactor.set();
@@ -171,7 +173,7 @@ class MainMenuState extends MusicBeatState
 		super.create();
 	}
 
-	var selectedSomethin:Bool = false;
+	public static var selectedSomethin:Bool = false;
 
 	override function update(elapsed:Float)
 	{
@@ -320,10 +322,12 @@ class MainMenuState extends MusicBeatState
 		menuItems.forEach(function(spr:FlxSprite)
 		{
 			spr.animation.play('idle');
+			spr.updateHitbox();
 
 			if (spr.ID == curSelected && finishedFunnyMove)
 			{
 				spr.animation.play('selected');
+				spr.updateHitbox();
 				//camFollow.setPosition(spr.getGraphicMidpoint().x, spr.getGraphicMidpoint().y);
 			}
 
@@ -355,21 +359,33 @@ class MainMenuState extends MusicBeatState
 			imageThing.scrollFactor.set();
 			add(imageThing);
 		}
+
+		FlxTween.tween(backdrop, {color: backdropColors[curSelected]}, 0.001);
+		trace(backdrop.color);
 	}
 
 	function tweenThingsOut() {
 		menuItems.forEach(function(spr:FlxSprite)
 			{
+				if (spr.ID == curSelected) {
+					if (FlxG.save.data.flashing)
+						{
+							FlxFlicker.flicker(spr, 1, 0.06, false, false, function(flick:FlxFlicker)
+							{
+								trace('finish flashing');
+							});
+						}
+				}
 				FlxTween.tween(spr, {x: 1280}, 1.6, {ease: FlxEase.expoInOut, onComplete: function(flxTween:FlxTween) {
 					//openSubState(new ChallengeSubState());
 					trace('finish!!');
-					tweenThingsBackIn();
+					openSubState(new HankSelectSubstate());
 				}});
 			});
 			FlxTween.tween(imageThing, {x: 1280}, 1.6, {ease: FlxEase.expoInOut});
 	}
 
-	function tweenThingsBackIn() {
+	public static function tweenThingsBackIn() {
 		FlxG.resetState();
 	}
 }
