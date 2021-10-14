@@ -1,0 +1,7 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="menu_accelerant.png">
+	<!-- Created with Adobe Animate version 21.0.7.42652 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="accelerant word0000" x="0" y="0" width="762" height="257" frameX="0" frameY="0" frameWidth="764" frameHeight="258"/>
+	<SubTexture name="accelerant word0001" x="0" y="257" width="764" height="257" frameX="0" frameY="-1" frameWidth="764" frameHeight="258"/>
+</TextureAtlas>

@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="diff_sel.png">
+	<!-- Created with Adobe Animate version 21.0.7.42652 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="baby0000" x="0" y="0" width="296" height="76"/>
+	<SubTexture name="fucked0000" x="0" y="76" width="371" height="74" frameX="-3" frameY="-2" frameWidth="376" frameHeight="78"/>
+	<SubTexture name="fucked0001" x="0" y="76" width="371" height="74" frameX="-1" frameY="0" frameWidth="376" frameHeight="78"/>
+	<SubTexture name="fucked0002" x="0" y="76" width="371" height="74" frameX="-4" frameY="-4" frameWidth="376" frameHeight="78"/>
+	<SubTexture name="fucked0003" x="0" y="76" width="371" height="74" frameX="-3" frameY="0" frameWidth="376" frameHeight="78"/>
+	<SubTexture name="fucked0004" x="0" y="76" width="371" height="74" frameX="0" frameY="-4" frameWidth="376" frameHeight="78"/>
+	<SubTexture name="fucked0005" x="0" y="76" width="371" height="74" frameX="-5" frameY="-1" frameWidth="376" frameHeight="78"/>
+	<SubTexture name="fucked0006" x="0" y="76" width="371" height="74" frameX="-1" frameY="-4" frameWidth="376" frameHeight="78"/>
+	<SubTexture name="fucked0007" x="0" y="76" width="371" height="74" frameX="-1" frameY="0" frameWidth="376" frameHeight="78"/>
+	<SubTexture name="fucked0008" x="0" y="76" width="371" height="74" frameX="-5" frameY="-4" frameWidth="376" frameHeight="78"/>
+	<SubTexture name="hard0000" x="0" y="150" width="309" height="76"/>
+</TextureAtlas>
