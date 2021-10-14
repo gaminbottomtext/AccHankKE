@@ -1,5 +1,6 @@
 package;
 
+//import flixel.system.macros.FlxAssetPaths;
 import flixel.input.gamepad.FlxGamepad;
 import Controls.KeyboardScheme;
 import flixel.FlxG;
@@ -15,6 +16,8 @@ import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import io.newgrounds.NG;
 import lime.app.Application;
+import flixel.addons.display.FlxBackdrop;
+//import flixel.system.FlxAssets;
 
 #if windows
 import Discord.DiscordClient;
@@ -45,8 +48,11 @@ class MainMenuState extends MusicBeatState
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
 	public static var finishedFunnyMove:Bool = false;
+
+	var backdrop:FlxBackdrop;
 	
 	public var imageThing:FlxSprite;
+	var mem:FlxText;
 
 	override function create()
 	{
@@ -55,10 +61,14 @@ class MainMenuState extends MusicBeatState
 		DiscordClient.changePresence("In the Menus", null);
 		#end
 
+		Conductor.changeBPM(102);
+
 		if (!FlxG.sound.music.playing)
 		{
 			FlxG.sound.playMusic(Paths.music('freakyMenu'));
 		}
+
+		FlxG.mouse.visible = true;
 
 		persistentUpdate = persistentDraw = true;
 
@@ -70,6 +80,13 @@ class MainMenuState extends MusicBeatState
 		bg.screenCenter();
 		bg.antialiasing = true;
 		add(bg);
+
+		backdrop = new FlxBackdrop('assets/images/menuBG.png', 1, 0, true, false, 0, 0);
+		backdrop.scrollFactor.set();
+		backdrop.y = 0;
+		backdrop.x = 0;
+		backdrop.antialiasing = true;
+		add(backdrop);
 
 		camFollow = new FlxObject(0, 0, 1, 1);
 		add(camFollow);
@@ -90,6 +107,8 @@ class MainMenuState extends MusicBeatState
 		behindOptions.scrollFactor.set();
 		add(behindOptions);
 
+		add(imageThing);
+
 		menuItems = new FlxTypedGroup<FlxSprite>();
 		add(menuItems);
 
@@ -103,18 +122,19 @@ class MainMenuState extends MusicBeatState
 			menuItem.animation.addByPrefix('selected', optionShit[i] + " white", 24);
 			menuItem.animation.play('idle');
 			menuItem.ID = i;
+			menuItem.updateHitbox();
 			//menuItem.screenCenter(X);
 			menuItems.add(menuItem);
 			menuItem.scrollFactor.set();
 			menuItem.antialiasing = true;
 			if (firstStart)
-				FlxTween.tween(menuItem,{y: 60 + (i * 160)},1 + (i * 0.25) ,{ease: FlxEase.expoInOut, onComplete: function(flxTween:FlxTween) 
+				FlxTween.tween(menuItem,{y: 150 + (i * 340)}/*,60 + (i * 340) */,{ease: FlxEase.expoInOut, onComplete: function(flxTween:FlxTween) 
 					{ 
 						finishedFunnyMove = true; 
 						changeItem();
 					}});
 			else
-				menuItem.y = 4 + (i * 340);
+				menuItem.y = 150 + (i * 340);
 				menuItem.x = 4 + (i * 170);	// Targeting Online VS menu Maybe?
 		}
 
@@ -130,6 +150,10 @@ class MainMenuState extends MusicBeatState
 		curSelectedText.scrollFactor.set();
 		curSelectedText.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(curSelectedText);
+		mem = new FlxText(12, FlxG.height - 64, 0, '${Main.getMemory()} MB', 12);
+		mem.scrollFactor.set();
+		mem.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		//add(mem);
 
 		// NG.core.calls.event.logEvent('swag').send();
 
@@ -155,6 +179,8 @@ class MainMenuState extends MusicBeatState
 		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;
 		}
+
+		mem.text = '${Main.getMemory()} MB';
 
 		if (!selectedSomethin)
 		{
@@ -241,10 +267,135 @@ class MainMenuState extends MusicBeatState
 
 		super.update(elapsed);
 
+		if (FlxG.mouse.wheel == 1)
+			{
+				FlxG.sound.play(Paths.sound('scrollMenu'));
+				changeItem(1);
+			}
+		if (FlxG.mouse.wheel == -1)
+			{
+				FlxG.sound.play(Paths.sound('scrollMenu'));
+				changeItem(-1);
+			}
+
 		menuItems.forEach(function(spr:FlxSprite)
 		{
-			//spr.screenCenter(X);
+			if (spr.ID == curSelected)
+				{
+					if (FlxG.mouse.overlaps(spr))
+						{
+							if (FlxG.mouse.justPressed)
+								{
+									doFunnyShit(false);
+								}
+						}
+				}
+			if (spr.ID != curSelected)
+				{
+					if (FlxG.mouse.overlaps(spr))
+						{
+							//FlxG.sound.play(Paths.sound('scrollMenu'));
+							spr.animation.play('selected');
+							if (FlxG.mouse.justPressed)
+								{
+									if (curSelected == 0) //Challenge
+										{
+											doFunnyShit(true);
+										}
+									if (curSelected == 1)
+										{
+											doFunnyShit(true);
+										}
+								}
+						}
+					else
+						{
+							spr.animation.play('idle');
+						}
+				}
 		});
+	}
+
+	function doFunnyShit(incorrectChoice:Bool) {
+		menuItems.forEach(function(spr:FlxSprite)
+			{
+				FlxG.sound.play(Paths.sound('confirmMenu'));
+				if (incorrectChoice == false)
+					{
+						if (curSelected != spr.ID)
+							{
+								FlxTween.tween(spr, {alpha: 0}, 1.3, {
+									ease: FlxEase.quadOut,
+									onComplete: function(twn:FlxTween)
+									{
+										spr.kill();
+									}
+								});
+							}
+							else
+							{
+								if (FlxG.save.data.flashing)
+								{
+									FlxFlicker.flicker(spr, 1, 0.06, false, false, function(flick:FlxFlicker)
+									{
+										if (incorrectChoice == true)
+											{
+												goToStateAlt();
+											}
+										if (incorrectChoice == false)
+											{
+												goToState();
+											}
+									});
+								}
+								else
+								{
+									new FlxTimer().start(1, function(tmr:FlxTimer)
+									{
+										goToState();
+									});
+								}
+							}
+					}
+				if (incorrectChoice == true)
+					{
+						if (curSelected == spr.ID)
+							{
+								FlxTween.tween(spr, {alpha: 0}, 1.3, {
+									ease: FlxEase.quadOut,
+									onComplete: function(twn:FlxTween)
+									{
+										spr.kill();
+									}
+								});
+							}
+							else
+							{
+								if (FlxG.save.data.flashing)
+								{
+									spr.animation.play('selected');
+									FlxFlicker.flicker(spr, 1, 0.06, false, false, function(flick:FlxFlicker)
+									{
+										if (incorrectChoice == true)
+											{
+												goToStateAlt();
+											}
+										if (incorrectChoice == false)
+											{
+												goToState();
+											}
+									});
+								}
+								else
+								{
+									new FlxTimer().start(1, function(tmr:FlxTimer)
+									{
+										goToState();
+									});
+								}
+							}
+					}
+			});
 	}
 	
 	function goToState()
@@ -264,9 +415,26 @@ class MainMenuState extends MusicBeatState
 		}
 	}
 
+	function goToStateAlt()	//this is for when u click incorrect thing
+		{
+			var daChoice:String = optionShit[curSelected];
+	
+			switch (daChoice)
+			{
+				case 'challenge':
+					FlxG.switchState(new OptionsMenu());
+	
+					trace("Freeplay Menu Selected");
+	
+				case 'options':
+					FlxG.switchState(new FreeplayState());
+					trace('Options Menu Selected');
+			}
+		}
+
 	function changeItem(huh:Int = 0)
 	{
-		remove(imageThing);
+		//remove(imageThing);
 		if (finishedFunnyMove)
 		{
 			curSelected += huh;
@@ -286,7 +454,7 @@ class MainMenuState extends MusicBeatState
 				//camFollow.setPosition(spr.getGraphicMidpoint().x, spr.getGraphicMidpoint().y);
 			}
 
-			spr.updateHitbox();
+			//spr.updateHitbox();
 		});
 
 		curSelectedText.text = '${optionShit[curSelected]}';
@@ -295,13 +463,8 @@ class MainMenuState extends MusicBeatState
 
 	override function beatHit() {
 		super.beatHit();
-
-		imageThing.scale.set(1.1, 1.1);
-		trace(imageThing.scale.x + ' | ' + imageThing.scale.y);
-		new FlxTimer().start(0.1, function(tmr:FlxTimer)
-			{
-				imageThing.scale.set(1, 1);
-			});
+		trace(imageThing.scale.x);
+		trace(imageThing.scale.y);
 	}
 
 	function updateScreenStuff() {
