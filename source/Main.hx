@@ -1,9 +1,12 @@
 package;
 
+import openfl.display.DisplayObject;
 import openfl.display.BlendMode;
 import openfl.text.TextFormat;
 import openfl.display.Application;
 import flixel.util.FlxColor;
+import flixel.text.FlxText;
+import flixel.FlxObject;
 import flixel.FlxG;
 import flixel.FlxGame;
 import flixel.FlxState;
@@ -12,6 +15,7 @@ import openfl.Lib;
 import openfl.display.FPS;
 import openfl.display.Sprite;
 import openfl.events.Event;
+import flash.system.System;
 
 class Main extends Sprite
 {
@@ -22,6 +26,7 @@ class Main extends Sprite
 	var framerate:Int = 120; // How many frames per second the game should run at.
 	var skipSplash:Bool = true; // Whether to skip the flixel splash screen that appears in release mode.
 	var startFullscreen:Bool = false; // Whether to start the game in fullscreen on desktop targets
+	//var memory:DisplayObject;
 
 	public static var watermarks = true; // Whether to put Kade Engine liteartly anywhere
 
@@ -89,6 +94,8 @@ class Main extends Sprite
 		toggleFPS(FlxG.save.data.fps);
 
 		#end
+		//memory.name = getMemory();
+		//addChild(memory);
 	}
 
 	var game:FlxGame;
@@ -97,6 +104,10 @@ class Main extends Sprite
 
 	public function toggleFPS(fpsEnabled:Bool):Void {
 		fpsCounter.visible = fpsEnabled;
+	}
+
+	public static function getMemory():Float {
+		return openfl.system.System.totalMemory / 256;
 	}
 
 	public function changeFPSColor(color:FlxColor)
