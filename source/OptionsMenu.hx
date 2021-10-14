@@ -1,5 +1,11 @@
 package;
 
+import flixel.graphics.FlxGraphic;
+import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileDiamond;
+import flixel.addons.transition.TransitionData;
+import flixel.addons.transition.FlxTransitionableState;
+import flixel.math.FlxPoint;
+import flixel.math.FlxRect;
 import flixel.input.gamepad.FlxGamepad;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -78,6 +84,15 @@ class OptionsMenu extends MusicBeatState
 	{
 		instance = this;
 		var menuBG:FlxSprite = new FlxSprite().loadGraphic(Paths.image("menuDesat"));
+
+		var diamond:FlxGraphic = FlxGraphic.fromClass(GraphicTransTileDiamond);
+		diamond.persist = true;
+		diamond.destroyOnNoUse = false;
+
+		FlxTransitionableState.defaultTransIn = new TransitionData(FADE, FlxColor.BLACK, 1, new FlxPoint(0, -1), {asset: diamond, width: 32, height: 32},
+			new FlxRect(-200, -200, FlxG.width * 1.4, FlxG.height * 1.4));
+		FlxTransitionableState.defaultTransOut = new TransitionData(FADE, FlxColor.BLACK, 0.7, new FlxPoint(0, 1),
+			{asset: diamond, width: 32, height: 32}, new FlxRect(-200, -200, FlxG.width * 1.4, FlxG.height * 1.4));
 
 		menuBG.color = 0xFFea71fd;
 		menuBG.setGraphicSize(Std.int(menuBG.width * 1.1));
