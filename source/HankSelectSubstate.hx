@@ -109,7 +109,7 @@ class HankSelectSubstate extends MusicBeatSubstate
         pbText.font = Paths.font('vcr.ttf');
         pbText.color = FlxColor.WHITE;
         pbText.alpha = 0;
-        add(pbText);
+        //add(pbText);
 
         FlxTween.tween(pbText, {alpha: 1}, 1);
 
