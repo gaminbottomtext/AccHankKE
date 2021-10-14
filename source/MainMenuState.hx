@@ -219,51 +219,11 @@ class MainMenuState extends MusicBeatState
 
 			if (controls.ACCEPT)
 			{
-				if (optionShit[curSelected] == 'donate')
-				{
-					fancyOpenURL("https://ninja-muffin24.itch.io/funkin");
-				}
+				if (curSelected == 0)
+					doFunnyShit(true);
 				else
-				{
-					selectedSomethin = true;
-					FlxG.sound.play(Paths.sound('confirmMenu'));
-					
-					if (FlxG.save.data.flashing)
-						FlxFlicker.flicker(magenta, 1.1, 0.15, false);
-
-					menuItems.forEach(function(spr:FlxSprite)
-					{
-						if (curSelected != spr.ID)
-						{
-							FlxTween.tween(spr, {alpha: 0}, 1.3, {
-								ease: FlxEase.quadOut,
-								onComplete: function(twn:FlxTween)
-								{
-									spr.kill();
-								}
-							});
-						}
-						else
-						{
-							if (FlxG.save.data.flashing)
-							{
-								FlxFlicker.flicker(spr, 1, 0.06, false, false, function(flick:FlxFlicker)
-								{
-									goToState();
-								});
-							}
-							else
-							{
-								new FlxTimer().start(1, function(tmr:FlxTimer)
-								{
-									goToState();
-								});
-							}
-						}
-					});
-				}
+					doFunnyShit(false);
 			}
-		}
 
 		super.update(elapsed);
 
@@ -286,151 +246,64 @@ class MainMenuState extends MusicBeatState
 						{
 							if (FlxG.mouse.justPressed)
 								{
-									doFunnyShit(false);
-								}
-						}
-				}
-			if (spr.ID != curSelected)
-				{
-					if (FlxG.mouse.overlaps(spr))
-						{
-							//FlxG.sound.play(Paths.sound('scrollMenu'));
-							spr.animation.play('selected');
-							if (FlxG.mouse.justPressed)
-								{
-									if (curSelected == 0) //Challenge
+									if (curSelected == 0) {
+										doFunnyShit(true);
+									}
+									else
 										{
-											doFunnyShit(true);
-										}
-									if (curSelected == 1)
-										{
-											doFunnyShit(true);
+											doFunnyShit(false);
 										}
 								}
-						}
-					else
-						{
-							spr.animation.play('idle');
 						}
 				}
 		});
 	}
+}
 
-	function doFunnyShit(incorrectChoice:Bool) {
-		menuItems.forEach(function(spr:FlxSprite)
-			{
-				FlxG.sound.play(Paths.sound('confirmMenu'));
-				if (incorrectChoice == false)
-					{
-						if (curSelected != spr.ID)
-							{
-								FlxTween.tween(spr, {alpha: 0}, 1.3, {
-									ease: FlxEase.quadOut,
-									onComplete: function(twn:FlxTween)
-									{
-										spr.kill();
-									}
-								});
-							}
-							else
-							{
-								if (FlxG.save.data.flashing)
+	function doFunnyShit(isChallenge:Bool) {
+		if (!isChallenge) {
+			menuItems.forEach(function(spr:FlxSprite)
+				{
+					FlxG.sound.play(Paths.sound('confirmMenu'));
+							if (curSelected != spr.ID)
 								{
-									FlxFlicker.flicker(spr, 1, 0.06, false, false, function(flick:FlxFlicker)
-									{
-										if (incorrectChoice == true)
-											{
-												goToStateAlt();
-											}
-										if (incorrectChoice == false)
-											{
-												goToState();
-											}
+									FlxTween.tween(spr, {alpha: 0}, 1.3, {
+										ease: FlxEase.quadOut,
+										onComplete: function(twn:FlxTween)
+										{
+											spr.kill();
+										}
 									});
 								}
 								else
 								{
-									new FlxTimer().start(1, function(tmr:FlxTimer)
+									if (FlxG.save.data.flashing)
 									{
-										goToState();
-									});
-								}
-							}
-					}
-				if (incorrectChoice == true)
-					{
-						if (curSelected == spr.ID)
-							{
-								FlxTween.tween(spr, {alpha: 0}, 1.3, {
-									ease: FlxEase.quadOut,
-									onComplete: function(twn:FlxTween)
-									{
-										spr.kill();
+										FlxFlicker.flicker(spr, 1, 0.06, false, false, function(flick:FlxFlicker)
+										{
+											goToState();
+										});
 									}
-								});
-							}
-							else
-							{
-								if (FlxG.save.data.flashing)
-								{
-									spr.animation.play('selected');
-									FlxFlicker.flicker(spr, 1, 0.06, false, false, function(flick:FlxFlicker)
+									else
 									{
-										if (incorrectChoice == true)
-											{
-												goToStateAlt();
-											}
-										if (incorrectChoice == false)
-											{
-												goToState();
-											}
-									});
+										new FlxTimer().start(1, function(tmr:FlxTimer)
+										{
+											goToState();
+										});
+									}
 								}
-								else
-								{
-									new FlxTimer().start(1, function(tmr:FlxTimer)
-									{
-										goToState();
-									});
-								}
-							}
-					}
-			});
+				}
+			);
+		}
+		else {
+			tweenThingsOut();
+		}
 	}
 	
 	function goToState()
 	{
-		var daChoice:String = optionShit[curSelected];
-
-		switch (daChoice)
-		{
-			case 'challenge':
-				FlxG.switchState(new StoryMenuState());
-
-				trace("Freeplay Menu Selected");
-
-			case 'options':
-				FlxG.switchState(new OptionsMenu());
-				trace('Options Menu Selected');
-		}
+		FlxG.switchState(new OptionsMenu());
 	}
-
-	function goToStateAlt()	//this is for when u click incorrect thing
-		{
-			var daChoice:String = optionShit[curSelected];
-	
-			switch (daChoice)
-			{
-				case 'challenge':
-					FlxG.switchState(new OptionsMenu());
-	
-					trace("Freeplay Menu Selected");
-	
-				case 'options':
-					FlxG.switchState(new FreeplayState());
-					trace('Options Menu Selected');
-			}
-		}
 
 	function changeItem(huh:Int = 0)
 	{
@@ -458,7 +331,7 @@ class MainMenuState extends MusicBeatState
 		});
 
 		curSelectedText.text = '${optionShit[curSelected]}';
-		updateScreenStuff();
+		updateScreenStuff(finishedFunnyMove);
 	}
 
 	override function beatHit() {
@@ -467,10 +340,36 @@ class MainMenuState extends MusicBeatState
 		trace(imageThing.scale.y);
 	}
 
-	function updateScreenStuff() {
-		remove(imageThing);
-		imageThing = new FlxSprite(700, 150).loadGraphic(Paths.image(optionShit[curSelected], 'shared'));
-		imageThing.scrollFactor.set();
-		add(imageThing);
+	function updateScreenStuff(tweenBefore:Bool) {
+		if (!tweenBefore) {
+			remove(imageThing);
+			imageThing = new FlxSprite(700, 720).loadGraphic(Paths.image(optionShit[curSelected], 'shared'));
+			imageThing.scrollFactor.set();
+			add(imageThing);
+			FlxTween.tween(imageThing, {y: 150}, 1, {ease: FlxEase.expoInOut});
+		}
+		else
+		{
+			remove(imageThing);
+			imageThing = new FlxSprite(700, 150).loadGraphic(Paths.image(optionShit[curSelected], 'shared'));
+			imageThing.scrollFactor.set();
+			add(imageThing);
+		}
+	}
+
+	function tweenThingsOut() {
+		menuItems.forEach(function(spr:FlxSprite)
+			{
+				FlxTween.tween(spr, {x: 1280}, 1.6, {ease: FlxEase.expoInOut, onComplete: function(flxTween:FlxTween) {
+					//openSubState(new ChallengeSubState());
+					trace('finish!!');
+					tweenThingsBackIn();
+				}});
+			});
+			FlxTween.tween(imageThing, {x: 1280}, 1.6, {ease: FlxEase.expoInOut});
+	}
+
+	function tweenThingsBackIn() {
+		FlxG.resetState();
 	}
 }
