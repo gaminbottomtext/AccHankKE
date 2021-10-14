@@ -69,7 +69,7 @@ class HankSelectSubstate extends MusicBeatSubstate
 
         accelerantWord = new FlxSprite(-400, 40);   //460
         accelerantWord.frames = Paths.getSparrowAtlas('menu_accelerant');
-        accelerantWord.animation.addByPrefix('idle', 'accelerant word', 24, true, false, false);
+        accelerantWord.animation.addByPrefix('idle', 'accelerant word', 24, true);
         accelerantWord.animation.play('idle');
         add(accelerantWord);
         FlxTween.tween(accelerantWord, {x: 460}, 1, {ease: FlxEase.expoInOut});
@@ -182,11 +182,21 @@ class HankSelectSubstate extends MusicBeatSubstate
             }
         } 
 
-        /*
+        
         if (FlxG.keys.justPressed.ENTER) {
-            PUT CODE HERE!! THIS IS JUST FOR REFERENCE
+        //    PUT CODE HERE!! THIS IS JUST FOR REFERENCE
+            switch (curDiff) {
+                case 0:
+                    PlayState.SONG = Song.loadFromJson('accelerant-baby', 'accelerant');
+                case 1:
+                    PlayState.SONG = Song.loadFromJson('accelerant-hard', 'accelerant');
+                case 2:
+                    PlayState.SONG = Song.loadFromJson('accelerant-fucked', 'accelerant');
+            }
+
+            LoadingState.loadAndSwitchState(new PlayState());
         }
-        */
+        
     }
 
     function changeDiff(change:Int = 0) {
