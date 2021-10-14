@@ -1,6 +1,10 @@
 package;
 
 //import flixel.system.macros.FlxAssetPaths;
+import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileDiamond;
+import flixel.graphics.FlxGraphic;
+import flixel.addons.transition.TransitionData;
+import flixel.addons.transition.FlxTransitionableState;
 import flixel.input.gamepad.FlxGamepad;
 import Controls.KeyboardScheme;
 import flixel.FlxG;
@@ -13,6 +17,8 @@ import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
+import flixel.math.FlxPoint;
+import flixel.math.FlxRect;
 import flixel.util.FlxTimer;
 import io.newgrounds.NG;
 import lime.app.Application;
@@ -72,7 +78,11 @@ class MainMenuState extends MusicBeatState
 
 		FlxG.mouse.visible = true;
 
-		persistentUpdate = persistentDraw = true;
+		persistentUpdate = true;
+		persistentDraw = true;
+
+		FlxTransitionableState.defaultTransIn = null;
+		FlxTransitionableState.defaultTransOut = null;
 
 		/*
 		var bg:FlxSprite = new FlxSprite(-100).loadGraphic(Paths.image('menuBG'));
@@ -84,7 +94,7 @@ class MainMenuState extends MusicBeatState
 		bg.antialiasing = true;
 		add(bg);*/
 
-		backdrop = new FlxBackdrop(Paths.image('menuBG'));
+		backdrop = new FlxBackdrop(Paths.image('menuDesat'));
 		backdrop.y = 0;
 		backdrop.velocity.set(-50, 0);
 		add(backdrop);
@@ -129,15 +139,16 @@ class MainMenuState extends MusicBeatState
 			menuItems.add(menuItem);
 			menuItem.scrollFactor.set();
 			menuItem.antialiasing = true;
-			if (firstStart)
+			menuItem.x = 4 + (i * 170);
+			//if (firstStart)
 				FlxTween.tween(menuItem,{y: 150 + (i * 340)}/*,60 + (i * 340) */,{ease: FlxEase.expoInOut, onComplete: function(flxTween:FlxTween) 
 					{ 
 						finishedFunnyMove = true; 
 						changeItem();
 					}});
-			else
-				menuItem.y = 150 + (i * 340);
-				menuItem.x = 4 + (i * 170);	// Targeting Online VS menu Maybe?
+			//else
+				//menuItem.y = 150 + (i * 340);
+				//menuItem.x = 4 + (i * 170);
 		}
 
 		firstStart = false;
@@ -264,6 +275,15 @@ class MainMenuState extends MusicBeatState
 
 	function doFunnyShit(isChallenge:Bool) {
 		if (!isChallenge) {
+			var diamond:FlxGraphic = FlxGraphic.fromClass(GraphicTransTileDiamond);
+			diamond.persist = true;
+			diamond.destroyOnNoUse = false;
+			
+			FlxTransitionableState.defaultTransIn = new TransitionData(FADE, FlxColor.BLACK, 1, new FlxPoint(0, -1), {asset: diamond, width: 32, height: 32},
+			new FlxRect(-200, -200, FlxG.width * 1.4, FlxG.height * 1.4));
+			FlxTransitionableState.defaultTransOut = new TransitionData(FADE, FlxColor.BLACK, 0.7, new FlxPoint(0, 1),
+			{asset: diamond, width: 32, height: 32}, new FlxRect(-200, -200, FlxG.width * 1.4, FlxG.height * 1.4));
+
 			menuItems.forEach(function(spr:FlxSprite)
 				{
 					FlxG.sound.play(Paths.sound('confirmMenu'));
@@ -365,6 +385,7 @@ class MainMenuState extends MusicBeatState
 	}
 
 	function tweenThingsOut() {
+		FlxG.sound.play(Paths.sound('confirmMenu'));
 		menuItems.forEach(function(spr:FlxSprite)
 			{
 				if (spr.ID == curSelected) {
@@ -376,13 +397,13 @@ class MainMenuState extends MusicBeatState
 							});
 						}
 				}
-				FlxTween.tween(spr, {x: 1280}, 1.6, {ease: FlxEase.expoInOut, onComplete: function(flxTween:FlxTween) {
+				FlxTween.tween(spr, {y: 1440}, 1.6, {ease: FlxEase.expoInOut, onComplete: function(flxTween:FlxTween) {
 					//openSubState(new ChallengeSubState());
 					trace('finish!!');
 					openSubState(new HankSelectSubstate());
 				}});
 			});
-			FlxTween.tween(imageThing, {x: 1280}, 1.6, {ease: FlxEase.expoInOut});
+			FlxTween.tween(imageThing, {y: 1440}, 1.6, {ease: FlxEase.expoInOut});
 	}
 
 	public static function tweenThingsBackIn() {
