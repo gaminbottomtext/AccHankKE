@@ -190,7 +190,7 @@ class HankSelectSubstate extends MusicBeatSubstate
                     PlayState.SONG = Song.loadFromJson('accelerant-easy', 'accelerant');
                     PlayState.storyDifficulty = 0;
                 case 1:
-                    PlayState.SONG = Song.loadFromJson('accelerant-normal', 'accelerant');
+                    PlayState.SONG = Song.loadFromJson('accelerant', 'accelerant');
                     PlayState.storyDifficulty = 1;
                 case 2:
                     PlayState.SONG = Song.loadFromJson('accelerant-hard', 'accelerant');
