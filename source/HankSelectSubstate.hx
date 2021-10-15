@@ -57,6 +57,11 @@ class HankSelectSubstate extends MusicBeatSubstate
 
 	override function create()
 	{
+        if (!FlxG.sound.music.playing)
+            {
+                FlxG.sound.playMusic(Paths.music('freakyMenu'));
+            }
+            
         FlxTransitionableState.defaultTransIn = null;
 		FlxTransitionableState.defaultTransOut = null;
         

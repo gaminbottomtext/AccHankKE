@@ -384,6 +384,10 @@ class MainMenuState extends MusicBeatState
 		trace(backdrop.color);
 	}
 
+	public static function inmediateSelect() {
+		
+	}
+
 	function tweenThingsOut() {
 		FlxG.sound.play(Paths.sound('confirmMenu'));
 		menuItems.forEach(function(spr:FlxSprite)
