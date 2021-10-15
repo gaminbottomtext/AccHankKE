@@ -216,29 +216,9 @@ class PauseSubState extends MusicBeatSubstate
 					}
 					FlxG.resetState();
 				case "Exit to menu":
-					if (PlayState.instance.useVideo)
-					{
-						GlobalVideo.get().stop();
-						PlayState.instance.remove(PlayState.instance.videoSprite);
-						PlayState.instance.removedVideo = true;
-					}
-					if(PlayState.loadRep)
-					{
-						FlxG.save.data.botplay = false;
-						FlxG.save.data.scrollSpeed = 1;
-						FlxG.save.data.downscroll = false;
-					}
-					PlayState.loadRep = false;
-					#if windows
-					if (PlayState.luaModchart != null)
-					{
-						PlayState.luaModchart.die();
-						PlayState.luaModchart = null;
-					}
-					#end
-					if (FlxG.save.data.fpsCap > 290)
-						(cast (Lib.current.getChildAt(0), Main)).setFPSCap(290);
-					
+					MainMenuState.finishedFunnyMove = false;
+					MainMenuState.firstStart = false;
+					MainMenuState.selectedSomethin = false;
 					FlxG.switchState(new MainMenuState());
 			}
 		}
