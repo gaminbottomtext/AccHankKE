@@ -545,10 +545,10 @@ class Character extends FlxSprite
 				case 'tiky':
 				frames = Paths.getSparrowAtlas('characters/tiky');
 				animation.addByPrefix('idle', 'trickyidle', 24, false);
-				animation.addByPrefix('singDown', 'trickydwon', 24, false);
-				animation.addByPrefix('singLeft', 'trickyileft', 24, false);
-				animation.addByPrefix('singRight', 'trickyright', 24, false);
-				animation.addByPrefix('singUp', 'trickyup', 24, false);
+				animation.addByPrefix('singDOWN', 'trickydwon', 24, false);
+				animation.addByPrefix('singLEFT', 'trickyileft', 24, false);
+				animation.addByPrefix('singRIGHT', 'trickyright', 24, false);
+				animation.addByPrefix('singUP', 'trickyup', 24, false);
 
 				addOffset('idle');
 				addOffset("singUP");
