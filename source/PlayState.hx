@@ -3684,7 +3684,11 @@ class PlayState extends MusicBeatState
 						if (SONG.song.toLowerCase() == 'accelerant' && note.warning) {
 							boyfriend.playAnim('dodge', true);
 							trace("we damm dodged da bullet"); // for bullets
-							FlxG.sound.play(Paths.sound('hankshoot'));
+							if (storyDifficulty == 2) {
+								FlxG.sound.play(Paths.sound('hankshoot'));
+								dad.playAnim('shootRight');
+								FlxG.camera.shake(0.01, 0.1);
+							}
 						}
 					}
 
