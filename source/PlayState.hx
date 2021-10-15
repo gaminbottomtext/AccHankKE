@@ -2031,6 +2031,7 @@ class PlayState extends MusicBeatState
 
 		scoreTxt.x = (originalX - (lengthInPx / 2)) + 335;
 
+		/*
 		if (controls.PAUSE && startedCountdown && canPause)
 		{
 			persistentUpdate = false;
@@ -2045,9 +2046,9 @@ class PlayState extends MusicBeatState
 			}
 			else
 				openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
-		}
+		}*/
 
-
+		/*
 		if (FlxG.keys.justPressed.SEVEN)
 		{
 			if (useVideo)
@@ -2070,7 +2071,7 @@ class PlayState extends MusicBeatState
 				luaModchart = null;
 			}
 			#end
-		}
+		}*/
 
 		// FlxG.watch.addQuick('VOL', vocals.amplitudeLeft);
 		// FlxG.watch.addQuick('VOLRight', vocals.amplitudeRight);
@@ -2101,6 +2102,7 @@ class PlayState extends MusicBeatState
 		/* if (FlxG.keys.justPressed.NINE)
 			FlxG.switchState(new Charting()); */
 
+		/*
 		#if cpp
 		if (FlxG.keys.justPressed.SIX)
 		{
@@ -2135,9 +2137,7 @@ class PlayState extends MusicBeatState
 				luaModchart = null;
 			}
 			#end
-		}
-
-		#end
+		}*/
 
 		if (startingSong)
 		{
@@ -2405,7 +2405,7 @@ class PlayState extends MusicBeatState
 			#end
 
 			// FlxG.switchState(new GameOverState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
-		}
+		}/*
  		if (FlxG.save.data.resetButton)
 		{
 			if(FlxG.keys.justPressed.R)
@@ -2428,7 +2428,7 @@ class PlayState extends MusicBeatState
 		
 					// FlxG.switchState(new GameOverState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 				}
-		}
+		}*/
 
 		if (unspawnNotes[0] != null)
 		{
@@ -2693,10 +2693,11 @@ class PlayState extends MusicBeatState
 			keyShit();
 
 
+		/*
 		#if debug
 		if (FlxG.keys.justPressed.ONE)
 			endSong();
-		#end
+		#end*/
 	}
 
 	function endSong():Void
