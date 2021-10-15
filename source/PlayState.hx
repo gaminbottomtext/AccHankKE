@@ -3684,9 +3684,7 @@ class PlayState extends MusicBeatState
 						if (SONG.song.toLowerCase() == 'accelerant' && note.warning) {
 							boyfriend.playAnim('dodge', true);
 							trace("we damm dodged da bullet"); // for bullets
-							if (storyDifficulty == 2) {
-								FlxG.sound.play('hankshoot'); //For only fucked
-							}
+							FlxG.sound.play(Paths.sound('hankshoot'));
 						}
 					}
 
