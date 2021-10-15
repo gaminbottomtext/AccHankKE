@@ -236,6 +236,7 @@ class MainMenuState extends MusicBeatState
 					doFunnyShit(true);
 				else
 					doFunnyShit(false);
+				selectedSomethin = true;
 			}
 
 		super.update(elapsed);
