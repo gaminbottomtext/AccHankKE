@@ -511,38 +511,38 @@ class Character extends FlxSprite
 				playAnim('idle');
 
 			
-				case 'hank':
-					frames = Paths.getSparrowAtlas('characters/hank');
-					animation.addByPrefix('idle', 'Hank Idle', 24, false);
-					animation.addByPrefix('singUP', 'Hank Up note', 24, false);
-					animation.addByPrefix('singDOWN', 'Hank Down Note', 24, false);
-					animation.addByPrefix('singLEFT', 'Hank Left Note', 24, false);
-					animation.addByPrefix('singRIGHT', 'Hank right note', 24, false);
+			case 'hank':
+				frames = Paths.getSparrowAtlas('characters/hank');
+				animation.addByPrefix('idle', 'Hank Idle', 24, false);
+				animation.addByPrefix('singUP', 'Hank Up note', 24, false);
+				animation.addByPrefix('singDOWN', 'Hank Down Note', 24, false);
+				animation.addByPrefix('singLEFT', 'Hank Left Note', 24, false);
+				animation.addByPrefix('singRIGHT', 'Hank right note', 24, false);
 	
-					animation.addByPrefix('shootDown', 'Hank Down Shoot', 24, false);
-					animation.addByPrefix('shootLeft', 'Hank Left Shoot', 24, false);
-					animation.addByPrefix('shootUp', 'Hank Up shoot', 24, false);
-					animation.addByPrefix('shootRight', 'Hank right shoot', 24, false);
+				animation.addByPrefix('ShootDown', 'Hank Down Shoot', 24, false);
+				animation.addByPrefix('ShootLeft', 'Hank Left Shoot', 24, false);
+				animation.addByPrefix('ShootUp', 'Hank Up shoot', 24, false);
+				animation.addByPrefix('ShootRight', 'Hank right shoot', 24, false);
 	
-					animation.addByPrefix('scaredIdle', 'HankScaredIdle', 24, false);
-					animation.addByPrefix('scaredShootTiky', 'HankScaredShootsTiky', 24, false);
-					addOffset('idle');
-					addOffset("singUP");
-					addOffset("singRIGHT", 127,-12);
-					addOffset("singLEFT", 339, 0);
-					addOffset("singDOWN");
+				animation.addByPrefix('scaredIdle', 'HankScaredIdle', 24, false);
+				animation.addByPrefix('scaredShootTiky', 'HankScaredShootsTiky', 24, false);
+				addOffset('idle');
+				addOffset("singUP");
+				addOffset("singRIGHT", 127,-12);
+				addOffset("singLEFT", 339, 0);
+				addOffset("singDOWN");
 	
-					addOffset('shootDown');
-					addOffset('shootLeft');
-					addOffset('shootUp');
-					addOffset('shootRight');
-					
-					addOffset('scaredIdle');
-					addOffset('scaredShootTiky', 0, 247);
-	
-					playAnim('idle');
+				addOffset('shootDown');
+				addOffset('shootLeft');
+				addOffset('shootUp');
+				addOffset('shootRight');
+				
+				addOffset('scaredIdle');
+				addOffset('scaredShootTiky', 0, 247);
 
-				case 'tiky':
+				playAnim('idle');
+
+			case 'tiky':
 				frames = Paths.getSparrowAtlas('characters/tiky');
 				animation.addByPrefix('idle', 'trickyidle', 24, false);
 				animation.addByPrefix('singDOWN', 'trickydwon', 24, false);

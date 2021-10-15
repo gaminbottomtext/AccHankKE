@@ -715,38 +715,38 @@ class PlayState extends MusicBeatState
 			}
 			case 'stage':
 				{
-						defaultCamZoom = 0.9;
-						curStage = 'stage';
-						var bg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Paths.image('stageback'));
-						bg.antialiasing = true;
-						bg.scrollFactor.set(0.9, 0.9);
-						bg.active = false;
-						add(bg);
-	
-						var stageFront:FlxSprite = new FlxSprite(-650, 600).loadGraphic(Paths.image('stagefront'));
-						stageFront.setGraphicSize(Std.int(stageFront.width * 1.1));
-						stageFront.updateHitbox();
-						stageFront.antialiasing = true;
-						stageFront.scrollFactor.set(0.9, 0.9);
-						stageFront.active = false;
-						add(stageFront);
-	
-						var stageCurtains:FlxSprite = new FlxSprite(-500, -300).loadGraphic(Paths.image('stagecurtains'));
-						stageCurtains.setGraphicSize(Std.int(stageCurtains.width * 0.9));
-						stageCurtains.updateHitbox();
-						stageCurtains.antialiasing = true;
-						stageCurtains.scrollFactor.set(1.3, 1.3);
-						stageCurtains.active = false;
-	
-						add(stageCurtains);
-				}
-			default:
-			{
-					defaultCamZoom = 0.9;
+					defaultCamZoom = 0.6;
 					curStage = 'stage';
 					var bg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Paths.image('stageback'));
 					bg.antialiasing = true;
-					bg.scrollFactor.set(0.9, 0.9);
+					bg.scrollFactor.set(1, 1);
+					bg.active = false;
+					add(bg);
+
+					var stageFront:FlxSprite = new FlxSprite(-540, 600).loadGraphic(Paths.image('stagefront'));
+					stageFront.setGraphicSize(Std.int(stageFront.width * 1.1));
+					stageFront.updateHitbox();
+					stageFront.antialiasing = true;
+					stageFront.scrollFactor.set(1, 1);
+					stageFront.active = false;
+					add(stageFront);
+
+					var stageCurtains:FlxSprite = new FlxSprite(-270, -300).loadGraphic(Paths.image('stagecurtains'));
+					stageCurtains.setGraphicSize(Std.int(stageCurtains.width * 0.9));
+					stageCurtains.updateHitbox();
+					stageCurtains.antialiasing = true;
+					stageCurtains.scrollFactor.set(1, 1);
+					stageCurtains.active = false;
+
+					add(stageCurtains);
+				}
+			default:
+			{
+					defaultCamZoom = 0.6;
+					curStage = 'stage';
+					var bg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Paths.image('stageback'));
+					bg.antialiasing = true;
+					bg.scrollFactor.set(1, 1);
 					bg.active = false;
 					add(bg);
 
@@ -754,7 +754,7 @@ class PlayState extends MusicBeatState
 					stageFront.setGraphicSize(Std.int(stageFront.width * 1.1));
 					stageFront.updateHitbox();
 					stageFront.antialiasing = true;
-					stageFront.scrollFactor.set(0.9, 0.9);
+					stageFront.scrollFactor.set(1, 1);
 					stageFront.active = false;
 					add(stageFront);
 
@@ -762,7 +762,7 @@ class PlayState extends MusicBeatState
 					stageCurtains.setGraphicSize(Std.int(stageCurtains.width * 0.9));
 					stageCurtains.updateHitbox();
 					stageCurtains.antialiasing = true;
-					stageCurtains.scrollFactor.set(1.3, 1.3);
+					stageCurtains.scrollFactor.set(1, 1);
 					stageCurtains.active = false;
 
 					add(stageCurtains);
@@ -795,7 +795,7 @@ class PlayState extends MusicBeatState
 		}
 		
 		gf = new Character(400, 130, curGf);
-		gf.scrollFactor.set(0.95, 0.95);
+		gf.scrollFactor.set(1, 1);
 
 		dad = new Character(100, 100, SONG.player2);
 
@@ -811,6 +811,8 @@ class PlayState extends MusicBeatState
 					camPos.x += 600;
 					tweenCamIn();
 				}
+			case 'hank':
+				dad.x -= 10;
 
 			case "spooky":
 				dad.y += 200;
@@ -880,6 +882,9 @@ class PlayState extends MusicBeatState
 				boyfriend.y += 220;
 				gf.x += 180;
 				gf.y += 300;
+			case 'stage':
+				boyfriend.x += 400;
+				gf.x -= 100;
 		}
 
 		if (SONG.song.toLowerCase() == 'accelerant') {
@@ -2699,6 +2704,11 @@ class PlayState extends MusicBeatState
 		if (FlxG.keys.justPressed.ONE)
 			endSong();
 		#end*/
+
+		if (SONG.song.toLowerCase() == 'accelerant')
+			{
+				camFollow.setPosition(gf.getGraphicMidpoint().x, gf.getGraphicMidpoint().y);
+			}
 	}
 
 	function endSong():Void
@@ -2780,13 +2790,13 @@ class PlayState extends MusicBeatState
 
 					FlxG.sound.music.stop();
 					vocals.stop();
-					if (FlxG.save.data.scoreScreen)
-						openSubState(new ResultsScreen());
-					else
-					{
+					//if (FlxG.save.data.scoreScreen)
+					//	openSubState(new ResultsScreen());
+					//else
+					//{
 						FlxG.sound.playMusic(Paths.music('freakyMenu'));
 						FlxG.switchState(new MainMenuState());
-					}
+					//}
 
 					#if windows
 					if (luaModchart != null)
@@ -2847,18 +2857,7 @@ class PlayState extends MusicBeatState
 			}
 			else
 			{
-				trace('WENT BACK TO FREEPLAY??');
-
-				paused = true;
-
-
-				FlxG.sound.music.stop();
-				vocals.stop();
-
-				if (FlxG.save.data.scoreScreen)
-					openSubState(new ResultsScreen());
-				else
-					FlxG.switchState(new FreeplayState());
+				FlxG.switchState(new MainMenuState());
 			}
 		}
 	}
@@ -3680,15 +3679,32 @@ class PlayState extends MusicBeatState
 							boyfriend.playAnim('singLEFT', true);
 					}
 
+					if (SONG.song.toLowerCase() == 'accelerant' && note.warning)
+						{
+							switch (Math.abs(note.noteData))
+							{
+								case 2:
+									dad.playAnim('ShootUp', true);
+								case 3:
+									dad.playAnim('ShootRight', true);
+								case 1:
+									dad.playAnim('ShootDown', true);
+								case 0:
+									dad.playAnim('ShootLeft', true);
+							}
+							trace ('lmao he shot at bf');
+							FlxG.sound.play(Paths.sound('hankshoot'));
+							boyfriend.playAnim('dodge', true);
+							FlxG.camera.shake(0.01, 0.1);
+						}
+
 					 if (note.warning) {
 						trace("warning note hit");
 						if (SONG.song.toLowerCase() == 'accelerant' && note.warning) {
-							boyfriend.playAnim('dodge', true);
 							trace("we damm dodged da bullet"); // for bullets
 							if (storyDifficulty == 2) {
-								FlxG.sound.play(Paths.sound('hankshoot'));
-								dad.playAnim('shootRight');
-								FlxG.camera.shake(0.01, 0.1);
+								
+								//dad.playAnim('shootRight');
 							}
 						}
 					}
@@ -3875,6 +3891,7 @@ class PlayState extends MusicBeatState
 		{
 			switch (curStep) 
 			{
+				/*
 				case 170:
 					dad.playAnim('shootDown', true);
 //					boyfriend.playAnim('dodge');
@@ -3909,8 +3926,8 @@ class PlayState extends MusicBeatState
 					dad.playAnim('shootRight', true);
 //					boyfriend.playAnim('dodge');
 				case 672:
-						gf.playAnim('scaredIdle', true);
-						changeDadCharacterToGf('tiky', 'hank');
+					dad.playAnim('scaredIdle', true);
+					changeDadCharacterToGf('tiky', 'hank');
 				case 594:
 					dad.playAnim('shootDown', true);
 //					boyfriend.playAnim('dodge');
@@ -4062,6 +4079,7 @@ class PlayState extends MusicBeatState
 				case 1188:
 					dad.playAnim('shootDown', true);
 //					boyfriend.playAnim('dodge');
+				*/
 			}
 		}
 				
