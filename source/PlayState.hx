@@ -3735,7 +3735,7 @@ class PlayState extends MusicBeatState
 
 	function badNoteHit():Void // deez
 		{
-			boyfriend.playAnim('hit', true);
+			boyfriend.playAnim('hurt', true);
 			FlxG.sound.play(Paths.sound('bfHit'));
 		}
 
