@@ -2356,7 +2356,7 @@ class PlayState extends MusicBeatState
 		if (camZooming)
 		{
 			FlxG.camera.zoom = FlxMath.lerp(defaultCamZoom, FlxG.camera.zoom, 0.95);
-			camHUD.zoom = FlxMath.lerp(1, camHUD.zoom, 0.95);
+			camHUD.zoom = FlxMath.lerp((SONG.song.toLowerCase() == 'accelerant' ? 0.9 : 1), camHUD.zoom, 0.95);
 		}
 
 		FlxG.watch.addQuick("beatShit", curBeat);
@@ -2707,7 +2707,7 @@ class PlayState extends MusicBeatState
 
 		if (SONG.song.toLowerCase() == 'accelerant')
 			{
-				camFollow.setPosition(gf.getGraphicMidpoint().x, gf.getGraphicMidpoint().y);
+				camFollow.setPosition(gf.getGraphicMidpoint().x, gf.getGraphicMidpoint().y + 60);
 			}
 	}
 
