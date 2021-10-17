@@ -17,6 +17,7 @@ import flixel.math.FlxRect;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import flixel.text.FlxText;
+import flixel.ui.FlxBar;
 
 using StringTools;
 
@@ -27,7 +28,8 @@ class Caching extends MusicBeatState
 
     var text:FlxText;
     var kadeLogo:FlxSprite;
-
+    var loadingBar:FlxBar;
+    var loadingBarBG:FlxSprite;
 	override function create()
 	{
         FlxG.mouse.visible = false;
@@ -101,6 +103,16 @@ class Caching extends MusicBeatState
         }
 
         toBeDone = Lambda.count(images) + Lambda.count(music);
+        trace(toBeDone);
+
+        loadingBarBG = new FlxSprite(0, FlxG.height * 0.9).loadGraphic(Paths.image('loadingBar'));
+		loadingBarBG.screenCenter(X);
+		add(loadingBarBG);
+
+        loadingBar = new FlxBar(loadingBarBG.x + 4, loadingBarBG.y + 4, LEFT_TO_RIGHT, Std.int(loadingBarBG.width - 8), Std.int(loadingBarBG.height - 8), this,
+        'done', 1, toBeDone);
+        loadingBar.createFilledBar(0xFF000000, 0xFFffffff);
+        add(loadingBar);
 
         trace("LOADING: " + toBeDone + " OBJECTS.");
 

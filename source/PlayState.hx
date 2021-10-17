@@ -1077,7 +1077,7 @@ class PlayState extends MusicBeatState
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8), this,
 			'health', 0, 2);
 		healthBar.scrollFactor.set();
-		healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33);
+		healthBar.createFilledBar(0xFF1c1d3b, 0xFF31b0d1);
 		// healthBar
 		add(healthBar);
 
@@ -2419,12 +2419,13 @@ class PlayState extends MusicBeatState
 		if (camZooming)
 		{
 			FlxG.camera.zoom = FlxMath.lerp(defaultCamZoom, FlxG.camera.zoom, 0.95);
-			camHUD.zoom = FlxMath.lerp(1, camHUD.zoom, 0.95);
+			camHUD.zoom = FlxMath.lerp(0.9, camHUD.zoom, 0.95);
 		}
 
 		FlxG.watch.addQuick("beatShit", curBeat);
 		FlxG.watch.addQuick("stepShit", curStep);
-		FlxG.watch.addQuick("DadPosX", dad.x);
+		FlxG.watch.addQuick("timeShit", FlxG.sound.music.time);
+		FlxG.watch.addQuick("lengthShit", FlxG.sound.music.length);
 
 		if (curSong == 'Fresh')
 		{
@@ -2973,18 +2974,10 @@ class PlayState extends MusicBeatState
 			}
 			else
 			{
-				trace('WENT BACK TO FREEPLAY??');
-
-				paused = true;
-
-
-				FlxG.sound.music.stop();
-				vocals.stop();
-
-				if (FlxG.save.data.scoreScreen)
-					openSubState(new ResultsScreen());
-				else
-					FlxG.switchState(new FreeplayState());
+				FlxG.switchState(new MainMenuState());
+				MainMenuState.finishedFunnyMove = false;
+				MainMenuState.firstStart = false;
+				MainMenuState.selectedSomethin = false;
 			}
 		}
 	}
