@@ -32,6 +32,9 @@ class FreeplayState extends MusicBeatState
 	var lerpScore:Int = 0;
 	var intendedScore:Int = 0;
 	var combo:String = '';
+	var menu:FlxTypedGroup<FlxSprite>;
+    var bg:FlxSprite;
+	var background:FlxSprite;
 
 	private var grpSongs:FlxTypedGroup<Alphabet>;
 	private var curPlaying:Bool = false;
@@ -71,16 +74,21 @@ class FreeplayState extends MusicBeatState
 
 		// LOAD CHARACTERS
 
-		var bg:FlxSprite = new FlxSprite().loadGraphic(Paths.image('menuBGBlue'));
-		add(bg);
+		background = new FlxSprite(50, 40).makeGraphic(1180, 640, FlxColor.BLACK);
+		background.alpha = 0.5;
+		background.scrollFactor.set();
+		menu.add(background);
 
 		grpSongs = new FlxTypedGroup<Alphabet>();
 		add(grpSongs);
+
+		menu = new FlxTypedGroup<FlxSprite>();
 
 		for (i in 0...songs.length)
 		{
 			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, songs[i].songName, true, false, true);
 			songText.isMenuItem = true;
+			songText.screenCenter(X);
 			songText.targetY = i;
 			grpSongs.add(songText);
 
@@ -95,25 +103,6 @@ class FreeplayState extends MusicBeatState
 			// DONT PUT X IN THE FIRST PARAMETER OF new ALPHABET() !!
 			// songText.screenCenter(X);
 		}
-
-		scoreText = new FlxText(FlxG.width * 0.7, 5, 0, "", 32);
-		// scoreText.autoSize = false;
-		scoreText.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, RIGHT);
-		// scoreText.alignment = RIGHT;
-
-		var scoreBG:FlxSprite = new FlxSprite(scoreText.x - 6, 0).makeGraphic(Std.int(FlxG.width * 0.35), 66, 0xFF000000);
-		scoreBG.alpha = 0.6;
-		add(scoreBG);
-
-		diffText = new FlxText(scoreText.x, scoreText.y + 36, 0, "", 24);
-		diffText.font = scoreText.font;
-		add(diffText);
-
-		comboText = new FlxText(diffText.x + 100, diffText.y, 0, "", 24);
-		comboText.font = diffText.font;
-		add(comboText);
-
-		add(scoreText);
 
 		changeSelection();
 		changeDiff();
@@ -219,6 +208,16 @@ class FreeplayState extends MusicBeatState
 		{
 			changeSelection(1);
 		}
+		if (FlxG.mouse.wheel == 1)
+			{
+				FlxG.sound.play(Paths.sound('scrollMenu'));
+				changeSelection(1);
+			}
+		if (FlxG.mouse.wheel == -1)
+			{
+				FlxG.sound.play(Paths.sound('scrollMenu'));
+				changeSelection(-1);
+			}
 
 		if (FlxG.keys.justPressed.LEFT)
 			changeDiff(-1);

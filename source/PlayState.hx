@@ -390,16 +390,16 @@ class PlayState extends MusicBeatState
 		var stageCheck:String = 'stage';
 		
 		if (SONG.stage == null) {
-			switch(storyWeek)
+			switch(SONG.song.toLowerCase())
 			{
-				case 2: stageCheck = 'halloween';
-				case 3: stageCheck = 'philly';
-				case 4: stageCheck = 'limo';
-				case 5: if (songLowercase == 'winter-horrorland') {stageCheck = 'mallEvil';} else {stageCheck = 'mall';}
-				case 6: if (songLowercase == 'thorns') {stageCheck = 'schoolEvil';} else {stageCheck = 'school';}
-				//i should check if its stage (but this is when none is found in chart anyway)
+				case 'accelerant':
+					stageCheck = 'hankstage';
 			}
-		} else {stageCheck = SONG.stage;}
+		} 
+		else 
+		{
+			stageCheck = SONG.stage;
+		}
 
 		if (!PlayStateChangeables.Optimize)
 		{
@@ -3456,7 +3456,7 @@ class PlayState extends MusicBeatState
 					}
 				});
 				
-				if (boyfriend.holdTimer > Conductor.stepCrochet * 4 * 0.001 && (!holdArray.contains(true) || PlayStateChangeables.botPlay))
+				if (boyfriend.holdTimer > Conductor.stepCrochet * 4 * 0.001 && boyfriend.animation.curAnim.curFrame >= 10 && (!holdArray.contains(true) || PlayStateChangeables.botPlay))
 				{
 					if (boyfriend.animation.curAnim.name.startsWith('sing') && !boyfriend.animation.curAnim.name.endsWith('miss'))
 						boyfriend.playAnim('idle');
