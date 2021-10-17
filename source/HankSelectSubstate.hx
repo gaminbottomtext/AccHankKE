@@ -192,14 +192,14 @@ class HankSelectSubstate extends MusicBeatSubstate
         //    PUT CODE HERE!! THIS IS JUST FOR REFERENCE
             switch (curDiff) {
                 case 0:
-                    PlayState.SONG = Song.loadFromJson('accelerant-easy', 'accelerant');
+                    PlayState.SONG = Song.loadFromJson('accelerant-baby', 'accelerant');
                     PlayState.storyDifficulty = 0;
                 case 1:
-                    PlayState.SONG = Song.loadFromJson('accelerant', 'accelerant');
-                    PlayState.storyDifficulty = 1;
-                case 2:
                     PlayState.SONG = Song.loadFromJson('accelerant-hard', 'accelerant');
                     PlayState.storyDifficulty = 2;
+                case 2:
+                    PlayState.SONG = Song.loadFromJson('accelerant-fucked', 'accelerant');
+                    PlayState.storyDifficulty = 3;
             }
             PlayState.isStoryMode = false;
             new FlxTimer().start(2, function(tmr:FlxTimer) 
