@@ -698,7 +698,7 @@ class ChartingState extends MusicBeatState
 		var delete = false;
 		curRenderedNotes.forEach(function(note:Note)
 			{
-				if (strumLine.overlaps(note) && pressArray[Math.floor(Math.abs(note.noteData))])
+				if (strumLine.overlaps(note))
 				{
 					deleteNote(note);
 					delete = true;
@@ -1401,9 +1401,9 @@ class ChartingState extends MusicBeatState
 			noteType = 2;
 
 		if (n != null)
-			_song.notes[curSection].sectionNotes.push([n.strumTime, n.noteData, n.sustainLength]);
+			_song.notes[curSection].sectionNotes.push([n.strumTime, n.noteData, n.sustainLength, n.noteType]);
 		else
-			_song.notes[curSection].sectionNotes.push([noteStrum, noteData, noteSus]);
+			_song.notes[curSection].sectionNotes.push([noteStrum, noteData, noteSus, noteType]);
 
 		var thingy = _song.notes[curSection].sectionNotes[_song.notes[curSection].sectionNotes.length - 1];
 

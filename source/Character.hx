@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.animation.FlxBaseAnimation;
 import flixel.graphics.frames.FlxAtlasFrames;
+import PlayState.SONG;
 
 using StringTools;
 
@@ -16,6 +17,8 @@ class Character extends FlxSprite
 	public var curCharacter:String = 'bf';
 
 	public var holdTimer:Float = 0;
+
+	public var otherFrames:Array<Character>;
 
 	public function new(x:Float, y:Float, ?character:String = "bf", ?isPlayer:Bool = false)
 	{
@@ -59,6 +62,20 @@ class Character extends FlxSprite
 				addOffset('hairFall', 0, -9);
 
 				addOffset('scared', -2, -17);
+
+				playAnim('danceRight');
+
+				case 'gfhotDog':
+				// GIRLFRIEND CODE
+				tex = Paths.getSparrowAtlas('characters/GFHotdog');
+				frames = tex;
+				animation.addByPrefix('run', 'GF GF with hotdog run', 24, false);
+				animation.addByPrefix('danceLeft', 'GF GF Idle Dance', 24, false);
+				animation.addByPrefix('danceRight', 'GF GF Idle Dance', 24, false);
+
+				addOffset('run', 0, -9);
+				addOffset('danceLeft', 0, -9);
+				addOffset('danceRight', 0, -9);
 
 				playAnim('danceRight');
 
@@ -287,8 +304,7 @@ class Character extends FlxSprite
 				animation.addByPrefix('deathLoop', "BF Dead Loop", 24, true);
 				animation.addByPrefix('deathConfirm', "BF Dead confirm", 24, false);
 
-
-				animation.addByPrefix('hurt', 'BF hit', 24, false);
+				animation.addByPrefix('shot', 'BF hit', 24, false);
 				animation.addByPrefix('pre-attack', 'bf pre attack', 24, false);
 				animation.addByPrefix('attack', 'boyfriend attack', 24, false);
 				animation.addByPrefix('dodge', 'boyfriend dodge', 24, false);
@@ -310,7 +326,7 @@ class Character extends FlxSprite
 				addOffset('deathConfirm', 37, 69);
 				addOffset('scared', -4);
 
-				addOffset('hurt', -5);
+				addOffset('shot', -5);
 				addOffset('pre-attack', -5, -20);
 				addOffset('attack', 295, 270);
 				addOffset('dodge', -5);
@@ -511,38 +527,47 @@ class Character extends FlxSprite
 				playAnim('idle');
 
 			
-			case 'hank':
-				frames = Paths.getSparrowAtlas('characters/hank');
-				animation.addByPrefix('idle', 'Hank Idle', 24, false);
-				animation.addByPrefix('singUP', 'Hank Up note', 24, false);
-				animation.addByPrefix('singDOWN', 'Hank Down Note', 24, false);
-				animation.addByPrefix('singLEFT', 'Hank Left Note', 24, false);
-				animation.addByPrefix('singRIGHT', 'Hank right note', 24, false);
+				case 'hank':
+					frames = Paths.getSparrowAtlas('characters/hank');
+					animation.addByPrefix('idle', 'Hank Idle', 24, false);
+					animation.addByPrefix('singUP', 'Hank Up note', 24, false);
+					animation.addByPrefix('singDOWN', 'Hank Down Note', 24, false);
+					animation.addByPrefix('singLEFT', 'Hank Left Note', 24, false);
+					animation.addByPrefix('singRIGHT', 'Hank right note', 24, false);
 	
-				animation.addByPrefix('ShootDown', 'Hank Down Shoot', 24, false);
-				animation.addByPrefix('ShootLeft', 'Hank Left Shoot', 24, false);
-				animation.addByPrefix('ShootUp', 'Hank Up shoot', 24, false);
-				animation.addByPrefix('ShootRight', 'Hank right shoot', 24, false);
+					animation.addByPrefix('shootDown', 'Hank Down Shoot', 24, false);
+					animation.addByPrefix('shootLeft', 'Hank Left Shoot', 24, false);
+					animation.addByPrefix('shootUp', 'Hank Up shoot', 24, false);
+					animation.addByPrefix('shootRight', 'Hank right shoot', 24, false);
 	
-				animation.addByPrefix('scaredIdle', 'HankScaredIdle', 24, false);
-				animation.addByPrefix('scaredShootTiky', 'HankScaredShootsTiky', 24, false);
-				addOffset('idle');
-				addOffset("singUP");
-				addOffset("singRIGHT", 127,-12);
-				addOffset("singLEFT", 339, 0);
-				addOffset("singDOWN");
+					animation.addByPrefix('scaredIdle', 'HankScaredIdle', 24, false);
+					animation.addByPrefix('scaredShootTiky', 'HankScaredShootsTiky', 24, false);
+					addOffset('idle');
+					addOffset("singUP");
+					addOffset("singRIGHT", 127,-12);
+					addOffset("singLEFT", 339, 0);
+					addOffset("singDOWN");
 	
-				addOffset('shootDown');
-				addOffset('shootLeft');
-				addOffset('shootUp');
-				addOffset('shootRight');
-				
-				addOffset('scaredIdle');
-				addOffset('scaredShootTiky', 0, 247);
+					addOffset('shootDown');
+					addOffset('shootLeft');
+					addOffset('shootUp');
+					addOffset('shootRight');
+					
+					addOffset('scaredIdle');
+					addOffset('scaredShootTiky', 0, 247);
+	
+					playAnim('idle');
 
-				playAnim('idle');
+					// im way too lazy to actually edit the fla so im pushing this dumb shit
+					case 'tikydying':
+						frames = Paths.getSparrowAtlas('characters/riptikylol');
+						animation.addByPrefix('bye', 'riptikylol idle', 24, false);
+		
+						addOffset('bye');
+					
+						playAnim('bye');
 
-			case 'tiky':
+				case 'tiky':
 				frames = Paths.getSparrowAtlas('characters/tiky');
 				animation.addByPrefix('idle', 'trickyidle', 24, false);
 				animation.addByPrefix('singDOWN', 'trickydwon', 24, false);
@@ -551,10 +576,10 @@ class Character extends FlxSprite
 				animation.addByPrefix('singUP', 'trickyup', 24, false);
 
 				addOffset('idle');
-				addOffset("singUP");
-				addOffset("singRIGHT");
-				addOffset("singLEFT");
-				addOffset("singDOWN");
+				addOffset('singUP');
+				addOffset('singRIGHT');
+				addOffset('singLEFT');
+				addOffset('singDOWN');					
 
 				playAnim('idle');
 		}
@@ -626,7 +651,7 @@ class Character extends FlxSprite
 		{
 			switch (curCharacter)
 			{
-				case 'gf':
+				case 'gfhotDog':
 					if (!animation.curAnim.name.startsWith('hair'))
 					{
 						danced = !danced;
@@ -636,6 +661,16 @@ class Character extends FlxSprite
 						else
 							playAnim('danceLeft');
 					}
+					case 'gf':
+						if (!animation.curAnim.name.startsWith('hair'))
+						{
+							danced = !danced;
+	
+							if (danced)
+								playAnim('danceRight');
+							else
+								playAnim('danceLeft');
+						}
 
 				case 'gf-christmas':
 					if (!animation.curAnim.name.startsWith('hair'))
@@ -711,6 +746,16 @@ class Character extends FlxSprite
 			}
 		}
 	}
+
+	public function addOtherFrames()
+		{
+			
+			for (i in otherFrames)
+				{
+					PlayState.instance.addObject(i);
+					i.visible = false;
+				}
+		}
 
 	public function addOffset(name:String, x:Float = 0, y:Float = 0)
 	{

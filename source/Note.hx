@@ -40,16 +40,15 @@ class Note extends FlxSprite
 
 	public var rating:String = "shit";
 
-	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?_warning:Bool = false)
+	public function new(strumTime:Float, noteData:Int, ?prevNote:Note, ?sustainNote:Bool = false, ?noteType:Int = 0)
 	{
 		super();
 
 		if (prevNote == null)	
 			prevNote = this;
+		this.noteType = noteType;
 		this.prevNote = prevNote; 
 		isSustainNote = sustainNote;
-
-		warning = _warning;
 
 		x += 50;
 		// MAKE SURE ITS DEFINITELY OFF SCREEN?
@@ -58,6 +57,10 @@ class Note extends FlxSprite
 
 		if (this.strumTime < 0 )
 			this.strumTime = 0;
+
+		if(isSustainNote && prevNote.warning) { 
+			warning = true;
+		}
 
 		this.noteData = noteData;
 		
@@ -119,7 +122,7 @@ class Note extends FlxSprite
 				updateHitbox();
 				antialiasing = true;
 		}
-			if (halo)
+			if (noteType == 2)
 					{
 						frames = Paths.getSparrowAtlas('ALL_deathnotes');
 						animation.addByPrefix('greenScroll', 'Green Arrow');
@@ -127,18 +130,28 @@ class Note extends FlxSprite
 						animation.addByPrefix('blueScroll', 'Blue Arrow');
 						animation.addByPrefix('purpleScroll', 'Purple Arrow');
 					}
-		if (warning)
+		if (noteType == 3)
 		{
 			frames = Paths.getSparrowAtlas('NOTE_bullet');
-			animation.addByPrefix('greenScroll', 'Bullet UP');
-			animation.addByPrefix('redScroll', 'Bullet RIGHT');
-			animation.addByPrefix('blueScroll', 'Bullet DOWN');
-			animation.addByPrefix('purpleScroll', 'Bullet LEFT');
-			setGraphicSize(Std.int(width * 0.96));
+			animation.addByPrefix('greenScroll', 'green0');
+			animation.addByPrefix('redScroll', 'red0');
+			animation.addByPrefix('blueScroll', 'blue0');
+			animation.addByPrefix('purpleScroll', 'purple0');
+
+			animation.addByPrefix('purpleholdend', 'pruple end hold');
+			animation.addByPrefix('greenholdend', 'green hold end');
+			animation.addByPrefix('redholdend', 'red hold end');
+			animation.addByPrefix('blueholdend', 'blue hold end');
+
+			animation.addByPrefix('purplehold', 'purple hold piece');
+			animation.addByPrefix('greenhold', 'green hold piece');
+			animation.addByPrefix('redhold', 'red hold piece');
+			animation.addByPrefix('bluehold', 'blue hold piece');
+			setGraphicSize(Std.int(width * 1));
 		}
 
 		switch (noteData)
-		{
+    	{
 			case 0:
 				x += swagWidth * 0;
 				animation.play('purpleScroll');
@@ -215,6 +228,10 @@ class Note extends FlxSprite
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
+
+		if(isSustainNote && prevNote.warning) { 
+			this.kill(); 
+		}
 
 		if (mustPress)
 		{
