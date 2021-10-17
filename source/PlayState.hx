@@ -2356,11 +2356,13 @@ class PlayState extends MusicBeatState
 		if (camZooming)
 		{
 			FlxG.camera.zoom = FlxMath.lerp(defaultCamZoom, FlxG.camera.zoom, 0.95);
-			camHUD.zoom = FlxMath.lerp(1, camHUD.zoom, 0.95);
+			camHUD.zoom = FlxMath.lerp(0.9, camHUD.zoom, 0.95);
 		}
 
 		FlxG.watch.addQuick("beatShit", curBeat);
 		FlxG.watch.addQuick("stepShit", curStep);
+		FlxG.watch.addQuick("timeShit", FlxG.sound.music.time);
+		FlxG.watch.addQuick("lengthShit", FlxG.sound.music.length);
 
 		if (curSong == 'Fresh')
 		{
@@ -2858,6 +2860,9 @@ class PlayState extends MusicBeatState
 			else
 			{
 				FlxG.switchState(new MainMenuState());
+				MainMenuState.finishedFunnyMove = false;
+				MainMenuState.firstStart = false;
+				MainMenuState.selectedSomethin = false;
 			}
 		}
 	}
