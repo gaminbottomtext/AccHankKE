@@ -154,7 +154,7 @@ class PlayState extends MusicBeatState
 	private var combo:Int = 0;
 	public static var misses:Int = 0;
 	public static var campaignMisses:Int = 0;
-	public var accuracy:Float = 0.00;
+	public static var accuracy:Float = 0.00;
 	private var accuracyDefault:Float = 0.00;
 	private var totalNotesHit:Float = 0;
 	private var totalNotesHitDefault:Float = 0;
@@ -2831,6 +2831,10 @@ class PlayState extends MusicBeatState
 		if (FlxG.keys.justPressed.ONE)
 			endSong();
 		#end
+
+		if (FlxG.keys.justPressed.F10) {
+			FlxG.switchState(new EndResults());
+		}
 	}
 
 	function endSong():Void
