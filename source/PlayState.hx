@@ -2760,7 +2760,7 @@ class PlayState extends MusicBeatState
 								}
 								else if (daNote.noteType == 3) //bullet notes, removes half health and then removed so it doesn't repeatedly deal damage
 								{
-									if (SONG.song.toLowerCase() == 'accelerant' && storyDifficulty == 2) {
+									if (SONG.song.toLowerCase() == 'accelerant' && storyDifficulty == 3) {
 										health -= 2.2;
 									}
 									else {
