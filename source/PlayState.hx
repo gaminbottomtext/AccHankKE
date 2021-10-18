@@ -2983,7 +2983,7 @@ class PlayState extends MusicBeatState
 			}
 			else
 			{
-				FlxG.switchState(new MainMenuState());
+				FlxG.switchState(new EndResults());
 				MainMenuState.finishedFunnyMove = false;
 				MainMenuState.firstStart = false;
 				MainMenuState.selectedSomethin = false;

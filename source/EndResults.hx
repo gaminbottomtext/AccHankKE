@@ -14,6 +14,9 @@ class EndResults extends MusicBeatState
     var intAccuracy:Int = 0;
 
     var rankLetter:FlxSprite;
+    var fade:FlxSprite;
+    var fade2:FlxSprite;
+    var backdrop:FlxBackdrop;
 
     var curVal:Int = 0;
 
@@ -22,15 +25,31 @@ class EndResults extends MusicBeatState
     var ranks:Array<String> = ['f', 'e', 'd', 'c', 'b', 'a', 's'];
     var rankInt:Int = 0;
 
+    var bgcolors:Array<Int> = [0xFF5b3c6e, 0xFF5b3c6e, 0xFF5b3c6e, 0xFF3e4599, 0xFF3e4599, 0xFFc16ac8, 0xFF72ccaf];
+
 
     override function create() {
 
         intAccuracy = Std.int(PlayState.accuracy);
         trace(intAccuracy);
         times = intAccuracy + 1;
-        addScore();
+        //addScore();
 
-        updateRankLetter();
+        backdrop = new FlxBackdrop(Paths.image('menuDesat'));
+		backdrop.y = 0;
+		backdrop.velocity.set(-50, 0);
+		add(backdrop);
+
+        fade = new FlxSprite(0, -415).loadGraphic(Paths.image('ranking/fade'));
+        add(fade);
+        fade2 = new FlxSprite(0, 415).loadGraphic(Paths.image('ranking/fade'));
+        add(fade2);
+
+        new FlxTimer().start(1, function(tmr:FlxTimer)
+            {
+                addScore();
+                updateRankLetter();
+            });
     }
 
     function addScore() {
@@ -49,6 +68,7 @@ class EndResults extends MusicBeatState
                 {
                     case 16 | 32 | 48 | 64 | 72 | 94:
                         FlxG.sound.play(Paths.sound('confirmMenu'));
+                        FlxG.camera.flash(0xFFFFFFFF, 0.5);
                         rankInt++;
                 }
             }, times);
@@ -100,6 +120,7 @@ class EndResults extends MusicBeatState
     }
 
     function updateRankLetter() {
+        backdrop.color = bgcolors[rankInt];
         remove(rankLetter);
         rankLetter = new FlxSprite(0, 100).loadGraphic(Paths.image('ranking/' + ranks[rankInt]));
         add(rankLetter);
