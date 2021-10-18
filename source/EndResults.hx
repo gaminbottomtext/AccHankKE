@@ -19,6 +19,9 @@ class EndResults extends MusicBeatState
 
     var times:Int;
 
+    var ranks:Array<String> = ['f', 'e', 'd', 'c', 'b', 'a', 's'];
+    var rankInt:Int = 0;
+
 
     override function create() {
 
@@ -26,6 +29,8 @@ class EndResults extends MusicBeatState
         trace(intAccuracy);
         times = intAccuracy + 1;
         addScore();
+
+        updateRankLetter();
     }
 
     function addScore() {
@@ -38,6 +43,13 @@ class EndResults extends MusicBeatState
                 }
                 else if (curVal == intAccuracy) {
                     FlxG.sound.play(Paths.sound('confirmMenu'));
+                }
+
+                switch (curVal)
+                {
+                    case 16 | 32 | 48 | 64 | 72 | 94:
+                        FlxG.sound.play(Paths.sound('confirmMenu'));
+                        rankInt++;
                 }
             }, times);
     }
@@ -81,5 +93,15 @@ class EndResults extends MusicBeatState
                 numScore.x = 0 + (i * 100);
                 add(numScore);
             }
+    }
+
+    override function update(elapsed:Float) {
+        updateRankLetter();
+    }
+
+    function updateRankLetter() {
+        remove(rankLetter);
+        rankLetter = new FlxSprite(0, 100).loadGraphic(Paths.image('ranking/' + ranks[rankInt]));
+        add(rankLetter);
     }
 }
