@@ -141,8 +141,11 @@ class OptionsMenu extends MusicBeatState
 
 		if (acceptInput)
 		{
-			if (controls.BACK && !isCat)
+			if (controls.BACK && !isCat) {
 				FlxG.switchState(new MainMenuState());
+				MainMenuState.finishedFunnyMove = false;
+				MainMenuState.firstStart = false;
+				MainMenuState.selectedSomethin = false; }
 			else if (controls.BACK)
 			{
 				isCat = false;

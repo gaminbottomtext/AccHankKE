@@ -785,16 +785,16 @@ class PlayState extends MusicBeatState
 			case 'hankstage':
 				{
 						curStage = 'hankstage';
-						defaultCamZoom = 0.7;
+						defaultCamZoom = 0.793;
 
 						// for testing purposes
 			
-						var bg:FlxSprite = new FlxSprite(-600, -75).loadGraphic(Paths.image('hank/bg'));		
+						var bg:FlxSprite = new FlxSprite(-200, -65).loadGraphic(Paths.image('hank/bg'));		
 						bg.setGraphicSize(Std.int(bg.width * 1.29));				
 						add(bg);
 			
-						var cliffLol:FlxSprite = new FlxSprite(-240, 400).loadGraphic(Paths.image('hank/cliff'));
-						cliffLol.setGraphicSize(Std.int(cliffLol.width * 1.1));
+						var cliffLol:FlxSprite = new FlxSprite(-320, 340).loadGraphic(Paths.image('hank/cliff')); //-240 > -320 - 400 > 340
+						cliffLol.setGraphicSize(Std.int(cliffLol.width * 1.190));
 						cliffLol.screenCenter(Y);
 						cliffLol.updateHitbox();
 						cliffLol.antialiasing = true;
@@ -806,16 +806,16 @@ class PlayState extends MusicBeatState
 						var ground:FlxSprite = new FlxSprite(-500, -98).loadGraphic(Paths.image('hank/ground'));
 						ground.antialiasing = true;
 						ground.scrollFactor.set(0.9, 0.9);
-					ground.active = false;
+						ground.active = false;
 						add(ground);
 			
-						var Hotdogshop:FlxSprite = new FlxSprite(-195, -60).loadGraphic(Paths.image('hank/hut'));
-						Hotdogshop.updateHitbox();
-						Hotdogshop.antialiasing = true;
-						Hotdogshop.scrollFactor.set(1.3, 1.3);
-						Hotdogshop.active = false;
+						var hotdogshop:FlxSprite = new FlxSprite(-495, -80).loadGraphic(Paths.image('hank/hut'));
+						hotdogshop.updateHitbox();
+						hotdogshop.antialiasing = true;
+						hotdogshop.scrollFactor.set(1.3, 1.3);
+						hotdogshop.active = false;
 						
-						add(Hotdogshop);
+						add(hotdogshop);
 			
 						var stageFront:FlxSprite = new FlxSprite(-650, 600).loadGraphic(Paths.image('hank/ground'));
 						stageFront.setGraphicSize(Std.int(stageFront.width * 1.1));
@@ -1024,7 +1024,7 @@ class PlayState extends MusicBeatState
 
 		camFollow = new FlxObject(0, 0, 1, 1);
 
-		camFollow.setPosition(camPos.x, camPos.y);
+		//camFollow.setPosition(camPos.x, camPos.y);
 
 		if (prevCamFollow != null)
 		{
@@ -2087,6 +2087,8 @@ class PlayState extends MusicBeatState
 				// phillyCityLights.members[curLight].alpha -= (Conductor.crochet / 1000) * FlxG.elapsed;
 		}
 
+		camFollow.setPosition(gf.getGraphicMidpoint().x, gf.getGraphicMidpoint().y);
+
 		super.update(elapsed);
 
 		scoreTxt.text = Ratings.CalculateRanking(songScore,songScoreDef,nps,maxNPS,accuracy);
@@ -2343,7 +2345,7 @@ class PlayState extends MusicBeatState
 				luaModchart.setVar("mustHit",PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection);
 			#end
 
-			if (camFollow.x != dad.getMidpoint().x + 150 && !PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection)
+			if (/*camFollow.x != dad.getMidpoint().x + 150 && */!PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection)
 			{
 				var offsetX = 0;
 				var offsetY = 0;
@@ -2354,7 +2356,7 @@ class PlayState extends MusicBeatState
 					offsetY = luaModchart.getVar("followYOffset", "float");
 				}
 				#end
-				camFollow.setPosition(dad.getMidpoint().x + 150 + offsetX, dad.getMidpoint().y - 100 + offsetY);
+				//camFollow.setPosition(dad.getMidpoint().x + 150 + offsetX, dad.getMidpoint().y - 100 + offsetY);
 				#if windows
 				if (luaModchart != null)
 					luaModchart.executeState('playerTwoTurn', []);
@@ -2371,8 +2373,8 @@ class PlayState extends MusicBeatState
 					case 'senpai-angry':
 						camFollow.y = dad.getMidpoint().y - 430;
 						camFollow.x = dad.getMidpoint().x - 100;
-						case 'hank':
-						    camFollow.setPosition(gf.getGraphicMidpoint().x, gf.getGraphicMidpoint().y);
+					case 'hank':
+						    //camFollow.setPosition(gf.getGraphicMidpoint().x, gf.getGraphicMidpoint().y);
 
 				}
 
@@ -2380,7 +2382,7 @@ class PlayState extends MusicBeatState
 					vocals.volume = 1;
 			}
 
-			if (PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection && camFollow.x != boyfriend.getMidpoint().x - 100)
+			if (PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection/* && camFollow.x != boyfriend.getMidpoint().x - 100*/)
 			{
 				var offsetX = 0;
 				var offsetY = 0;
@@ -2391,7 +2393,7 @@ class PlayState extends MusicBeatState
 					offsetY = luaModchart.getVar("followYOffset", "float");
 				}
 				#end
-				camFollow.setPosition(boyfriend.getMidpoint().x - 100 + offsetX, boyfriend.getMidpoint().y - 100 + offsetY);
+				//camFollow.setPosition(boyfriend.getMidpoint().x - 100 + offsetX, boyfriend.getMidpoint().y - 100 + offsetY);
 
 				#if windows
 				if (luaModchart != null)
@@ -2410,8 +2412,8 @@ class PlayState extends MusicBeatState
 					case 'schoolEvil':
 						camFollow.x = boyfriend.getMidpoint().x - 200;
 						camFollow.y = boyfriend.getMidpoint().y - 200;
-						case 'hankstage':
-							camFollow.setPosition(gf.getGraphicMidpoint().x, gf.getGraphicMidpoint().y);
+					case 'hankstage':
+							//sus
 				}
 			}
 		}
