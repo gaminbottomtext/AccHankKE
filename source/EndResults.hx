@@ -237,6 +237,7 @@ class EndResults extends MusicBeatState
         ratingSpr = new FlxSprite(116, 236).loadGraphic(Paths.image(ratingImg[ratingInt], 'shared'));
         ratingSpr.scale.set(20, 20);
         FlxTween.tween(ratingSpr.scale,{x: 1, y: 1}, 0.99,{ease: FlxEase.expoInOut, onComplete: function(twn:FlxTween) {
+            FlxG.camera.flash(0xffffffff, 1);
             FlxG.camera.shake(0.01, 1);
             FlxG.sound.play(Paths.sound('unlocksound'));
         }});
