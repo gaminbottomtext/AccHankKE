@@ -38,6 +38,8 @@ class EndResults extends MusicBeatState
     var times:Int;
 
     var ranks:Array<String> = ['f', 'e', 'd', 'c', 'b', 'a', 's'];
+    var ratingImg:Array<String> = ['shit', 'bad', 'good', 'sick'];
+    var ratingInt:Int = 0;
     var rankInt:Int = 0;
 
     var bgcolors:Array<Int> = [0xFF5b3c6e, 0xFF5b3c6e, 0xFF5b3c6e, 0xFF3e4599, 0xFF3e4599, 0xFFc16ac8, 0xFF72ccaf];
@@ -53,6 +55,8 @@ class EndResults extends MusicBeatState
     var canExit:Bool = false;
 
     var pressEnter:FlxSprite;
+
+    var ratingSpr:FlxSprite;
 
 
     override function create() {
@@ -105,7 +109,6 @@ class EndResults extends MusicBeatState
                     popupNumbers();
                 }
                 else if (curVal == intAccuracy) {
-                    FlxG.sound.play(Paths.sound('unlocksound'));
                     mustFadeAway = true;
                     finish();
                     popupNumbers();
@@ -117,6 +120,10 @@ class EndResults extends MusicBeatState
                         FlxG.camera.flash(0xFFFFFFFF, 0.5);
                         rankInt++;
                         FlxG.sound.play(Paths.sound('ranking-' + ranks[rankInt]));
+                }
+                switch (curVal) {
+                    case 25 | 50 | 75 | 100:
+                        ratingInt++;
                 }
             }, times);
     }
@@ -186,7 +193,7 @@ class EndResults extends MusicBeatState
             if (FlxG.keys.justPressed.ENTER) {
                 FlxG.sound.play(Paths.sound('confirmMenu'));
                 FlxG.camera.flash(0xFFffffff, 1);
-                FlxTween.tween(pressEnter,{x: -1000},2,{ease: FlxEase.elasticInOut});
+                FlxTween.tween(pressEnter,{x: -1000},2,{ease: FlxEase.expoInOut});
                 new FlxTimer().start(2, function(tmr:FlxTimer)
                     {
                         FlxG.switchState(new MainMenuState());
@@ -217,6 +224,8 @@ class EndResults extends MusicBeatState
                 add(number);
             }
 
+        FlxG.sound.play(Paths.sound('cancelMenu'));
+
         endNumbers.forEach(function(spr:FlxSprite) {
             FlxTween.tween(spr, {alpha: 1}, 1);
         });
@@ -225,12 +234,21 @@ class EndResults extends MusicBeatState
         percent.antialiasing = true;
         add(percent);
 
+        ratingSpr = new FlxSprite(116, 236).loadGraphic(Paths.image(ratingImg[ratingInt], 'shared'));
+        ratingSpr.scale.set(20, 20);
+        FlxTween.tween(ratingSpr.scale,{x: 1, y: 1}, 0.99,{ease: FlxEase.expoInOut, onComplete: function(twn:FlxTween) {
+            FlxG.camera.shake(0.01, 1);
+            FlxG.sound.play(Paths.sound('unlocksound'));
+        }});
+        add(ratingSpr);
+
         new FlxTimer().start(1, function(tmr:FlxTimer)
             {
                 popupScore();
                 popupTopCombo();
                 popupMisses();
                 allowExit();
+                FlxG.sound.play(Paths.sound('cancelMenu'));
             });
     }
 
@@ -317,7 +335,7 @@ class EndResults extends MusicBeatState
                 pressEnter = new FlxSprite(-1000, 35).loadGraphic(Paths.image('ranking/pressenter'));
                 add(pressEnter);
 
-                FlxTween.tween(pressEnter,{x: 95},2,{ease: FlxEase.elasticInOut});
+                FlxTween.tween(pressEnter,{x: 95},2,{ease: FlxEase.expoInOut});
             });
     }
 }
