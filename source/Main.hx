@@ -15,7 +15,9 @@ import openfl.Lib;
 import openfl.display.FPS;
 import openfl.display.Sprite;
 import openfl.events.Event;
+#if desktop
 import flash.system.System;
+#end
 
 class Main extends Sprite
 {
