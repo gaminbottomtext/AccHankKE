@@ -13,7 +13,10 @@ class EndResults extends MusicBeatState
 {
 
     var seperatedScore:Array<Int> = [];
+    var separatedScoreScore:Array<Int> = [];
     var intAccuracy:Int = 0;
+    var score:Int = 0;
+    var topCombo:Int;
 
     var rankLetter:FlxSprite;
     var fade:FlxSprite;
@@ -22,6 +25,8 @@ class EndResults extends MusicBeatState
 
     var endNumbers:FlxTypedGroup<FlxSprite>;
     var accAddUp:FlxTypedGroup<FlxSprite>;
+    var scoreAddUp:FlxTypedGroup<FlxSprite>;
+    var comboAddUp:FlxTypedGroup<FlxSprite>;
 
     var endNumber:Array<Int> = [0, 0, 0];
 
@@ -38,18 +43,28 @@ class EndResults extends MusicBeatState
 
     var percent:FlxSprite;
 
+    var scoreWord:FlxSprite;
+    var topcomboWord:FlxSprite;
+
 
     override function create() {
 
         intAccuracy = Std.int(PlayState.accuracy);
+        score = Std.int(PlayState.instance.songScore);
+        topCombo = Std.int(PlayState.highestCombo);
         trace(intAccuracy);
+        trace(score);
+        trace(topCombo);
         times = intAccuracy + 1;
         //addScore();
 
         endNumbers = new FlxTypedGroup<FlxSprite>();
         accAddUp = new FlxTypedGroup<FlxSprite>();
+        scoreAddUp = new FlxTypedGroup<FlxSprite>();
+        comboAddUp = new FlxTypedGroup<FlxSprite>();
         add(endNumbers);
         add(accAddUp);
+        add(scoreAddUp);
 
         backdrop = new FlxBackdrop(Paths.image('menuDesat'));
 		backdrop.y = 0;
@@ -127,9 +142,14 @@ class EndResults extends MusicBeatState
 
         for (i in 0...seperatedScore.length)
             {
-                var numScore:FlxSprite = new FlxSprite(800, 75).loadGraphic(Paths.image('num' + Std.int(seperatedScore[i])));
+                accAddUp.forEach(function(spr:FlxSprite) {
+                    FlxTween.tween(spr, {alpha: 0}, 1);
+                });
+
+                var numScore:FlxSprite = new FlxSprite(918, 85).loadGraphic(Paths.image('num' + Std.int(seperatedScore[i])));
                 remove(numScore);
-                numScore.x = 800 + (i * 100);
+                numScore.x = 918 + (i * 50);
+                numScore.scale.set(0.5, 0.5);
                 accAddUp.add(numScore);
                 if (!mustFadeAway) {
                     add(numScore);
@@ -155,15 +175,18 @@ class EndResults extends MusicBeatState
     function updateRankLetter() {
         backdrop.color = bgcolors[rankInt];
         remove(rankLetter);
-        rankLetter = new FlxSprite(850, 230).loadGraphic(Paths.image('ranking/' + ranks[rankInt]));
+        rankLetter = new FlxSprite(900, 200).loadGraphic(Paths.image('ranking/' + ranks[rankInt]));
+        rankLetter.scale.set(2, 2);
+
         add(rankLetter);
     }
 
     function finish() {
         for (i in 0...endNumber.length)
             {
-                var number:FlxSprite = new FlxSprite(410, 310).loadGraphic(Paths.image('num' + endNumber[i]));
-                number.x = 410 + (i * 100);
+                var number:FlxSprite = new FlxSprite(574, 344).loadGraphic(Paths.image('num' + endNumber[i]));
+                number.x = 574 + (i * 47);
+                number.scale.set(0.5, 0.5);
                 endNumbers.add(number);
                 number.alpha = 0;
                 add(number);
@@ -173,9 +196,63 @@ class EndResults extends MusicBeatState
             FlxTween.tween(spr, {alpha: 1}, 1);
         });
 
-        percent = new FlxSprite(740, 360).loadGraphic(Paths.image('ranking/percent'));
-        percent.scale.set(2, 2);
+        percent = new FlxSprite(754, 347).loadGraphic(Paths.image('ranking/percent'));
         percent.antialiasing = true;
         add(percent);
+
+        new FlxTimer().start(1, function(tmr:FlxTimer)
+            {
+                popupScore();
+            });
+    }
+
+    function popupScore() {
+        var comboSplitScore:Array<String> = (score + "").split('');
+        trace(comboSplitScore);
+
+        scoreWord = new FlxSprite(207, 425).loadGraphic(Paths.image('ranking/score'));
+        add(scoreWord);
+
+        for (i in 0...comboSplitScore.length) {
+            var number:FlxSprite = new FlxSprite(130, 420).loadGraphic(Paths.image('num' + comboSplitScore[i]));
+            number.x = 130 + (i * 47);
+            number.scale.set(0.5, 0.5);
+            scoreAddUp.add(number);
+            number.alpha = 0;
+            add(number);
+
+            scoreAddUp.forEach(function(spr:FlxSprite) {
+                FlxTween.tween(spr, {alpha: 1}, 1);
+            });
+
+            trace('added num${comboSplitScore[i]}');
+
+            scoreWord.x = 207 + (i * 47);
+        }
+    }
+
+    function popupTopCombo() {
+        var comboSplitTopcombo:Array<String> = (score + "").split('');
+        trace(comboSplitTopcombo);
+
+        topcomboWord = new FlxSprite(207, 495).loadGraphic(Paths.image('ranking/topcombo'));
+        add(topcomboWord);
+
+        for (i in 0...comboSplitTopcombo.length) {
+            var number:FlxSprite = new FlxSprite(130, 515).loadGraphic(Paths.image('num' + comboSplitTopcombo[i]));
+            number.x = 130 + (i * 47);
+            number.scale.set(0.5, 0.5);
+            comboAddUp.add(number);
+            number.alpha = 0;
+            add(number);
+
+            comboAddUp.forEach(function(spr:FlxSprite) {
+                FlxTween.tween(spr, {alpha: 1}, 1);
+            });
+
+            trace('added num${comboSplitTopcombo[i]}');
+
+            topcomboWord.x = 207 + (i * 47);
+        }
     }
 }
