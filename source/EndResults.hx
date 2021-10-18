@@ -1,5 +1,6 @@
 package;
 
+import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.util.FlxTimer;
@@ -17,6 +18,7 @@ class EndResults extends MusicBeatState
     var intAccuracy:Int = 0;
     var score:Int = 0;
     var topCombo:Int;
+    var misses:Int;
 
     var rankLetter:FlxSprite;
     var fade:FlxSprite;
@@ -27,6 +29,7 @@ class EndResults extends MusicBeatState
     var accAddUp:FlxTypedGroup<FlxSprite>;
     var scoreAddUp:FlxTypedGroup<FlxSprite>;
     var comboAddUp:FlxTypedGroup<FlxSprite>;
+    var missesAddUp:FlxTypedGroup<FlxSprite>;
 
     var endNumber:Array<Int> = [0, 0, 0];
 
@@ -45,6 +48,11 @@ class EndResults extends MusicBeatState
 
     var scoreWord:FlxSprite;
     var topcomboWord:FlxSprite;
+    var missesWord:FlxSprite;
+
+    var canExit:Bool = false;
+
+    var pressEnter:FlxSprite;
 
 
     override function create() {
@@ -52,6 +60,7 @@ class EndResults extends MusicBeatState
         intAccuracy = Std.int(PlayState.accuracy);
         score = Std.int(PlayState.instance.songScore);
         topCombo = Std.int(PlayState.highestCombo);
+        misses = Std.int(PlayState.misses);
         trace(intAccuracy);
         trace(score);
         trace(topCombo);
@@ -62,9 +71,13 @@ class EndResults extends MusicBeatState
         accAddUp = new FlxTypedGroup<FlxSprite>();
         scoreAddUp = new FlxTypedGroup<FlxSprite>();
         comboAddUp = new FlxTypedGroup<FlxSprite>();
+        missesAddUp = new FlxTypedGroup<FlxSprite>();
         add(endNumbers);
         add(accAddUp);
         add(scoreAddUp);
+        add(comboAddUp);
+        add(missesAddUp);
+
 
         backdrop = new FlxBackdrop(Paths.image('menuDesat'));
 		backdrop.y = 0;
@@ -92,7 +105,7 @@ class EndResults extends MusicBeatState
                     popupNumbers();
                 }
                 else if (curVal == intAccuracy) {
-                    FlxG.sound.play(Paths.sound('confirmMenu'));
+                    FlxG.sound.play(Paths.sound('unlocksound'));
                     mustFadeAway = true;
                     finish();
                     popupNumbers();
@@ -101,9 +114,9 @@ class EndResults extends MusicBeatState
                 switch (curVal)
                 {
                     case 16 | 32 | 48 | 64 | 72 | 94:
-                        FlxG.sound.play(Paths.sound('confirmMenu'));
                         FlxG.camera.flash(0xFFFFFFFF, 0.5);
                         rankInt++;
+                        FlxG.sound.play(Paths.sound('ranking-' + ranks[rankInt]));
                 }
             }, times);
     }
@@ -168,6 +181,18 @@ class EndResults extends MusicBeatState
 
     override function update(elapsed:Float) {
         updateRankLetter();
+
+        if (canExit) {
+            if (FlxG.keys.justPressed.ENTER) {
+                FlxG.sound.play(Paths.sound('confirmMenu'));
+                FlxG.camera.flash(0xFFffffff, 1);
+                FlxTween.tween(pressEnter,{x: -1000},2,{ease: FlxEase.elasticInOut});
+                new FlxTimer().start(2, function(tmr:FlxTimer)
+                    {
+                        FlxG.switchState(new MainMenuState());
+                    });
+            }
+        }
     }
 
     
@@ -196,13 +221,16 @@ class EndResults extends MusicBeatState
             FlxTween.tween(spr, {alpha: 1}, 1);
         });
 
-        percent = new FlxSprite(754, 347).loadGraphic(Paths.image('ranking/percent'));
+        percent = new FlxSprite(754, 367).loadGraphic(Paths.image('ranking/percent'));
         percent.antialiasing = true;
         add(percent);
 
         new FlxTimer().start(1, function(tmr:FlxTimer)
             {
                 popupScore();
+                popupTopCombo();
+                popupMisses();
+                allowExit();
             });
     }
 
@@ -232,14 +260,14 @@ class EndResults extends MusicBeatState
     }
 
     function popupTopCombo() {
-        var comboSplitTopcombo:Array<String> = (score + "").split('');
+        var comboSplitTopcombo:Array<String> = (topCombo + "").split('');
         trace(comboSplitTopcombo);
 
-        topcomboWord = new FlxSprite(207, 495).loadGraphic(Paths.image('ranking/topcombo'));
+        topcomboWord = new FlxSprite(207, 525).loadGraphic(Paths.image('ranking/topcombo'));
         add(topcomboWord);
 
         for (i in 0...comboSplitTopcombo.length) {
-            var number:FlxSprite = new FlxSprite(130, 515).loadGraphic(Paths.image('num' + comboSplitTopcombo[i]));
+            var number:FlxSprite = new FlxSprite(130, 520).loadGraphic(Paths.image('num' + comboSplitTopcombo[i]));
             number.x = 130 + (i * 47);
             number.scale.set(0.5, 0.5);
             comboAddUp.add(number);
@@ -254,5 +282,42 @@ class EndResults extends MusicBeatState
 
             topcomboWord.x = 207 + (i * 47);
         }
+    }
+
+    function popupMisses() {
+        var comboSplitMisses:Array<String> = (misses + "").split('');
+        trace(comboSplitMisses);
+
+        missesWord = new FlxSprite(207, 625).loadGraphic(Paths.image('ranking/misses'));
+        add(missesWord);
+
+        for (i in 0...comboSplitMisses.length) {
+            var number:FlxSprite = new FlxSprite(130, 620).loadGraphic(Paths.image('num' + comboSplitMisses[i]));
+            number.x = 130 + (i * 47);
+            number.scale.set(0.5, 0.5);
+            missesAddUp.add(number);
+            number.alpha = 0;
+            add(number);
+
+            missesAddUp.forEach(function(spr:FlxSprite) {
+                FlxTween.tween(spr, {alpha: 1}, 1);
+            });
+
+            trace('added num${comboSplitMisses[i]}');
+
+            missesWord.x = 207 + (i * 47);
+        }
+    }
+
+    function allowExit() {
+        new FlxTimer().start(1, function(tmr:FlxTimer)
+            {
+                canExit = true;
+
+                pressEnter = new FlxSprite(-1000, 35).loadGraphic(Paths.image('ranking/pressenter'));
+                add(pressEnter);
+
+                FlxTween.tween(pressEnter,{x: 95},2,{ease: FlxEase.elasticInOut});
+            });
     }
 }
