@@ -202,7 +202,7 @@ class HankSelectSubstate extends MusicBeatSubstate
                     PlayState.storyDifficulty = 3;
             }
             PlayState.isStoryMode = false;
-            var blackLmao:FlxSprite = new FlxSprite(0,0).makeGraphic(FLxG.width, FlxG.height, FlxColor.BLACK);
+            var blackLmao:FlxSprite = new FlxSprite(0,0).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
             add(blackLmao);
             /* little thingy here for eyes as well
             var eyes:FlxSprite = new FlxSprite(x, y).loadGraphic(Paths.getSparrowAtlas('eyes'));
