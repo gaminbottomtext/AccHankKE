@@ -3818,20 +3818,14 @@ class PlayState extends MusicBeatState
 							FlxG.sound.play(Paths.sound('hankshoot'));
 							boyfriend.playAnim('dodge', true);
 							trace("we damm dodged da bullet"); // for bullets 
+							trace("warning note hit");
 						}
-					 if (note.noteType == 3)
-					 {
-						trace("warning note hit");
-						if (SONG.song.toLowerCase() == 'accelerant')
-						 {
-							// do nada mate, tf you expect me to give you trillions of bucks?
-			            }
-				     } 
-					 if (note.noteType == 2)
+					if (SONG.song.toLowerCase() == 'accelerant' && note.noteType == 2)
 						{
 						   health -= 1;
 						   trace("your fucked lol, ever played expurgation?");
-						} 
+						   FlxG.sound.play(Paths.sound('death'));
+						}
 
 		
 					#if windows
@@ -3894,8 +3888,8 @@ class PlayState extends MusicBeatState
 
 	function badNoteHit():Void // deez
 		{
-			boyfriend.playAnim('hit', true);
-			FlxG.sound.play(Paths.soundRandom('badnoise', 1, 3), FlxG.random.float(0.7, 1));
+			boyfriend.playAnim('hurt', true);
+			FlxG.sound.play(Paths.sound('bfHit'));
 		}
 
 	function resetFastCar():Void

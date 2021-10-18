@@ -140,12 +140,15 @@ class Ratings
     public static function CalculateRanking(score:Int,scoreDef:Int,nps:Int,maxNPS:Int,accuracy:Float):String
     {
         return
-         (FlxG.save.data.npsDisplay ?																							// NPS Toggle
-         "NPS: " + nps + " (Max " + maxNPS + ")" + (!PlayStateChangeables.botPlay || PlayState.loadRep ? " | " : "") : "") +								// 	NPS
-         (!PlayStateChangeables.botPlay || PlayState.loadRep ? "Score:" + (Conductor.safeFrames != 10 ? score + " (" + scoreDef + ")" : "" + score) + 		// Score
-         (FlxG.save.data.accuracyDisplay ?																						// Accuracy Toggle
-         " | Combo Breaks:" + PlayState.misses + 																				// 	Misses/Combo Breaks
-         " | Accuracy:" + (PlayStateChangeables.botPlay && !PlayState.loadRep ? "N/A" : HelperFunctions.truncateFloat(accuracy, 2) + " %") +  				// 	Accuracy
-         " | " + GenerateLetterRank(accuracy) : "") : ""); 																		// 	Letter Rank
+         (FlxG.save.data.npsDisplay ?
+         "NPS: " + nps + " (Max " + maxNPS + ")" + (!PlayStateChangeables.botPlay || PlayState.loadRep ? " | " : "") : "") +
+         (!PlayStateChangeables.botPlay || PlayState.loadRep ? "Score:" + (Conductor.safeFrames != 10 ? score + " (" + scoreDef + ")" : "" + score) +
+         (FlxG.save.data.accuracyDisplay ?
+         " | Combo Breaks:" + PlayState.misses +
+         " | Accuracy:" + (PlayStateChangeables.botPlay && !PlayState.loadRep ? "N/A" : HelperFunctions.truncateFloat(accuracy, 2) + " %") +
+         " | " + GenerateLetterRank(accuracy) : "") : "");
+    
+         trace('FLOAT ACC ' + accuracy);
+         trace('INT ACC ' + Std.int(accuracy));
     }
 }
