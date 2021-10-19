@@ -21,6 +21,8 @@ class EndResults extends MusicBeatState
     var topCombo:Int;
     var misses:Int;
 
+    var selectedSomethin:Bool = false;
+
     var rankLetter:FlxSprite;
     var fade:FlxSprite;
     var fade2:FlxSprite;
@@ -211,14 +213,17 @@ class EndResults extends MusicBeatState
         updateRankLetter();
 
         if (canExit) {
-            if (FlxG.keys.justPressed.ENTER) {
-                FlxG.sound.play(Paths.sound('confirmMenu'));
-                FlxG.camera.flash(0xFFffffff, 1);
-                FlxTween.tween(pressEnter,{x: -1000},2,{ease: FlxEase.expoInOut});
-                new FlxTimer().start(2, function(tmr:FlxTimer)
-                    {
-                        FlxG.switchState(new MainMenuState());
-                    });
+            if (!selectedSomethin) {
+                if (FlxG.keys.justPressed.ENTER) {
+                    FlxG.sound.play(Paths.sound('confirmMenu'));
+                    FlxG.camera.flash(0xFFffffff, 1);
+                    FlxTween.tween(pressEnter,{x: -1000},2,{ease: FlxEase.expoInOut});
+                    new FlxTimer().start(2, function(tmr:FlxTimer)
+                        {
+                            FlxG.switchState(new MainMenuState());
+                        });
+                    selectedSomethin = true;
+                }
             }
         }
     }
