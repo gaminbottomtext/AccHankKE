@@ -57,6 +57,10 @@ class HankSelectSubstate extends MusicBeatSubstate
 
 	override function create()
 	{
+        #if debug
+		FlxG.debugger.drawDebug = true;
+		#end
+        
         if (!FlxG.sound.music.playing)
             {
                 FlxG.sound.playMusic(Paths.music('freakyMenu'));

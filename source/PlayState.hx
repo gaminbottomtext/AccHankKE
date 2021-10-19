@@ -254,6 +254,10 @@ class PlayState extends MusicBeatState
 
 	override public function create()
 	{
+		#if debug
+		FlxG.debugger.drawDebug = true;
+		#end
+		
 		instance = this;
 		
 		if (FlxG.save.data.fpsCap > 290)

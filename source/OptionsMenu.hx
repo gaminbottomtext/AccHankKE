@@ -85,6 +85,10 @@ class OptionsMenu extends MusicBeatState
 		instance = this;
 		var menuBG:FlxSprite = new FlxSprite().loadGraphic(Paths.image("menuDesat"));
 
+		#if debug
+		FlxG.debugger.drawDebug = true;
+		#end
+
 		var diamond:FlxGraphic = FlxGraphic.fromClass(GraphicTransTileDiamond);
 		diamond.persist = true;
 		diamond.destroyOnNoUse = false;
