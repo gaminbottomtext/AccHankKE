@@ -13,7 +13,7 @@ using StringTools;
 /**
  * Loosley based on FlxTypeText lolol
  */
-class Alphabet extends FlxSpriteGroup
+class AlphabetPsych extends FlxSpriteGroup
 {
 	public var delay:Float = 0.05;
 	public var paused:Bool = false;
@@ -35,13 +35,13 @@ class Alphabet extends FlxSpriteGroup
 
 	// custom shit
 	// amp, backslash, question mark, apostrophy, comma, angry faic, period
-	var lastSprite:AlphaCharacter;
+	var lastSprite:AlphaCharacterTwo;
 	var xPosResetted:Bool = false;
 
 	var splitWords:Array<String> = [];
 
 	var isBold:Bool = false;
-	public var lettersArray:Array<AlphaCharacter> = [];
+	public var lettersArray:Array<AlphaCharacterTwo> = [];
 
 	public var finishedText:Bool = false;
 	public var typed:Bool = false;
@@ -129,9 +129,9 @@ class Alphabet extends FlxSpriteGroup
 				consecutiveSpaces++;
 			}
 
-			var isNumber:Bool = AlphaCharacter.numbers.indexOf(character) != -1;
-			var isSymbol:Bool = AlphaCharacter.symbols.indexOf(character) != -1;
-			var isAlphabet:Bool = AlphaCharacter.alphabet.indexOf(character.toLowerCase()) != -1;
+			var isNumber:Bool = AlphaCharacterTwo.numbers.indexOf(character) != -1;
+			var isSymbol:Bool = AlphaCharacterTwo.symbols.indexOf(character) != -1;
+			var isAlphabet:Bool = AlphaCharacterTwo.alphabet.indexOf(character.toLowerCase()) != -1;
 			if ((isAlphabet || isSymbol || isNumber) && (!isBold || !spaceChar))
 			{
 				if (lastSprite != null)
@@ -146,7 +146,7 @@ class Alphabet extends FlxSpriteGroup
 				consecutiveSpaces = 0;
 
 				// var letter:AlphaCharacter = new AlphaCharacter(30 * loopNum, 0, textSize);
-				var letter:AlphaCharacter = new AlphaCharacter(xPos, 0, textSize);
+				var letter:AlphaCharacterTwo = new AlphaCharacterTwo(xPos, 0, textSize);
 
 				if (isBold)
 				{
@@ -243,9 +243,9 @@ class Alphabet extends FlxSpriteGroup
 				consecutiveSpaces++;
 			}
 
-			var isNumber:Bool = AlphaCharacter.numbers.indexOf(splitWords[loopNum]) != -1;
-			var isSymbol:Bool = AlphaCharacter.symbols.indexOf(splitWords[loopNum]) != -1;
-			var isAlphabet:Bool = AlphaCharacter.alphabet.indexOf(splitWords[loopNum].toLowerCase()) != -1;
+			var isNumber:Bool = AlphaCharacterTwo.numbers.indexOf(splitWords[loopNum]) != -1;
+			var isSymbol:Bool = AlphaCharacterTwo.symbols.indexOf(splitWords[loopNum]) != -1;
+			var isAlphabet:Bool = AlphaCharacterTwo.alphabet.indexOf(splitWords[loopNum].toLowerCase()) != -1;
 
 			if ((isAlphabet || isSymbol || isNumber) && (!isBold || !spaceChar))
 			{
@@ -268,7 +268,7 @@ class Alphabet extends FlxSpriteGroup
 				consecutiveSpaces = 0;
 
 				// var letter:AlphaCharacter = new AlphaCharacter(30 * loopNum, 0, textSize);
-				var letter:AlphaCharacter = new AlphaCharacter(xPos, 55 * yMulti, textSize);
+				var letter:AlphaCharacterTwo = new AlphaCharacterTwo(xPos, 55 * yMulti, textSize);
 				letter.row = curRow;
 				if (isBold)
 				{
@@ -349,7 +349,7 @@ class Alphabet extends FlxSpriteGroup
 	}
 }
 
-class AlphaCharacter extends FlxSprite
+class AlphaCharacterTwo extends FlxSprite
 {
 	public static var alphabet:String = "abcdefghijklmnopqrstuvwxyz";
 
@@ -364,13 +364,13 @@ class AlphaCharacter extends FlxSprite
 	public function new(x:Float, y:Float, textSize:Float)
 	{
 		super(x, y);
-		var tex = Paths.getSparrowAtlas('alphabet');
+		var tex = Paths.getSparrowAtlas('alphabetPsych');
 		frames = tex;
 
 		setGraphicSize(Std.int(width * textSize));
 		updateHitbox();
 		this.textSize = textSize;
-		antialiasing = ClientPrefs.globalAntialiasing;
+		antialiasing = true;
 	}
 
 	public function createBoldLetter(letter:String)

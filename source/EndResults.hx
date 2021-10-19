@@ -1,5 +1,6 @@
 package;
 
+import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -39,6 +40,7 @@ class EndResults extends MusicBeatState
 
     var ranks:Array<String> = ['f', 'e', 'd', 'c', 'b', 'a', 's'];
     var ratingImg:Array<String> = ['shit', 'bad', 'good', 'sick'];
+    var ratingString:String;
     var ratingInt:Int = 0;
     var rankInt:Int = 0;
 
@@ -57,14 +59,21 @@ class EndResults extends MusicBeatState
     var pressEnter:FlxSprite;
 
     var ratingSpr:FlxSprite;
+    var ratingText:FlxText;
+
+    var rawAccuracy:Float;
 
 
     override function create() {
+
+        setRatingString(); 
 
         intAccuracy = Std.int(PlayState.accuracy);
         score = Std.int(PlayState.instance.songScore);
         topCombo = Std.int(PlayState.highestCombo);
         misses = Std.int(PlayState.misses);
+
+        rawAccuracy = PlayState.accuracy;
         trace(intAccuracy);
         trace(score);
         trace(topCombo);
@@ -122,10 +131,25 @@ class EndResults extends MusicBeatState
                         FlxG.sound.play(Paths.sound('ranking-' + ranks[rankInt]));
                 }
                 switch (curVal) {
-                    case 25 | 50 | 75 | 100:
+                    case 20 | 35 | 60 | 90:
                         ratingInt++;
                 }
             }, times);
+    }
+
+    function setRatingString() {
+        if (PlayState.misses == 0 && PlayState.bads == 0 && PlayState.shits == 0 && PlayState.goods == 0) // Marvelous (SICK) Full Combo
+            ratingString = "MFC";
+        else if (PlayState.misses == 0 && PlayState.bads == 0 && PlayState.shits == 0 && PlayState.goods >= 1) // Good Full Combo (Nothing but Goods & Sicks)
+            ratingString = "GFC";
+        else if (PlayState.misses == 0) // Regular FC
+            ratingString = "FC";
+        else if (PlayState.misses < 10) // Single Digit Combo Breaks
+            ratingString = "SDCB";
+        else
+            ratingString = 'CLEAR';
+
+        trace(ratingString);
     }
 
     function popupNumbers() {
@@ -251,6 +275,11 @@ class EndResults extends MusicBeatState
                 allowExit();
                 FlxG.sound.play(Paths.sound('cancelMenu'));
             });
+
+        ratingText = new FlxText(633, 438, 0, ratingString + '\n${Ratings.letterRankGenerator(rawAccuracy)}', 48);
+        ratingText.font = Paths.font('fnf.ttf');
+        ratingText.alignment = CENTER;
+        add(ratingText);
     }
 
     function popupScore() {
