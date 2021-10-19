@@ -95,23 +95,26 @@ class Ratings
     public static function letterRankGenerator(accuracy:Float) {
         var returnThing:String = '';
     
-
-        if (accuracy >= 99.9935)
-            returnThing = 'AAAAA';
-        else if (accuracy >= 99.955)
-            returnThing = 'AAAA';
-        else if (accuracy >= 99.70)
-            returnThing = 'AAA';
-        else if (accuracy >= 93)
-            returnThing = 'AA';
-        else if (accuracy >= 80)
-            returnThing = 'A';
-        else if (accuracy >= 70)
-            returnThing = 'B';
-        else if (accuracy >= 60)
-            returnThing = 'C';
-        else if (accuracy < 60)
-            returnThing = 'D';
+        if (!PlayStateChangeables.botPlay) {        
+            if (accuracy >= 99.9935)
+                returnThing = 'AAAAA';
+            else if (accuracy >= 99.955)
+                returnThing = 'AAAA';
+            else if (accuracy >= 99.70)
+                returnThing = 'AAA';
+            else if (accuracy >= 93)
+                returnThing = 'AA';
+            else if (accuracy >= 80)
+                returnThing = 'A';
+            else if (accuracy >= 70)
+                returnThing = 'B';
+            else if (accuracy >= 60)
+                returnThing = 'C';
+            else if (accuracy < 60)
+                returnThing = 'D';
+        } else {
+            returnThing = '';
+        }
 
         return returnThing;
     }
