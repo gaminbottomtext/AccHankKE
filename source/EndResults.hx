@@ -74,9 +74,12 @@ class EndResults extends MusicBeatState
         misses = Std.int(PlayState.misses);
 
         rawAccuracy = PlayState.accuracy;
+        trace(rawAccuracy);
         trace(intAccuracy);
         trace(score);
         trace(topCombo);
+        trace(ratingInt);
+        trace(ratingImg[ratingInt]);
         times = intAccuracy + 1;
         //addScore();
 
@@ -131,13 +134,15 @@ class EndResults extends MusicBeatState
                         FlxG.sound.play(Paths.sound('ranking-' + ranks[rankInt]));
                 }
                 switch (curVal) {
-                    case 20 | 35 | 60 | 90:
+                    case 35 | 60 | 90:
                         ratingInt++;
+                        trace(ratingImg[ratingInt]);
                 }
             }, times);
     }
 
     function setRatingString() {
+        ratingString = 'N/A';
         if (PlayState.misses == 0 && PlayState.bads == 0 && PlayState.shits == 0 && PlayState.goods == 0) // Marvelous (SICK) Full Combo
             ratingString = "MFC";
         else if (PlayState.misses == 0 && PlayState.bads == 0 && PlayState.shits == 0 && PlayState.goods >= 1) // Good Full Combo (Nothing but Goods & Sicks)
@@ -148,20 +153,16 @@ class EndResults extends MusicBeatState
             ratingString = "SDCB";
         else
             ratingString = 'CLEAR';
-
-        trace(ratingString);
     }
 
     function popupNumbers() {
         var comboSplit:Array<String> = (curVal + "").split('');
-        trace(comboSplit);
 
         seperatedScore.remove(seperatedScore[0]);
         seperatedScore.remove(seperatedScore[1]);   //idk but ok
         seperatedScore.remove(seperatedScore[2]);
         seperatedScore.remove(seperatedScore[3]);
 
-        trace('after remove ' + seperatedScore);
 
         if (comboSplit.length == 1)
 			{
@@ -170,8 +171,6 @@ class EndResults extends MusicBeatState
 			}
 		else if (comboSplit.length == 2)
                 seperatedScore.push(0);
-
-        trace('combo split ' + comboSplit);
         
 
         for(i in 0...comboSplit.length)
@@ -180,9 +179,7 @@ class EndResults extends MusicBeatState
                 seperatedScore.push(Std.parseInt(str));
             }
 
-        trace('after push ' + seperatedScore);
         seperatedScore.remove(seperatedScore[0]);
-        trace('after delete ' + seperatedScore);
 
         for (i in 0...seperatedScore.length)
             {
@@ -276,7 +273,7 @@ class EndResults extends MusicBeatState
                 FlxG.sound.play(Paths.sound('cancelMenu'));
             });
 
-        ratingText = new FlxText(633, 438, 0, ratingString + '\n${Ratings.letterRankGenerator(rawAccuracy)}', 48);
+        ratingText = new FlxText(633, 438, 0, ratingString + ' (${Ratings.letterRankGenerator(rawAccuracy)})', 48);
         ratingText.font = Paths.font('fnf.ttf');
         ratingText.alignment = CENTER;
         add(ratingText);
@@ -284,7 +281,6 @@ class EndResults extends MusicBeatState
 
     function popupScore() {
         var comboSplitScore:Array<String> = (score + "").split('');
-        trace(comboSplitScore);
 
         scoreWord = new FlxSprite(207, 425).loadGraphic(Paths.image('ranking/score'));
         add(scoreWord);
@@ -301,15 +297,12 @@ class EndResults extends MusicBeatState
                 FlxTween.tween(spr, {alpha: 1}, 1);
             });
 
-            trace('added num${comboSplitScore[i]}');
-
             scoreWord.x = 207 + (i * 47);
         }
     }
 
     function popupTopCombo() {
         var comboSplitTopcombo:Array<String> = (topCombo + "").split('');
-        trace(comboSplitTopcombo);
 
         topcomboWord = new FlxSprite(207, 525).loadGraphic(Paths.image('ranking/topcombo'));
         add(topcomboWord);
@@ -326,15 +319,12 @@ class EndResults extends MusicBeatState
                 FlxTween.tween(spr, {alpha: 1}, 1);
             });
 
-            trace('added num${comboSplitTopcombo[i]}');
-
             topcomboWord.x = 207 + (i * 47);
         }
     }
 
     function popupMisses() {
         var comboSplitMisses:Array<String> = (misses + "").split('');
-        trace(comboSplitMisses);
 
         missesWord = new FlxSprite(207, 625).loadGraphic(Paths.image('ranking/misses'));
         add(missesWord);
@@ -350,8 +340,6 @@ class EndResults extends MusicBeatState
             missesAddUp.forEach(function(spr:FlxSprite) {
                 FlxTween.tween(spr, {alpha: 1}, 1);
             });
-
-            trace('added num${comboSplitMisses[i]}');
 
             missesWord.x = 207 + (i * 47);
         }
