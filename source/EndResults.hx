@@ -125,7 +125,7 @@ class EndResults extends MusicBeatState
                 else if (curVal == intAccuracy) {
                     mustFadeAway = true;
                     finish();
-                    popupNumbers();
+                    //popupNumbers();
                 }
 
                 switch (curVal)
@@ -160,10 +160,9 @@ class EndResults extends MusicBeatState
     function popupNumbers() {
         var comboSplit:Array<String> = (curVal + "").split('');
 
-        seperatedScore.remove(seperatedScore[0]);
-        seperatedScore.remove(seperatedScore[1]);   //idk but ok
-        seperatedScore.remove(seperatedScore[2]);
-        seperatedScore.remove(seperatedScore[3]);
+        for (i in 0...seperatedScore.length) {
+            seperatedScore.remove(seperatedScore[i]);
+        }
 
 
         if (comboSplit.length == 1)
@@ -186,22 +185,27 @@ class EndResults extends MusicBeatState
         for (i in 0...seperatedScore.length)
             {
                 accAddUp.forEach(function(spr:FlxSprite) {
-                    FlxTween.tween(spr, {alpha: 0}, 1);
+                    FlxTween.tween(spr, {alpha: 0}, 0.29, {onComplete: function(twn:FlxTween) {
+                        remove(spr);
+                        spr.kill();
+                    }});
                 });
+                /**
+                 * Because the numbers repeatedly adding, it works exactly like any other game, which would lag.
+                 * Time before was 0.5, and it stacked up faster so it lagged on.
+                 * 
+                 * The important thing is that, the finish function will only trigger depending on framerate.
+                 * It may always trigger at max~
+                 * But it is now useless to do that. We should just remove and kill the sprite at the same time...
+                 * If necesary.
+                 */
 
                 var numScore:FlxSprite = new FlxSprite(918, 85).loadGraphic(Paths.image('num' + Std.int(seperatedScore[i])));
                 remove(numScore);
                 numScore.x = 918 + (i * 50);
                 numScore.scale.set(0.5, 0.5);
                 accAddUp.add(numScore);
-                if (!mustFadeAway) {
-                    add(numScore);
-                }
-                else {
-                    accAddUp.forEach(function(spr:FlxSprite) {
-                        FlxTween.tween(spr, {alpha: 0}, 1);
-                    });
-                }
+                add(numScore);
             }
         
         endNumber[0] = seperatedScore[0];
@@ -250,7 +254,16 @@ class EndResults extends MusicBeatState
                 add(number);
             }
 
+        trace('finishing');
+
         FlxG.sound.play(Paths.sound('cancelMenu'));
+
+        accAddUp.forEach(function(sprite:FlxSprite) {
+            FlxTween.tween(sprite, {alpha: 0}, 0.29, {onComplete: function(twn:FlxTween) {
+                remove(sprite);
+                sprite.kill();
+            }});
+        });
 
         endNumbers.forEach(function(spr:FlxSprite) {
             FlxTween.tween(spr, {alpha: 1}, 1);
