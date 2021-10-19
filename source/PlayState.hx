@@ -130,6 +130,8 @@ class PlayState extends MusicBeatState
 
 	public var gfMap:Map<String, Character> = new Map();
 
+	private var grpNoteSplashes:FlxTypedGroup<NoteSplash>;
+
 	public var notes:FlxTypedGroup<Note>;
 	private var unspawnNotes:Array<Note> = [];
 
@@ -348,6 +350,8 @@ class PlayState extends MusicBeatState
 
 		FlxG.cameras.reset(camGame);
 		FlxG.cameras.add(camHUD);
+
+		grpNoteSplashes = new FlxTypedGroup<NoteSplash>();
 
 		FlxCamera.defaultCameras = [camGame];
 
@@ -1132,6 +1136,11 @@ class PlayState extends MusicBeatState
 		iconP2.y = healthBar.y - (iconP2.height / 2);
 		add(iconP2);
 
+		var splash:NoteSplash = new NoteSplash(100, 100, 0);
+		grpNoteSplashes.add(splash);
+		splash.alpha = 0.0;
+
+		grpNoteSplashes.cameras = [camHUD];
 		strumLineNotes.cameras = [camHUD];
 		notes.cameras = [camHUD];
 		healthBar.cameras = [camHUD];
@@ -1610,6 +1619,8 @@ class PlayState extends MusicBeatState
 
 		notes = new FlxTypedGroup<Note>();
 		add(notes);
+
+		add(grpNoteSplashes);
 
 		var noteData:Array<SwagSection>;
 
@@ -2684,6 +2695,8 @@ class PlayState extends MusicBeatState
 									spr.centerOffsets();
 							});
 						}
+
+						spawnNoteSplashOnNoteDad(daNote);
 	
 						#if windows
 						if (luaModchart != null)
@@ -3061,6 +3074,7 @@ class PlayState extends MusicBeatState
 					if (FlxG.save.data.accuracyMod == 0)
 						totalNotesHit += 1;
 					sicks++;
+					spawnNoteSplashOnNote(daNote);
 			}
 
 			// trace('Wife accuracy loss: ' + wife + ' | Rating: ' + daRating + ' | Score: ' + score + ' | Weight: ' + (1 - wife));
@@ -3287,6 +3301,30 @@ class PlayState extends MusicBeatState
 			curSection += 1;
 			}
 		}
+
+	function spawnNoteSplashOnNote(note:Note) {
+		if (note != null) {
+			var strum = playerStrums.members[note.noteData];
+			if(strum != null) {
+				spawnNoteSplash(strum.x, strum.y, note.noteData);
+			}
+		}
+	}
+
+	function spawnNoteSplashOnNoteDad(note:Note) {
+		if (note != null) {
+			var strum = cpuStrums.members[note.noteData];
+			if(strum != null) {
+				spawnNoteSplash(strum.x, strum.y, note.noteData);
+			}
+		}
+	}
+
+	public function spawnNoteSplash(x:Float, y:Float, data:Int) {
+		var splash:NoteSplash = grpNoteSplashes.recycle(NoteSplash);
+		splash.setupNoteSplash(x, y, data);
+		grpNoteSplashes.add(splash);
+	}
 
 	public function NearlyEquals(value1:Float, value2:Float, unimportantDifference:Float = 10):Bool
 		{
