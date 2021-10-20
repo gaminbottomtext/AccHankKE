@@ -200,6 +200,9 @@ class PlayState extends MusicBeatState
 	var bottomBoppers:FlxSprite;
 	var santa:FlxSprite;
 
+	var cliffLol:FlxSprite;
+	var helicopter:FlxSprite;
+
 	var fc:Bool = true;
 
 	var bgGirls:BackgroundGirls;
@@ -252,6 +255,11 @@ class PlayState extends MusicBeatState
 	
 	public function addObject(object:FlxBasic) { add(object); }
 	public function removeObject(object:FlxBasic) { remove(object); }
+
+	var sanford:FlxSprite;
+	var deimos:FlxSprite;
+
+	var gfTargeted:Bool = false;
 
 
 	override public function create()
@@ -422,44 +430,60 @@ class PlayState extends MusicBeatState
 		
 								// for testing purposes
 					
-								var bg:FlxSprite = new FlxSprite(-200, -65).loadGraphic(Paths.image('hank/bg'));		
+								var bg:FlxSprite = new FlxSprite(-220, -65).loadGraphic(Paths.image('hank/bg'));		
 								bg.setGraphicSize(Std.int(bg.width * 1.29));				
 								add(bg);
+
+								
+								helicopter = new FlxSprite(-1380, -153);
+								helicopter.frames = Paths.getSparrowAtlas('hank/helicopter', 'shared');
+								helicopter.animation.addByPrefix('spin', 'speen', 24, true);
+								helicopter.animation.play('spin', true);
+								helicopter.scale.set(1.2, 1.2);
+								add(helicopter);								
 					
-								var cliffLol:FlxSprite = new FlxSprite(-350, 340).loadGraphic(Paths.image('hank/cliff')); //-240 > -320 - 400 > 340
+								cliffLol = new FlxSprite(-603, -424).loadGraphic(Paths.image('hank/cliff')); //-240 > -320 - 400 > 340
 								cliffLol.setGraphicSize(Std.int(cliffLol.width * 1.190));
-								cliffLol.screenCenter(Y);
+								cliffLol.scale.set(1.5, 1.5);
 								cliffLol.updateHitbox();
 								cliffLol.antialiasing = true;
 								cliffLol.active = false;
 				
 					
 								add(cliffLol);
+
+								sanford = new FlxSprite(1256, -181);
+								sanford.frames = Paths.getSparrowAtlas('hank/sanford', 'shared');
+								sanford.animation.addByPrefix('bop', 'sanford', 24, false);
+								sanford.visible = false;
+								sanford.scrollFactor.set(1, 1);
+								add(sanford);
+
+								deimos = new FlxSprite(-530, -143);
+								deimos.frames = Paths.getSparrowAtlas('hank/deimos', 'shared');
+								deimos.animation.addByPrefix('bop', 'deimos', 24, false);
+								deimos.visible = false;
+								deimos.scrollFactor.set(1, 1);
+								add(deimos);
 					
-								var ground:FlxSprite = new FlxSprite(-500, -98).loadGraphic(Paths.image('hank/ground'));
+								var ground:FlxSprite = new FlxSprite(-400, -98).loadGraphic(Paths.image('hank/ground'));
 								ground.antialiasing = true;
 								ground.scrollFactor.set(0.9, 0.9);
 								ground.active = false;
+								ground.scale.set(1.3, 1.3);
 								add(ground);
 					
-								var hotdogshop:FlxSprite = new FlxSprite(-495, -80).loadGraphic(Paths.image('hank/hut'));
+								var hotdogshop:FlxSprite = new FlxSprite(-295, -115).loadGraphic(Paths.image('hank/hut'));
 								hotdogshop.updateHitbox();
 								hotdogshop.antialiasing = true;
+								hotdogshop.scale.set(1.3, 1.3);
 								hotdogshop.scrollFactor.set(1.3, 1.3);
 								hotdogshop.active = false;
 								
 								add(hotdogshop);
-					
-								var stageFront:FlxSprite = new FlxSprite(-650, 600).loadGraphic(Paths.image('hank/ground'));
-								stageFront.setGraphicSize(Std.int(stageFront.width * 1.1));
-								stageFront.updateHitbox();
-								stageFront.antialiasing = true;
-								stageFront.scrollFactor.set(0.9, 0.9);
-								stageFront.active = false;
-								add(stageFront); // im too lazy to remove the duplicate ground lol
 						}
 					default:
-					{
+						{
 							defaultCamZoom = 0.6;
 							curStage = 'stage';
 							var bg:FlxSprite = new FlxSprite(-600, -200).loadGraphic(Paths.image('stageback'));
@@ -484,8 +508,8 @@ class PlayState extends MusicBeatState
 							stageCurtains.active = false;
 
 							add(stageCurtains);
+						}
 					}
-			}
 		}
 		//defaults if no gf was found in chart
 		var gfCheck:String = 'gf';
@@ -513,7 +537,7 @@ class PlayState extends MusicBeatState
 
 		dad = new Character(100, 100, SONG.player2);
 
-		var camPos:FlxPoint = new FlxPoint(dad.getGraphicMidpoint().x, dad.getGraphicMidpoint().y);
+		var camPos:FlxPoint = new FlxPoint(gf.getGraphicMidpoint().x, gf.getGraphicMidpoint().y);
 
 		switch (SONG.player2)
 		{
@@ -525,9 +549,14 @@ class PlayState extends MusicBeatState
 		boyfriend = new Boyfriend(770, 450, SONG.player1);
 
 		if (SONG.song.toLowerCase() == 'accelerant') {
-			dad.x -= 180;
-			dad.y += 180;
-			gf.x -= 180;
+			dad.x -= 185;
+			dad.y += 215;
+			gf.x -= 185;
+			gf.y += 30;
+			Speakers.y += 30;
+			tiky.y += 30;
+			dedtiky.y += 30;
+			boyfriend.y += 35;
 		}
 
 		if (!PlayStateChangeables.Optimize)
@@ -594,9 +623,7 @@ class PlayState extends MusicBeatState
 
 		// add(strumLine);
 
-		camFollow = new FlxObject(0, 0, 1, 1);
-
-		//camFollow.setPosition(camPos.x, camPos.y);
+		camFollow = new FlxObject((gfTargeted ? gf.getGraphicMidpoint().x : gf.getGraphicMidpoint().x + 40), (gfTargeted ? gf.getGraphicMidpoint().y : gf.getGraphicMidpoint().y + 40), 1, 1);
 
 		if (prevCamFollow != null)
 		{
@@ -733,7 +760,7 @@ class PlayState extends MusicBeatState
 
 		startTimer = new FlxTimer().start(Conductor.crochet / 1000, function(tmr:FlxTimer)
 		{
-			dad.dance();
+			dad.dance(false);
 			gf.dance();
 			boyfriend.playAnim('idle');
 
@@ -1283,6 +1310,35 @@ class PlayState extends MusicBeatState
 		perfectMode = false;
 		#end
 
+		if (FlxG.keys.justPressed.N)
+			deimos.visible = !deimos.visible;
+
+		if (FlxG.keys.justPressed.B) {
+			deimos.scale.x += 0.1;
+			deimos.scale.y += 0.1;
+			trace(deimos.scale.x + ' ' + deimos.scale.y);
+		}
+
+		if (FlxG.keys.pressed.I) {
+			deimos.y -= 1;
+			trace(deimos.y);
+		} 
+		if (FlxG.keys.pressed.K) {
+			deimos.y += 1;
+			trace(deimos.y);
+		}
+		if (FlxG.keys.pressed.L) {
+			deimos.x += 1;
+			trace(deimos.x);
+		}
+		if (FlxG.keys.pressed.J) {
+			deimos.x -= 1;
+			trace(deimos.x);
+		}
+
+		if (gfTargeted)
+			camFollow.setPosition(gf.getGraphicMidpoint().x + 40, gf.getGraphicMidpoint().y + 40);
+
 		if (PlayStateChangeables.botPlay && FlxG.keys.justPressed.ONE)
 			camHUD.visible = !camHUD.visible;
 
@@ -1513,6 +1569,19 @@ class PlayState extends MusicBeatState
 			}
 			#end
 		}
+
+		if (FlxG.keys.justPressed.F4)
+			{
+				FlxG.switchState(new AnimationDebug('gf'));
+				FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN,handleInput);
+				#if windows
+				if (luaModchart != null)
+				{
+					luaModchart.die();
+					luaModchart = null;
+				}
+				#end
+			}
 
 		if (FlxG.keys.justPressed.F7)
 			{
@@ -3354,6 +3423,10 @@ class PlayState extends MusicBeatState
 		gf.playAnim('scared', true);
 	}
 
+	function passHelicopter() {
+		FlxTween.tween(helicopter, {x: 1900}, 8.2);
+	}
+
 	var danced:Bool = false;
 
 	var stepOfLast = 0;
@@ -3616,7 +3689,7 @@ class PlayState extends MusicBeatState
 
 			// Dad doesnt interupt his own notes
 			if (SONG.notes[Math.floor(curStep / 16)].mustHitSection && dad.curCharacter != 'gf')
-				dad.dance();
+				dad.dance(false);
 		}
 		// FlxG.log.add('change bpm' + SONG.notes[Std.int(curStep / 16)].changeBPM);
 		wiggleShit.update(Conductor.crochet);
@@ -3633,25 +3706,48 @@ class PlayState extends MusicBeatState
 		iconP1.updateHitbox();
 		iconP2.updateHitbox();
 
-		if (curBeat % gfSpeed == 0)
-		{
-			gf.dance();
-		}
-
 		if (!boyfriend.animation.curAnim.name.startsWith("sing"))
 		{
 			boyfriend.playAnim('idle');
 		}
-		
-		if (SONG.song.toLowerCase() == 'accelerant') {
-			Speakers.playAnim();
-		}
 
 		if (SONG.song.toLowerCase() == 'accelerant') {
+			Speakers.playAnim();
+
+			if (curBeat % gfSpeed == 0)
+				{
+					gf.dance(gfTargeted);
+				}
+				
+
+			sanford.animation.play('bop');
+			deimos.animation.play('bop');
+
 			switch (curBeat) {
 				case 6:
 					dad.playAnim('ready', true);
 					FlxG.sound.play(Paths.sound('hankReady'), 0.5);
+				case 9:
+					passHelicopter();
+				case 72:
+					gfTargeted = true;
+
+
+					remove(camFollow);
+					camFollow = new FlxObject((gfTargeted ? gf.getGraphicMidpoint().x : gf.getGraphicMidpoint().x + 40), (gfTargeted ? gf.getGraphicMidpoint().y : gf.getGraphicMidpoint().y + 40), 1, 1);
+					add(camFollow);
+					FlxG.camera.follow(camFollow, LOCKON, 0.04 * (30 / (cast (Lib.current.getChildAt(0), Main)).getFPS()));
+					FlxG.camera.focusOn(camFollow.getPosition());
+
+					
+					sanford.visible = true;
+					deimos.visible = true;
+				case 232:
+					tiky.playAnim('look', true);
+				case 234:
+					dad.playAnim('scaredShootTiky', true);
+				case 235:
+					FlxG.sound.play(Paths.sound('tikyDies'));
 			}
 		}
 	}

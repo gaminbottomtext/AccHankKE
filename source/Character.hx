@@ -47,12 +47,16 @@ class Character extends FlxSprite
 				animation.addByIndices('danceRight', 'GF Dancing Beat', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
 				animation.addByIndices('hairBlow', "GF Dancing Beat Hair blowing", [0, 1, 2, 3], "", 24);
 				animation.addByIndices('hairFall', "GF Dancing Beat Hair Landing", [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], "", 24, false);
+				animation.addByIndices('targetLeft', 'GF Dancing Beat Raised Hands', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], '', 24, false);
+				animation.addByIndices('targetRight', 'GF Dancing Beat Raised Hands', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], '', 24, false);
 				animation.addByPrefix('scared', 'GF FEAR', 24);
 
 				addOffset('cheer');
 				addOffset('sad', -2, -2);
 				addOffset('danceLeft', 0, -9);
 				addOffset('danceRight', 0, -9);
+				addOffset('targetLeft', -130, -139);
+				addOffset('targetRight', -130, -139);
 
 				addOffset("singUP", 0, 4);
 				addOffset("singRIGHT", 0, -20);
@@ -633,7 +637,7 @@ class Character extends FlxSprite
 			if (holdTimer >= Conductor.stepCrochet * dadVar * 0.001)
 			{
 				trace('dance');
-				dance();
+				dance(false);
 				holdTimer = 0;
 			}
 		}
@@ -653,75 +657,45 @@ class Character extends FlxSprite
 	/**
 	 * FOR GF DANCING SHIT
 	 */
-	public function dance()
+	public function dance(targeted:Bool = false)
 	{
-		if (!debugMode)
+		switch (curCharacter)
 		{
-			switch (curCharacter)
-			{
-				case 'gfhotDog':
-					if (!animation.curAnim.name.startsWith('hair'))
-					{
-						danced = !danced;
-
-						if (danced)
-							playAnim('danceRight');
-						else
-							playAnim('danceLeft');
-					}
-					case 'gf':
-						if (!animation.curAnim.name.startsWith('hair'))
-						{
-							danced = !danced;
-	
-							if (danced)
-								playAnim('danceRight');
-							else
-								playAnim('danceLeft');
-						}
-
-				case 'gf-christmas':
-					if (!animation.curAnim.name.startsWith('hair'))
-					{
-						danced = !danced;
-
-						if (danced)
-							playAnim('danceRight');
-						else
-							playAnim('danceLeft');
-					}
-
-				case 'gf-car':
-					if (!animation.curAnim.name.startsWith('hair'))
-					{
-						danced = !danced;
-
-						if (danced)
-							playAnim('danceRight');
-						else
-							playAnim('danceLeft');
-					}
-				case 'gf-pixel':
-					if (!animation.curAnim.name.startsWith('hair'))
-					{
-						danced = !danced;
-
-						if (danced)
-							playAnim('danceRight');
-						else
-							playAnim('danceLeft');
-					}
-
-				case 'spooky':
+			case 'gfhotDog':
+				if (!animation.curAnim.name.startsWith('hair'))
+				{
 					danced = !danced;
 
 					if (danced)
 						playAnim('danceRight');
 					else
 						playAnim('danceLeft');
-				default:
-					playAnim('idle');
-			}
+				}
+			case 'gf':
+				if (targeted) {
+					if (!animation.curAnim.name.startsWith('hair'))
+						{
+							danced = !danced;
+			
+							if (danced)
+								playAnim('targetRight');
+							else
+								playAnim('targetLeft');
+							scale.set(1.5, 1.5);
+						}
+				} else {
+					if (!animation.curAnim.name.startsWith('hair'))
+						{
+							danced = !danced;
+			
+							if (danced)
+								playAnim('danceRight');
+							else
+								playAnim('danceLeft');
+						}
+				}
+			default:
+				playAnim('idle');
 		}
 	}
 

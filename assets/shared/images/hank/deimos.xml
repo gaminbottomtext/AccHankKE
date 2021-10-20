@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="deimos.png">
+	<!-- Created with Adobe Animate version 21.0.7.42652 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="deimos0000" x="100" y="100" width="399" height="246" frameX="-1" frameY="0" frameWidth="400" frameHeight="246"/>
+	<SubTexture name="deimos0001" x="100" y="100" width="399" height="246" frameX="-1" frameY="0" frameWidth="400" frameHeight="246"/>
+	<SubTexture name="deimos0002" x="597" y="100" width="399" height="246" frameX="0" frameY="0" frameWidth="400" frameHeight="246"/>
+	<SubTexture name="deimos0003" x="597" y="100" width="399" height="246" frameX="0" frameY="0" frameWidth="400" frameHeight="246"/>
+	<SubTexture name="deimos0004" x="1094" y="100" width="399" height="246" frameX="0" frameY="0" frameWidth="400" frameHeight="246"/>
+	<SubTexture name="deimos0005" x="1094" y="100" width="399" height="246" frameX="0" frameY="0" frameWidth="400" frameHeight="246"/>
+	<SubTexture name="deimos0006" x="100" y="444" width="399" height="246" frameX="0" frameY="0" frameWidth="400" frameHeight="246"/>
+	<SubTexture name="deimos0007" x="100" y="444" width="399" height="246" frameX="0" frameY="0" frameWidth="400" frameHeight="246"/>
+</TextureAtlas>
