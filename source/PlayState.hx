@@ -2677,7 +2677,7 @@ class PlayState extends MusicBeatState
 								dad.playAnim(animToPlay + altAnim, true);
 								dad.holdTimer = 0;
 							}
-						if (FlxG.save.data.cpuStrums)
+						if (FlxG.save.data.cpuStrums || !FlxG.save.data.cpuStrums)
 						{
 							cpuStrums.forEach(function(spr:FlxSprite)
 							{
@@ -2696,7 +2696,8 @@ class PlayState extends MusicBeatState
 							});
 						}
 
-						spawnNoteSplashOnNoteDad(daNote);
+						if (!daNote.isSustainNote)
+							spawnNoteSplashOnNoteDad(daNote);
 	
 						#if windows
 						if (luaModchart != null)
@@ -2828,7 +2829,7 @@ class PlayState extends MusicBeatState
 				});
 			}
 
-		if (FlxG.save.data.cpuStrums)
+		if (FlxG.save.data.cpuStrums || !FlxG.save.data.cpuStrums)
 		{
 			cpuStrums.forEach(function(spr:FlxSprite)
 			{
@@ -3075,6 +3076,9 @@ class PlayState extends MusicBeatState
 						totalNotesHit += 1;
 					sicks++;
 					spawnNoteSplashOnNote(daNote);
+					//if (PlayStateChangeables.botPlay) {
+					//	lightBfStrumBotplay(daNote);
+					//}
 			}
 
 			// trace('Wife accuracy loss: ' + wife + ' | Rating: ' + daRating + ' | Score: ' + score + ' | Weight: ' + (1 - wife));
