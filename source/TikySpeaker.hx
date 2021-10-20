@@ -10,11 +10,14 @@ class TikySpeaker extends FlxSprite
 		super(x, y);
 
 		// SPEAKERS WHOAAAAAA YEAAAAAAAAAAAAAA :( Wish i could bring back the children i killed in 1994 
-        frames = Paths.getSparrowAtlas('speaker');
+        frames = Paths.getSparrowAtlas('Dance', 'shared');
 
-        animation.addByPrefix('Playing', 'BUMP', 24, true);
+        animation.addByPrefix('playing', 'stereo', 24, false); //i changed this so i could beathit this shit
         antialiasing = true;
-        animation.play('Playing', true);
 		y -= 300;
+	}
+
+	public function playAnim() {
+		animation.play('playing');
 	}
 }
