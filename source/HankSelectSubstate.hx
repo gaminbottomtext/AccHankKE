@@ -208,10 +208,17 @@ class HankSelectSubstate extends MusicBeatSubstate
             PlayState.isStoryMode = false;
             var blackLmao:FlxSprite = new FlxSprite(0,0).makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
             add(blackLmao);
-            /* little thingy here for eyes as well
-            var eyes:FlxSprite = new FlxSprite(x, y).loadGraphic(Paths.getSparrowAtlas('eyes'));
+            // little thingy here for eyes as well
+            var eyes:FlxSprite = new FlxSprite(100, 100).loadGraphic(Paths.image('eyes/eye'));
             add(eyes);
-            */
+
+            var flash:FlxSprite = new FlxSprite(eyes.x, eyes.y).loadGraphic(Paths.image('eyes/flash'));
+            add(flash);
+            
+            new FlxTimer().start(1, function(tmr:FlxTimer)
+                {
+                    remove(flash);
+                });
             new FlxTimer().start(2, function(tmr:FlxTimer) 
                 {
                     LoadingState.loadAndSwitchState(new PlayState());
