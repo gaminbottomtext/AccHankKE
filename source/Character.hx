@@ -539,6 +539,8 @@ class Character extends FlxSprite
 					animation.addByPrefix('shootLeft', 'Hank Left Shoot', 24, false);
 					animation.addByPrefix('shootUp', 'Hank Up shoot', 24, false);
 					animation.addByPrefix('shootRight', 'Hank right shoot', 24, false);
+
+					animation.addByPrefix('ready', 'HankGetReady', 24, false);
 	
 					animation.addByPrefix('scaredIdle', 'HankScaredIdle', 24, false);
 					animation.addByPrefix('scaredShootTiky', 'HankScaredShootsTiky', 24, false);
@@ -547,6 +549,8 @@ class Character extends FlxSprite
 					addOffset("singRIGHT", 127,-12);
 					addOffset("singLEFT", 339, 0);
 					addOffset("singDOWN");
+
+					addOffset('ready', 0, -90);
 	
 					addOffset('shootDown');
 					addOffset('shootLeft');
@@ -559,29 +563,33 @@ class Character extends FlxSprite
 					playAnim('idle');
 
 					// im way too lazy to actually edit the fla so im pushing this dumb shit
-					case 'tikydying':
-						frames = Paths.getSparrowAtlas('characters/riptikylol');
-						animation.addByPrefix('bye', 'riptikylol idle', 24, false);
+				case 'tikydying':
+					frames = Paths.getSparrowAtlas('characters/riptikylol');
+					animation.addByPrefix('bye', 'riptikylol idle', 24, false);
 		
-						addOffset('bye');
+					addOffset('bye');
 					
-						playAnim('bye');
+					playAnim('bye');
 
 				case 'tiky':
-				frames = Paths.getSparrowAtlas('characters/tiky');
-				animation.addByPrefix('idle', 'trickyidle', 24, false);
-				animation.addByPrefix('singDOWN', 'trickydwon', 24, false);
-				animation.addByPrefix('singLEFT', 'trickyileft', 24, false);
-				animation.addByPrefix('singRIGHT', 'trickyright', 24, false);
-				animation.addByPrefix('singUP', 'trickyup', 24, false);
+					frames = Paths.getSparrowAtlas('characters/tiky');
+					animation.addByPrefix('idle', 'trickyidle', 24, false);
+					animation.addByPrefix('singDOWN', 'trickydwon', 24, false);
+					animation.addByPrefix('singLEFT', 'trickyileft', 24, false);
+					animation.addByPrefix('singRIGHT', 'trickyright', 24, false);
+					animation.addByPrefix('singUP', 'trickyup', 24, false);
+					animation.addByPrefix('look', 'tiky look at hank', 24, false);
 
-				addOffset('idle');
-				addOffset('singUP');
-				addOffset('singRIGHT');
-				addOffset('singLEFT');
-				addOffset('singDOWN');					
+					scale.set(0.8, 0.8);
 
-				playAnim('idle');
+					addOffset('idle');
+					addOffset('singUP', 0, 60);
+					addOffset('singRIGHT', 140, -30);
+					addOffset('singLEFT', 100, 30);
+					addOffset('singDOWN', 60, 10);	
+					addOffset('look', -6, 42);
+
+					playAnim('idle');
 		}
 
 		dance();

@@ -418,7 +418,7 @@ class PlayState extends MusicBeatState
 				case 'hankstage':
 						{
 								curStage = 'hankstage';
-								defaultCamZoom = 0.793;
+								defaultCamZoom = 0.6;
 		
 								// for testing purposes
 					
@@ -426,7 +426,7 @@ class PlayState extends MusicBeatState
 								bg.setGraphicSize(Std.int(bg.width * 1.29));				
 								add(bg);
 					
-								var cliffLol:FlxSprite = new FlxSprite(-320, 340).loadGraphic(Paths.image('hank/cliff')); //-240 > -320 - 400 > 340
+								var cliffLol:FlxSprite = new FlxSprite(-350, 340).loadGraphic(Paths.image('hank/cliff')); //-240 > -320 - 400 > 340
 								cliffLol.setGraphicSize(Std.int(cliffLol.width * 1.190));
 								cliffLol.screenCenter(Y);
 								cliffLol.updateHitbox();
@@ -503,9 +503,9 @@ class PlayState extends MusicBeatState
 		gf = new Character(400, 130, curGf);
 		gf.scrollFactor.set(0.95, 0.95); 
 
-		tiky = new Character(400, -153, 'tiky');
+		tiky = new Character(214, -95, 'tiky');
 
-		dedtiky = new Character(400, -153, 'tikydying');
+		dedtiky = new Character(214, -95, 'tikydying');
 
 		gfhotdog = new Character(600, 130, 'gfhotDog');
 
@@ -1282,38 +1282,6 @@ class PlayState extends MusicBeatState
 		#if !debug
 		perfectMode = false;
 		#end
-		
-		if (FlxG.keys.justPressed.B) {
-			Speakers.visible = !Speakers.visible;
-		}
-		if (FlxG.keys.pressed.I) {
-			Speakers.y -= 1;
-			trace(Speakers.y);
-		} 
-		if (FlxG.keys.pressed.K) {
-			Speakers.y += 1;
-			trace(Speakers.y);
-		}
-		if (FlxG.keys.pressed.L) {
-			Speakers.x += 1;
-			trace(Speakers.x);
-		}
-		if (FlxG.keys.pressed.J) {
-			Speakers.x -= 1;
-			trace(Speakers.x);
-		}
-		if (FlxG.keys.justPressed.N) {
-			Speakers.scale.x -= 0.1;
-			Speakers.scale.y -= 0.1;
-			trace(Speakers.scale.x);
-			trace(Speakers.scale.y);
-		}
-		if (FlxG.keys.justPressed.M) {
-			Speakers.scale.x += 0.1;
-			Speakers.scale.y += 0.1;
-			trace(Speakers.scale.x);
-			trace(Speakers.scale.y);
-		}
 
 		if (PlayStateChangeables.botPlay && FlxG.keys.justPressed.ONE)
 			camHUD.visible = !camHUD.visible;
@@ -1546,6 +1514,30 @@ class PlayState extends MusicBeatState
 			#end
 		}
 
+		if (FlxG.keys.justPressed.F7)
+			{
+				FlxG.switchState(new AnimationDebug('tikydying'));
+				FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN,handleInput);
+				#if windows
+				if (luaModchart != null)
+				{
+					luaModchart.die();
+					luaModchart = null;
+				}
+				#end
+			}
+		if (FlxG.keys.justPressed.F6)
+				{
+					FlxG.switchState(new AnimationDebug('tiky'));
+					FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN,handleInput);
+					#if windows
+					if (luaModchart != null)
+					{
+						luaModchart.die();
+						luaModchart = null;
+					}
+					#end
+				}
 		#end
 
 		if (startingSong)
@@ -3652,10 +3644,15 @@ class PlayState extends MusicBeatState
 		}
 		
 		if (SONG.song.toLowerCase() == 'accelerant') {
-			if (Speakers.visible)
-				trace('beat hit');
-
 			Speakers.playAnim();
+		}
+
+		if (SONG.song.toLowerCase() == 'accelerant') {
+			switch (curBeat) {
+				case 6:
+					dad.playAnim('ready', true);
+					FlxG.sound.play(Paths.sound('hankReady'), 0.5);
+			}
 		}
 	}
 
