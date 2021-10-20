@@ -2841,6 +2841,18 @@ class PlayState extends MusicBeatState
 			});
 		}
 
+		if (PlayStateChangeables.botPlay)
+			{
+				playerStrums.forEach(function(spr:FlxSprite)
+				{
+					if (spr.animation.finished)
+					{
+						spr.animation.play('static');
+						spr.centerOffsets();
+					}
+				});
+			}
+
 		if (!inCutscene)
 			keyShit();
 
@@ -3076,9 +3088,6 @@ class PlayState extends MusicBeatState
 						totalNotesHit += 1;
 					sicks++;
 					spawnNoteSplashOnNote(daNote);
-					//if (PlayStateChangeables.botPlay) {
-					//	lightBfStrumBotplay(daNote);
-					//}
 			}
 
 			// trace('Wife accuracy loss: ' + wife + ' | Rating: ' + daRating + ' | Score: ' + score + ' | Weight: ' + (1 - wife));
@@ -3329,6 +3338,7 @@ class PlayState extends MusicBeatState
 		splash.setupNoteSplash(x, y, data);
 		grpNoteSplashes.add(splash);
 	}
+
 
 	public function NearlyEquals(value1:Float, value2:Float, unimportantDifference:Float = 10):Bool
 		{
