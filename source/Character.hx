@@ -583,6 +583,7 @@ class Character extends FlxSprite
 					animation.addByPrefix('singRIGHT', 'trickyright', 24, false);
 					animation.addByPrefix('singUP', 'trickyup', 24, false);
 					animation.addByPrefix('look', 'tiky look at hank', 24, false);
+					animation.addByPrefix('oof', 'tiky being shot flushed', 24, true);
 
 					scale.set(0.8, 0.8);
 
@@ -592,6 +593,7 @@ class Character extends FlxSprite
 					addOffset('singLEFT', 100, 30);
 					addOffset('singDOWN', 60, 10);	
 					addOffset('look', -6, 42);
+					addOffset('oof');
 
 					playAnim('idle');
 		}

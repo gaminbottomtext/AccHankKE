@@ -561,8 +561,8 @@ class PlayState extends MusicBeatState
 
 		if (!PlayStateChangeables.Optimize)
 		{
-			add(Speakers);
 			add(tiky);
+			add(Speakers);
 			add(dedtiky);// does not work ??? no reason why tho, ill figure it out later
 			
 			tiky.visible = false;
@@ -2038,11 +2038,6 @@ class PlayState extends MusicBeatState
 									tiky.playAnim(animToPlay + altAnim, true);
 								    tiky.holdTimer = 0;
 								}// yanderedev type shit
-								else if (curStep > 935 && curStep < 942)
-									{
-										dedtiky.playAnim('bye', true);
-										dedtiky.visible = true;
-									}// yanderedev type shit :( i suck ass
 							else 
 							{
 								dad.playAnim(animToPlay + altAnim, true);
@@ -3731,21 +3726,22 @@ class PlayState extends MusicBeatState
 					passHelicopter();
 				case 72:
 					gfTargeted = true;
-
-
-					remove(camFollow);
-					camFollow = new FlxObject((gfTargeted ? gf.getGraphicMidpoint().x : gf.getGraphicMidpoint().x + 40), (gfTargeted ? gf.getGraphicMidpoint().y : gf.getGraphicMidpoint().y + 40), 1, 1);
-					add(camFollow);
-					FlxG.camera.follow(camFollow, LOCKON, 0.04 * (30 / (cast (Lib.current.getChildAt(0), Main)).getFPS()));
-					FlxG.camera.focusOn(camFollow.getPosition());
-
-					
 					sanford.visible = true;
 					deimos.visible = true;
 				case 232:
 					tiky.playAnim('look', true);
 				case 234:
 					dad.playAnim('scaredShootTiky', true);
+
+					tiky.playAnim('oof');
+					FlxTween.tween(tiky, {y: tiky.y - 300}, 0.3, {ease: FlxEase.expoOut, onComplete: function(twn:FlxTween) {
+						FlxTween.tween(tiky, {y: 920}, 0.7, {onComplete: function(twn:FlxTween) {remove(tiky);
+										}
+									}
+								);
+							}
+						}
+					);
 				case 235:
 					FlxG.sound.play(Paths.sound('tikyDies'));
 			}
