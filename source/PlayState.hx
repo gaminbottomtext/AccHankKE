@@ -270,6 +270,14 @@ class PlayState extends MusicBeatState
 
 	var gfTargeted:Bool = false;
 
+	var tstatic:FlxSprite = new FlxSprite(0,0).loadGraphic(Paths.image('hank/static','shared'), true, 320, 180);
+	var spookyText:FlxText;
+
+	var spookyRendered:Bool = false;
+	var spookySteps:Int = 0;
+
+	public var TrickyLinesSing:Array<String> = ["HANK!!!", "OMFG!!", "MADNESS", "INTERRUPTION", "HOW'S THIS?!"];	//i only saw four in community game video
+
 
 	override public function create()
 	{
@@ -278,6 +286,8 @@ class PlayState extends MusicBeatState
 		#end
 		
 		instance = this;
+
+		resetSpookyText = true;
 		
 		if (FlxG.save.data.fpsCap > 290)
 			(cast (Lib.current.getChildAt(0), Main)).setFPSCap(800);
@@ -438,6 +448,14 @@ class PlayState extends MusicBeatState
 								defaultCamZoom = 0.6;
 		
 								// for testing purposes
+
+								tstatic.antialiasing = true;
+								tstatic.scrollFactor.set(0,0);
+								tstatic.setGraphicSize(Std.int(tstatic.width * 12.3));
+								tstatic.animation.add('static', [0, 1, 2], 24, true);
+								tstatic.animation.play('static');
+					
+								tstatic.alpha = 0;
 					
 								hankbackground = new FlxSprite(-340, -65).loadGraphic(Paths.image('hank/bg'));		
 								hankbackground.setGraphicSize(Std.int(hankbackground.width * 1.29));				
@@ -726,6 +744,10 @@ class PlayState extends MusicBeatState
 		doof.cameras = [camHUD];
 
 		startingSong = true;
+
+		if (SONG.song.toLowerCase() == 'accelerant') {
+			add(tstatic);
+		}
 		
 		trace('starting');
 
@@ -1388,7 +1410,13 @@ class PlayState extends MusicBeatState
 				}
 			}
 
-
+		if (spookyRendered) // move shit around all spooky like
+			{
+				spookyText.angle = FlxG.random.int(-5,5); // change its angle between -5 and 5 so it starts shaking violently.
+				//tstatic.x = tstatic.x + FlxG.random.int(-2,2); // move it back and fourth to repersent shaking.
+				if (tstatic.alpha != 0)
+				tstatic.alpha = FlxG.random.float(0.1,0.5); // change le alpha too :)
+			}
 		
 		#if windows
 		if (executeModchart && luaModchart != null && songStarted)
@@ -2061,6 +2089,10 @@ class PlayState extends MusicBeatState
 								gf.visible = false;
 								tiky.visible = true;
 								Speakers.visible = true;
+								if (FlxG.random.bool(20) && !spookyRendered && !daNote.isSustainNote) // create spooky text :flushed:
+									{
+										createSpookyText(TrickyLinesSing[FlxG.random.int(0,TrickyLinesSing.length)], tiky.x, tiky.y);
+									}
 							} 
 							else if (curStep > 734 && curStep < 864){
 								tiky.playAnim('idle');
@@ -2071,6 +2103,10 @@ class PlayState extends MusicBeatState
 								{
 									tiky.playAnim(animToPlay + altAnim, true);
 								    tiky.holdTimer = 0;
+									if (FlxG.random.bool(20) && !spookyRendered && !daNote.isSustainNote) // create spooky text :flushed:
+										{
+											createSpookyText(TrickyLinesSing[FlxG.random.int(0,TrickyLinesSing.length)], tiky.x, tiky.y);
+										}
 								}// yanderedev type shit
 							else 
 							{
@@ -3458,9 +3494,48 @@ class PlayState extends MusicBeatState
 	}
 
 	function hellclownAppear() {
-		FlxTween.tween(hellclown, {y: -292}, 2);
-		FlxTween.tween(hellclownhand1, {y: 405}, 2);
-		FlxTween.tween(hellclownhand2, {y: 405}, 2);
+		FlxTween.tween(hellclown, {y: -292}, 4);
+		FlxTween.tween(hellclownhand1, {y: 405}, 4);
+		FlxTween.tween(hellclownhand2, {y: 405}, 4);
+	}
+
+	/**
+	 * All of this spooky shit is for statics
+	 * @param text datext
+	 * @param x dax (dont change)
+	 * @param y day (dont change too)
+	 */
+	function createSpookyText(text:String, x:Float = 0, y:Float = 0):Void
+	{
+		spookySteps = curStep;
+		tstatic.alpha = 0.5;
+		spookyRendered = true;
+		FlxG.sound.play(Paths.sound('staticSound'));
+		spookyText = new FlxText(FlxG.random.float(x + 130, x + 220), FlxG.random.float(y + 200, y + 300));
+		spookyText.setFormat(Paths.font('impact.ttf'), 128, FlxColor.RED);
+		spookyText.size = 128;
+		spookyText.bold = true;
+		spookyText.text = text;
+		add(spookyText);
+	}
+
+	var resetSpookyText:Bool = true;
+
+	function resetSpookyTextManual():Void
+	{
+		spookySteps = curStep;
+		trace('reset spooky');
+		spookyRendered = true;
+		tstatic.alpha = 0.5;
+		FlxG.sound.play(Paths.sound('staticSound'));
+		resetSpookyText = true;
+	}
+
+	function manuallymanuallyresetspookytextmanual()
+	{
+		remove(spookyText);
+		spookyRendered = false;
+		tstatic.alpha = 0;
 	}
 
 	var danced:Bool = false;
@@ -3494,6 +3569,15 @@ class PlayState extends MusicBeatState
 		DiscordClient.changePresence(detailsText + " " + SONG.song + " (" + storyDifficultyText + ") " + Ratings.GenerateLetterRank(accuracy), "Acc: " + HelperFunctions.truncateFloat(accuracy, 2) + "% | Score: " + songScore + " | Misses: " + misses  , iconRPC,true,  songLength - Conductor.songPosition);
 		#end
 
+		if (spookyRendered && spookySteps + 3 < curStep)
+			{
+				if (resetSpookyText)
+				{
+					remove(spookyText);
+					spookyRendered = false;
+				}
+				tstatic.alpha = 0;
+			}
 	}
 
 	var lightningStrikeBeat:Int = 0;
@@ -3593,12 +3677,25 @@ class PlayState extends MusicBeatState
 					tiky.playAnim('oof');
 					tiky.x += 20;
 					FlxTween.tween(tiky, {y: tiky.y - 300}, 0.3, {ease: FlxEase.expoOut, onComplete: function(twn:FlxTween) {
+						FlxG.sound.play(Paths.sound('tikyDies'));
 						FlxTween.tween(tiky, {y: 920}, 0.7, {onComplete: function(twn:FlxTween) {remove(tiky);}});
 							}
 						}
 					);
-				case 235:
-					FlxG.sound.play(Paths.sound('tikyDies'));
+
+					createSpookyText('HEY!!!', Speakers.x, Speakers.y);
+				case 238:
+					if (storyDifficulty == 3)
+						createSpookyText('NO', Speakers.x, Speakers.y);
+				case 239:
+					if (storyDifficulty == 3)
+						createSpookyText('I INVALI D', Speakers.x, Speakers.y);
+				case 240:
+					if (storyDifficulty == 3)
+						createSpookyText('I CANNOT', Speakers.x, Speakers.y);
+				case 241:
+					if (storyDifficulty == 3)
+						createSpookyText('RE ENGAGE', Speakers.x, Speakers.y);
 				case 248:
 					if (storyDifficulty == 3) {
 						FlxG.sound.play(Paths.sound('hellclownarrives'));
