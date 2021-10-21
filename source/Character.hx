@@ -670,9 +670,9 @@ class Character extends FlxSprite
 						danced = !danced;
 
 						if (danced)
-							playAnim('danceRight');
-						else
 							playAnim('danceLeft');
+						else
+							playAnim('danceRight');
 					}
 				}
 			case 'gf':
