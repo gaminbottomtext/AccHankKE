@@ -252,6 +252,8 @@ class PlayState extends MusicBeatState
 
 	private var executeModchart = false;
 
+	var hellclownIsThere:Bool = false;
+
 	var gfRunning:Bool = false;
 
 	// Animation common suffixes
@@ -277,6 +279,7 @@ class PlayState extends MusicBeatState
 	var spookySteps:Int = 0;
 
 	public var TrickyLinesSing:Array<String> = ["HANK!!!", "OMFG!!", "MADNESS", "INTERRUPTION", "HOW'S THIS?!"];	//i only saw four in community game video
+	public var TrickyHLines:Array<String> = ["SUFFER","INCORRECT", "INCOMPLETE", "INSUFFICIENT", "INVALID", "CORRECTION", "MISTAKE", "REDUCE", "ERROR", "ADJUSTING", "IMPROBABLE", "IMPLAUSIBLE", "MISJUDGED"];
 
 
 	override public function create()
@@ -2474,10 +2477,13 @@ class PlayState extends MusicBeatState
 			vocals.volume = 1;
 			var placement:String = Std.string(combo);
 	
-			var coolText:FlxText = new FlxText(0, 0, 0, placement, 32);
-			coolText.screenCenter();
+			var coolText:FlxText = new FlxText(0, 0, 0, '', 32);
+			coolText.screenCenter(X);
 			coolText.x = FlxG.width * 0.55;
-			coolText.y -= 350;
+			if (PlayStateChangeables.useDownscroll)
+				coolText.y += 495;
+			else
+				coolText.y += 140;
 			coolText.cameras = [camHUD];
 			//
 	
@@ -2552,19 +2558,22 @@ class PlayState extends MusicBeatState
 				pixelShitPart2 = '-pixel';
 			}
 	
-			rating.loadGraphic(Paths.image(pixelShitPart1 + daRating + pixelShitPart2));
-			rating.screenCenter();
-			rating.y -= 50;
-			rating.x = coolText.x - 125;
+			rating.loadGraphic(Paths.image(daRating));
+			rating.screenCenter(X);
+			if (PlayStateChangeables.useDownscroll)
+				rating.y += 640;
+			else
+				rating.y = 65;
+			rating.x += 55;
 			
 			if (FlxG.save.data.changedHit)
 			{
-				rating.x = FlxG.save.data.changedHitX;
-				rating.y = FlxG.save.data.changedHitY;
+				//rating.x = FlxG.save.data.changedHitX;
+				//rating.y = FlxG.save.data.changedHitY;
 			}
-			rating.acceleration.y = 550;
-			rating.velocity.y -= FlxG.random.int(140, 175);
-			rating.velocity.x -= FlxG.random.int(0, 10);
+			//rating.acceleration.y = 550;
+			rating.velocity.y -= FlxG.random.int(0, 10);
+			rating.velocity.x = 0;
 			
 			var msTiming = HelperFunctions.truncateFloat(noteDiff, 3);
 			if(PlayStateChangeables.botPlay && !loadRep) msTiming = 0;		
@@ -2616,7 +2625,7 @@ class PlayState extends MusicBeatState
 			if (currentTimingShown.alpha != 1)
 				currentTimingShown.alpha = 1;
 
-			if(!PlayStateChangeables.botPlay || loadRep) add(currentTimingShown);
+			//if(!PlayStateChangeables.botPlay || loadRep) add(currentTimingShown);
 			
 			var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.image(pixelShitPart1 + 'combo' + pixelShitPart2));
 			comboSpr.screenCenter();
@@ -2633,11 +2642,11 @@ class PlayState extends MusicBeatState
 	
 			comboSpr.velocity.x += FlxG.random.int(1, 10);
 			currentTimingShown.velocity.x += comboSpr.velocity.x;
-			if(!PlayStateChangeables.botPlay || loadRep) add(rating);
+			add(rating);
 	
 			if (!curStage.startsWith('school'))
 			{
-				rating.setGraphicSize(Std.int(rating.width * 0.7));
+				rating.setGraphicSize(Std.int(rating.width * 0.56));
 				rating.antialiasing = true;
 				comboSpr.setGraphicSize(Std.int(comboSpr.width * 0.7));
 				comboSpr.antialiasing = true;
@@ -2681,26 +2690,27 @@ class PlayState extends MusicBeatState
 			var daLoop:Int = 0;
 			for (i in seperatedScore)
 			{
-				var numScore:FlxSprite = new FlxSprite().loadGraphic(Paths.image(pixelShitPart1 + 'num' + Std.int(i) + pixelShitPart2));
-				numScore.screenCenter();
-				numScore.x = rating.x + (43 * daLoop) - 50;
-				numScore.y = rating.y + 100;
+				var numScore:FlxSprite = new FlxSprite().loadGraphic(Paths.image('num' + Std.int(i)));
+				numScore.screenCenter(X);
+				numScore.x = 680 + (43 * daLoop);
 				numScore.cameras = [camHUD];
+				if (PlayStateChangeables.useDownscroll)
+					numScore.y += 600;
+				else
+					numScore.y += 180;
+
+				numScore.x -= 150;
 
 				if (!curStage.startsWith('school'))
 				{
 					numScore.antialiasing = true;
-					numScore.setGraphicSize(Std.int(numScore.width * 0.5));
-				}
-				else
-				{
-					numScore.setGraphicSize(Std.int(numScore.width * daPixelZoom));
+					numScore.setGraphicSize(Std.int(numScore.width * 0.4));
 				}
 				numScore.updateHitbox();
 	
-				numScore.acceleration.y = FlxG.random.int(200, 300);
+				numScore.acceleration.y = FlxG.random.int(100, 150);
 				numScore.velocity.y -= FlxG.random.int(140, 160);
-				numScore.velocity.x = FlxG.random.float(-5, 5);
+				//numScore.velocity.x = FlxG.random.float(-5, 5);
 	
 				add(numScore);
 	
@@ -3508,7 +3518,7 @@ class PlayState extends MusicBeatState
 	function createSpookyText(text:String, x:Float = 0, y:Float = 0):Void
 	{
 		spookySteps = curStep;
-		tstatic.alpha = 0.5;
+		tstatic.alpha = 0.6;
 		spookyRendered = true;
 		FlxG.sound.play(Paths.sound('staticSound'));
 		spookyText = new FlxText(FlxG.random.float(x + 130, x + 220), FlxG.random.float(y + 200, y + 300));
@@ -3521,17 +3531,7 @@ class PlayState extends MusicBeatState
 
 	var resetSpookyText:Bool = true;
 
-	function resetSpookyTextManual():Void
-	{
-		spookySteps = curStep;
-		trace('reset spooky');
-		spookyRendered = true;
-		tstatic.alpha = 0.5;
-		FlxG.sound.play(Paths.sound('staticSound'));
-		resetSpookyText = true;
-	}
-
-	function manuallymanuallyresetspookytextmanual()
+	function removeSpookyText()
 	{
 		remove(spookyText);
 		spookyRendered = false;
@@ -3641,6 +3641,9 @@ class PlayState extends MusicBeatState
 			boyfriend.playAnim('idle');
 		}
 
+		/**
+		 * This is the accelerant beat sheet
+		 */
 		if (SONG.song.toLowerCase() == 'accelerant') {
 			Speakers.playAnim();
 
@@ -3650,8 +3653,17 @@ class PlayState extends MusicBeatState
 				}
 			if (curBeat % gfSpeed == 0) {
 				gfhotdog.dance(false, gfRunning);
-			} 
-				
+			}
+			
+			if (hellclownIsThere) {
+				if (storyDifficulty == 3) {
+					if (FlxG.random.bool(15)) {
+						if (!spookyRendered) {
+							createSpookyText(TrickyHLines[FlxG.random.int(0,TrickyHLines.length)]);
+						}
+					}
+				}
+			}
 
 			sanford.animation.play('bop');
 			deimos.animation.play('bop');
@@ -3683,24 +3695,33 @@ class PlayState extends MusicBeatState
 						}
 					);
 
-					createSpookyText('HEY!!!', Speakers.x, Speakers.y);
+					createSpookyText('HEY!!!', Speakers.x - 200, Speakers.y - 200);
 				case 238:
-					if (storyDifficulty == 3)
-						createSpookyText('NO', Speakers.x, Speakers.y);
-				case 239:
-					if (storyDifficulty == 3)
-						createSpookyText('I INVALI D', Speakers.x, Speakers.y);
+					if (storyDifficulty == 3 && !spookyRendered) {
+						createSpookyText('NO', Speakers.x - 200, Speakers.y - 200);
+					}
 				case 240:
-					if (storyDifficulty == 3)
-						createSpookyText('I CANNOT', Speakers.x, Speakers.y);
-				case 241:
-					if (storyDifficulty == 3)
-						createSpookyText('RE ENGAGE', Speakers.x, Speakers.y);
+					if (storyDifficulty == 3  && !spookyRendered) {
+						createSpookyText('I INVALI D', Speakers.x - 200, Speakers.y - 200);
+					}
+				case 242:
+					if (storyDifficulty == 3  && !spookyRendered) {
+						createSpookyText('I CANNOT', Speakers.x - 200, Speakers.y - 200);
+					}
+				case 244:
+					if (storyDifficulty == 3  && !spookyRendered) {
+						createSpookyText('RE ENGAGE', Speakers.x - 200, Speakers.y - 200);
+					}
+				case 246:
+					if (storyDifficulty == 3  && !spookyRendered) {
+						createSpookyText('Reboot.useSeed[sRAND];', Speakers.x - 200, Speakers.y - 200);
+					}
 				case 248:
 					if (storyDifficulty == 3) {
 						FlxG.sound.play(Paths.sound('hellclownarrives'));
 						trace('WTF HELLCLOWNJ?!?!?!?!?');					
 						hellclownAppear();
+						hellclownIsThere = true;
 					}
 
 				case 252:
