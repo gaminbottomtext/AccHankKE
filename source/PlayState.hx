@@ -205,6 +205,8 @@ class PlayState extends MusicBeatState
 	var ground:FlxSprite;
 	var hotdogshop:FlxSprite;
 	var hankbackground:FlxSprite;
+	var hellclownhand1:FlxSprite;
+	var hellclownhand2:FlxSprite;
 
 	var fc:Bool = true;
 
@@ -263,6 +265,8 @@ class PlayState extends MusicBeatState
 
 	var sanford:FlxSprite;
 	var deimos:FlxSprite;
+
+	var hellclown:FlxSprite;
 
 	var gfTargeted:Bool = false;
 
@@ -470,7 +474,29 @@ class PlayState extends MusicBeatState
 								deimos.visible = false;
 								deimos.scrollFactor.set(1, 1);
 								add(deimos);
-					
+
+								hellclown = new FlxSprite(164, 2000);
+								hellclown.frames = Paths.getSparrowAtlas('hank/helleclowne', 'shared');
+								hellclown.animation.addByPrefix('idle', 'hell clown', 24, false);
+								hellclown.animation.addByPrefix('bop', 'clown hell bop', 24, false);
+								hellclown.scale.set(2, 2);
+								add(hellclown);
+
+								hellclownhand1 = new FlxSprite(-212, 2000);
+								hellclownhand1.frames = Paths.getSparrowAtlas('hank/hellclown_hand', 'shared');
+								hellclownhand1.animation.addByPrefix('bop', 'hand', 24, true, false);
+								hellclownhand1.animation.play('bop');
+								hellclownhand1.scale.set(2, 2);
+								add(hellclownhand1);
+
+								hellclownhand2 = new FlxSprite(936, 2000);
+								hellclownhand2.frames = Paths.getSparrowAtlas('hank/hellclown_hand', 'shared');
+								hellclownhand2.animation.addByPrefix('bop', 'hand', 24, true, true);
+								hellclownhand2.animation.play('bop');
+								hellclownhand2.scale.set(2, 2);
+								add(hellclownhand2);
+
+								
 								ground = new FlxSprite(-400, -98).loadGraphic(Paths.image('hank/ground'));
 								ground.antialiasing = true;
 								ground.scrollFactor.set(0.9, 0.9);
@@ -1318,30 +1344,30 @@ class PlayState extends MusicBeatState
 		perfectMode = false;
 		#end
 
-		if (FlxG.keys.justPressed.N)
-			tiky.visible = !tiky.visible;
+		if (FlxG.keys.justPressed.C)
+			hellclown.visible = !hellclown.visible;
 
-		if (FlxG.keys.justPressed.B) {
-			tiky.scale.x += 0.1;
-			tiky.scale.y += 0.1;
-			trace(hotdogshop.scale.x + ' ' + tiky.scale.y);
+		if (FlxG.keys.justPressed.V) {
+			hellclown.scale.x += 0.1;
+			hellclown.scale.y += 0.1;
+			trace(hellclown.scale.x + ' ' + hellclown.scale.y);
 		}
 
-		if (FlxG.keys.pressed.I) {
-			tiky.y -= 1;
-			trace(tiky.y);
+		if (FlxG.keys.pressed.W) {
+			hellclown.y -= 1;
+			trace(hellclown.y);
 		} 
-		if (FlxG.keys.pressed.K) {
-			tiky.y += 1;
-			trace(tiky.y);
+		if (FlxG.keys.pressed.S) {
+			hellclown.y += 1;
+			trace(hellclown.y);
 		}
-		if (FlxG.keys.pressed.L) {
-			tiky.x += 1;
-			trace(tiky.x);
+		if (FlxG.keys.pressed.D) {
+			hellclown.x += 1;
+			trace(hellclown.x);
 		}
-		if (FlxG.keys.pressed.J) {
-			tiky.x -= 1;
-			trace(tiky.x);
+		if (FlxG.keys.pressed.A) {
+			hellclown.x -= 1;
+			trace(hellclown);
 		}
 
 		if (gfTargeted)
@@ -3254,6 +3280,7 @@ class PlayState extends MusicBeatState
 							FlxG.camera.shake(0.01, 0.1);
 							FlxG.sound.play(Paths.sound('hankshoot'));
 							boyfriend.playAnim('dodge', true);
+							hellclown.animation.play('bop', true);
 							trace("we damm dodged da bullet"); // for bullets 
 							trace("warning note hit");
 						}
@@ -3430,6 +3457,12 @@ class PlayState extends MusicBeatState
 		FlxTween.tween(helicopter, {x: 1900}, 8.2);
 	}
 
+	function hellclownAppear() {
+		FlxTween.tween(hellclown, {y: -292}, 2);
+		FlxTween.tween(hellclownhand1, {y: 405}, 2);
+		FlxTween.tween(hellclownhand2, {y: 405}, 2);
+	}
+
 	var danced:Bool = false;
 
 	var stepOfLast = 0;
@@ -3538,6 +3571,7 @@ class PlayState extends MusicBeatState
 
 			sanford.animation.play('bop');
 			deimos.animation.play('bop');
+			hellclown.animation.play('idle');
 
 			switch (curBeat) {
 				case 6:
@@ -3565,6 +3599,13 @@ class PlayState extends MusicBeatState
 					);
 				case 235:
 					FlxG.sound.play(Paths.sound('tikyDies'));
+				case 248:
+					if (storyDifficulty == 3) {
+						FlxG.sound.play(Paths.sound('hellclownarrives'));
+						trace('WTF HELLCLOWNJ?!?!?!?!?');					
+						hellclownAppear();
+					}
+
 				case 252:
 					gfRunning = true;
 					gfhotdog.playAnim('run', true);

@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="helleclowne.png">
+	<!-- Created with Adobe Animate version 21.0.7.42652 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="clown hell bop0000" x="100" y="100" width="726" height="1178" frameX="-9" frameY="-13" frameWidth="726" frameHeight="1178"/>
+	<SubTexture name="clown hell bop0001" x="924" y="100" width="726" height="1178" frameX="0" frameY="-6" frameWidth="726" frameHeight="1178"/>
+	<SubTexture name="clown hell bop0002" x="1748" y="100" width="726" height="1178" frameX="-12" frameY="0" frameWidth="726" frameHeight="1178"/>
+	<SubTexture name="clown hell bop0003" x="2572" y="100" width="726" height="1178" frameX="0" frameY="-8" frameWidth="726" frameHeight="1178"/>
+	<SubTexture name="clown hell bop0004" x="3396" y="100" width="726" height="1178" frameX="0" frameY="-8" frameWidth="726" frameHeight="1178"/>
+	<SubTexture name="clown hell bop0005" x="4220" y="100" width="726" height="1178" frameX="0" frameY="-8" frameWidth="726" frameHeight="1178"/>
+	<SubTexture name="clown hell bop0006" x="5044" y="100" width="726" height="1178" frameX="0" frameY="-8" frameWidth="726" frameHeight="1178"/>
+	<SubTexture name="clown hell bop0007" x="5868" y="100" width="726" height="1178" frameX="0" frameY="-8" frameWidth="726" frameHeight="1178"/>
+	<SubTexture name="clown hell bop0008" x="6692" y="100" width="726" height="1178" frameX="0" frameY="-8" frameWidth="726" frameHeight="1178"/>
+	<SubTexture name="clown hell bop0009" x="100" y="1376" width="726" height="1178" frameX="0" frameY="-8" frameWidth="726" frameHeight="1178"/>
+	<SubTexture name="clown hell bop0010" x="924" y="1376" width="726" height="1178" frameX="0" frameY="-8" frameWidth="726" frameHeight="1178"/>
+	<SubTexture name="clown hell bop0011" x="1748" y="1376" width="726" height="1178" frameX="0" frameY="-8" frameWidth="726" frameHeight="1178"/>
+	<SubTexture name="clown hell bop0012" x="2572" y="1376" width="726" height="1178" frameX="0" frameY="-8" frameWidth="726" frameHeight="1178"/>
+	<SubTexture name="hell clown0000" x="100" y="100" width="726" height="1178"/>
+	<SubTexture name="hell clown0001" x="924" y="100" width="726" height="1178"/>
+	<SubTexture name="hell clown0002" x="1748" y="100" width="726" height="1178"/>
+	<SubTexture name="hell clown0003" x="2572" y="100" width="726" height="1178"/>
+	<SubTexture name="hell clown0004" x="3396" y="100" width="726" height="1178"/>
+	<SubTexture name="hell clown0005" x="4220" y="100" width="726" height="1178"/>
+	<SubTexture name="hell clown0006" x="5044" y="100" width="726" height="1178"/>
+	<SubTexture name="hell clown0007" x="5868" y="100" width="726" height="1178"/>
+	<SubTexture name="hell clown0008" x="6692" y="100" width="726" height="1178"/>
+	<SubTexture name="hell clown0009" x="100" y="1376" width="726" height="1178"/>
+	<SubTexture name="hell clown0010" x="924" y="1376" width="726" height="1178"/>
+	<SubTexture name="hell clown0011" x="1748" y="1376" width="726" height="1178"/>
+	<SubTexture name="hell clown0012" x="2572" y="1376" width="726" height="1178"/>
+</TextureAtlas>
