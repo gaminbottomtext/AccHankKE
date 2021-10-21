@@ -202,6 +202,9 @@ class PlayState extends MusicBeatState
 
 	var cliffLol:FlxSprite;
 	var helicopter:FlxSprite;
+	var ground:FlxSprite;
+	var hotdogshop:FlxSprite;
+	var hankbackground:FlxSprite;
 
 	var fc:Bool = true;
 
@@ -246,6 +249,8 @@ class PlayState extends MusicBeatState
 	public static var highestCombo:Int = 0;
 
 	private var executeModchart = false;
+
+	var gfRunning:Bool = false;
 
 	// Animation common suffixes
 	private var dataSuffix:Array<String> = ['LEFT', 'DOWN', 'UP', 'RIGHT'];
@@ -430,9 +435,9 @@ class PlayState extends MusicBeatState
 		
 								// for testing purposes
 					
-								var bg:FlxSprite = new FlxSprite(-220, -65).loadGraphic(Paths.image('hank/bg'));		
-								bg.setGraphicSize(Std.int(bg.width * 1.29));				
-								add(bg);
+								hankbackground = new FlxSprite(-340, -65).loadGraphic(Paths.image('hank/bg'));		
+								hankbackground.setGraphicSize(Std.int(hankbackground.width * 1.29));				
+								add(hankbackground);
 
 								
 								helicopter = new FlxSprite(-1380, -153);
@@ -466,21 +471,21 @@ class PlayState extends MusicBeatState
 								deimos.scrollFactor.set(1, 1);
 								add(deimos);
 					
-								var ground:FlxSprite = new FlxSprite(-400, -98).loadGraphic(Paths.image('hank/ground'));
+								ground = new FlxSprite(-400, -98).loadGraphic(Paths.image('hank/ground'));
 								ground.antialiasing = true;
 								ground.scrollFactor.set(0.9, 0.9);
 								ground.active = false;
 								ground.scale.set(1.3, 1.3);
-								add(ground);
+								//add(ground);
 					
-								var hotdogshop:FlxSprite = new FlxSprite(-295, -115).loadGraphic(Paths.image('hank/hut'));
+								hotdogshop = new FlxSprite(-715, -90).loadGraphic(Paths.image('hank/hut'));
 								hotdogshop.updateHitbox();
 								hotdogshop.antialiasing = true;
 								hotdogshop.scale.set(1.3, 1.3);
 								hotdogshop.scrollFactor.set(1.3, 1.3);
 								hotdogshop.active = false;
 								
-								add(hotdogshop);
+								//add(hotdogshop);
 						}
 					default:
 						{
@@ -531,7 +536,7 @@ class PlayState extends MusicBeatState
 
 		dedtiky = new Character(214, -95, 'tikydying');
 
-		gfhotdog = new Character(600, 130, 'gfhotDog');
+		gfhotdog = new Character(1640, 388, 'gfhotDog');
 
 		Speakers = new TikySpeaker(216, 439);
 
@@ -562,6 +567,7 @@ class PlayState extends MusicBeatState
 		if (!PlayStateChangeables.Optimize)
 		{
 			add(tiky);
+			add(ground);
 			add(Speakers);
 			add(dedtiky);// does not work ??? no reason why tho, ill figure it out later
 			
@@ -571,7 +577,9 @@ class PlayState extends MusicBeatState
 			add(gf);
 
 			add(dad);
+			add(gfhotdog);
 			add(boyfriend);
+			add(hotdogshop);
 		}
 
 
@@ -1311,29 +1319,29 @@ class PlayState extends MusicBeatState
 		#end
 
 		if (FlxG.keys.justPressed.N)
-			deimos.visible = !deimos.visible;
+			tiky.visible = !tiky.visible;
 
 		if (FlxG.keys.justPressed.B) {
-			deimos.scale.x += 0.1;
-			deimos.scale.y += 0.1;
-			trace(deimos.scale.x + ' ' + deimos.scale.y);
+			tiky.scale.x += 0.1;
+			tiky.scale.y += 0.1;
+			trace(hotdogshop.scale.x + ' ' + tiky.scale.y);
 		}
 
 		if (FlxG.keys.pressed.I) {
-			deimos.y -= 1;
-			trace(deimos.y);
+			tiky.y -= 1;
+			trace(tiky.y);
 		} 
 		if (FlxG.keys.pressed.K) {
-			deimos.y += 1;
-			trace(deimos.y);
+			tiky.y += 1;
+			trace(tiky.y);
 		}
 		if (FlxG.keys.pressed.L) {
-			deimos.x += 1;
-			trace(deimos.x);
+			tiky.x += 1;
+			trace(tiky.x);
 		}
 		if (FlxG.keys.pressed.J) {
-			deimos.x -= 1;
-			trace(deimos.x);
+			tiky.x -= 1;
+			trace(tiky.x);
 		}
 
 		if (gfTargeted)
@@ -3713,6 +3721,9 @@ class PlayState extends MusicBeatState
 				{
 					gf.dance(gfTargeted);
 				}
+			if (curBeat % gfSpeed == 0) {
+				gfhotdog.dance(false, gfRunning);
+			} 
 				
 
 			sanford.animation.play('bop');
@@ -3733,17 +3744,25 @@ class PlayState extends MusicBeatState
 				case 234:
 					dad.playAnim('scaredShootTiky', true);
 
+					tiky.scale.set(1.3, 1.3);
+
 					tiky.playAnim('oof');
+					tiky.x += 20;
 					FlxTween.tween(tiky, {y: tiky.y - 300}, 0.3, {ease: FlxEase.expoOut, onComplete: function(twn:FlxTween) {
-						FlxTween.tween(tiky, {y: 920}, 0.7, {onComplete: function(twn:FlxTween) {remove(tiky);
-										}
-									}
-								);
+						FlxTween.tween(tiky, {y: 920}, 0.7, {onComplete: function(twn:FlxTween) {remove(tiky);}});
 							}
 						}
 					);
 				case 235:
 					FlxG.sound.play(Paths.sound('tikyDies'));
+				case 252:
+					gfRunning = true;
+					gfhotdog.playAnim('run', true);
+					gfhotdog.x = 1540;
+					gfhotdog.y = 392;
+					FlxTween.tween(gfhotdog, {x: 1087, y: 360}, 1.250);
+				case 255:
+					gfRunning = false;
 			}
 		}
 	}

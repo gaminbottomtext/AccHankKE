@@ -69,19 +69,19 @@ class Character extends FlxSprite
 
 				playAnim('danceRight');
 
-				case 'gfhotDog':
+			case 'gfhotDog':
 				// GIRLFRIEND CODE
-				tex = Paths.getSparrowAtlas('characters/GFHotdog');
+				tex = Paths.getSparrowAtlas('characters/GF_hotdog');
 				frames = tex;
-				animation.addByPrefix('run', 'GF GF with hotdog run', 24, false);
-				animation.addByPrefix('danceLeft', 'GF GF Idle Dance', 24, false);
-				animation.addByPrefix('danceRight', 'GF GF Idle Dance', 24, false);
+				animation.addByPrefix('run', 'gf hotdog run', 24, true);
+				animation.addByIndices('danceLeft', 'gf hotdog dancing beat', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
+				animation.addByIndices('danceRight', 'gf hotdog dancing beat', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
 
 				addOffset('run', 0, -9);
 				addOffset('danceLeft', 0, -9);
 				addOffset('danceRight', 0, -9);
 
-				playAnim('danceRight');
+				playAnim('run');
 
 			case 'gf-christmas':
 				tex = Paths.getSparrowAtlas('characters/gfChristmas');
@@ -659,19 +659,21 @@ class Character extends FlxSprite
 	/**
 	 * FOR GF DANCING SHIT
 	 */
-	public function dance(targeted:Bool = false)
+	public function dance(targeted:Bool = false, running:Bool = false)
 	{
 		switch (curCharacter)
 		{
 			case 'gfhotDog':
-				if (!animation.curAnim.name.startsWith('hair'))
-				{
-					danced = !danced;
+				if (!running) {
+					if (!animation.curAnim.name.startsWith('hair'))
+					{
+						danced = !danced;
 
-					if (danced)
-						playAnim('danceRight');
-					else
-						playAnim('danceLeft');
+						if (danced)
+							playAnim('danceRight');
+						else
+							playAnim('danceLeft');
+					}
 				}
 			case 'gf':
 				if (targeted) {
