@@ -697,9 +697,9 @@ class PlayState extends MusicBeatState
 
 		FlxG.fixedTimestep = false;
 
-		healthBarBG = new FlxSprite(0, FlxG.height * 0.9).loadGraphic(Paths.image('healthBar'));
+		healthBarBG = new FlxSprite(0, FlxG.height * 0.9 - 5).loadGraphic(Paths.image('healthBar'));
 		if (PlayStateChangeables.useDownscroll)
-			healthBarBG.y = 50;
+			healthBarBG.y = 75;
 		healthBarBG.screenCenter(X);
 		healthBarBG.scrollFactor.set();
 		add(healthBarBG);
@@ -711,7 +711,9 @@ class PlayState extends MusicBeatState
 		// healthBar
 		add(healthBar);
 
-		scoreTxt = new FlxText(0, healthBarBG.y + 40, FlxG.width, "", 18);
+		scoreTxt = new FlxText(0, 686, FlxG.width, "", 18);
+		if (PlayStateChangeables.useDownscroll)
+			scoreTxt.y = 8;
 		scoreTxt.scrollFactor.set();
 		scoreTxt.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE,FlxColor.BLACK);
 		scoreTxt.alignment = CENTER;
@@ -2560,10 +2562,7 @@ class PlayState extends MusicBeatState
 	
 			rating.loadGraphic(Paths.image(daRating));
 			rating.screenCenter(X);
-			if (PlayStateChangeables.useDownscroll)
-				rating.y += 640;
-			else
-				rating.y = 65;
+			rating.y = 65;
 			rating.x += 55;
 			
 			if (FlxG.save.data.changedHit)
@@ -2694,10 +2693,7 @@ class PlayState extends MusicBeatState
 				numScore.screenCenter(X);
 				numScore.x = 680 + (43 * daLoop);
 				numScore.cameras = [camHUD];
-				if (PlayStateChangeables.useDownscroll)
-					numScore.y += 600;
-				else
-					numScore.y += 180;
+				numScore.y += 170;
 
 				numScore.x -= 150;
 
