@@ -482,16 +482,19 @@ class PlayState extends MusicBeatState
 					
 								add(cliffLol);
 
-								sanford = new FlxSprite(1256, -181);
-								sanford.frames = Paths.getSparrowAtlas('hank/sanford', 'shared');
+								sanford = new FlxSprite(1056, -181);
+								sanford.frames = Paths.getSparrowAtlas('hank/sanford_deimos', 'shared');
 								sanford.animation.addByPrefix('bop', 'sanford', 24, false);
+								sanford.animation.addByPrefix('shoot', 'shoot sanford', 24, false);
 								sanford.visible = false;
 								sanford.scrollFactor.set(1, 1);
+								sanford.flipX = true;
 								add(sanford);
 
 								deimos = new FlxSprite(-530, -143);
-								deimos.frames = Paths.getSparrowAtlas('hank/deimos', 'shared');
+								deimos.frames = Paths.getSparrowAtlas('hank/sanford_deimos', 'shared');
 								deimos.animation.addByPrefix('bop', 'deimos', 24, false);
+								deimos.animation.addByPrefix('shoot', 'shoot deimos', 24, false);
 								deimos.visible = false;
 								deimos.scrollFactor.set(1, 1);
 								add(deimos);
@@ -1371,31 +1374,14 @@ class PlayState extends MusicBeatState
 		perfectMode = false;
 		#end
 
-		if (FlxG.keys.justPressed.C)
-			hellclown.visible = !hellclown.visible;
-
-		if (FlxG.keys.justPressed.V) {
-			hellclown.scale.x += 0.1;
-			hellclown.scale.y += 0.1;
-			trace(hellclown.scale.x + ' ' + hellclown.scale.y);
-		}
-
-		if (FlxG.keys.pressed.W) {
-			hellclown.y -= 1;
-			trace(hellclown.y);
-		} 
-		if (FlxG.keys.pressed.S) {
-			hellclown.y += 1;
-			trace(hellclown.y);
-		}
-		if (FlxG.keys.pressed.D) {
-			hellclown.x += 1;
-			trace(hellclown.x);
-		}
-		if (FlxG.keys.pressed.A) {
-			hellclown.x -= 1;
-			trace(hellclown);
-		}
+		if (FlxG.keys.justPressed.B)
+			deimos.visible = !deimos.visible;
+		if (FlxG.keys.justPressed.V)
+			sanford.visible = !sanford.visible;
+		if (FlxG.keys.justPressed.N)
+			deimos.animation.play('shoot');
+		if (FlxG.keys.justPressed.M)
+			sanford.animation.play('shoot');
 
 		if (gfTargeted)
 			camFollow.setPosition(gf.getGraphicMidpoint().x + 40, gf.getGraphicMidpoint().y + 40);
