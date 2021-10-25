@@ -1374,15 +1374,6 @@ class PlayState extends MusicBeatState
 		perfectMode = false;
 		#end
 
-		if (FlxG.keys.justPressed.B)
-			deimos.visible = !deimos.visible;
-		if (FlxG.keys.justPressed.V)
-			sanford.visible = !sanford.visible;
-		if (FlxG.keys.justPressed.N)
-			deimos.animation.play('shoot');
-		if (FlxG.keys.justPressed.M)
-			sanford.animation.play('shoot');
-
 		if (gfTargeted)
 			camFollow.setPosition(gf.getGraphicMidpoint().x + 40, gf.getGraphicMidpoint().y + 40);
 
