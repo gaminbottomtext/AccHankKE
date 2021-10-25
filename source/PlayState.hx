@@ -3666,6 +3666,8 @@ class PlayState extends MusicBeatState
 			hellclown.animation.play('idle');
 
 			switch (curBeat) {
+				case 1:
+					resyncVocals();	//I felt like doing this cuz funny haxe is weird and desyncs vocals
 				case 6:
 					dad.playAnim('ready', true);
 					FlxG.sound.play(Paths.sound('hankReady'), 0.5);
@@ -3691,7 +3693,8 @@ class PlayState extends MusicBeatState
 						}
 					);
 
-					createSpookyText('HEY!!!', Speakers.x - 200, Speakers.y - 200);
+					if (!spookyRendered)
+						createSpookyText('HEY!!!', Speakers.x - 200, Speakers.y - 200);
 				case 238:
 					if (storyDifficulty == 3 && !spookyRendered) {
 						createSpookyText('NO', Speakers.x - 200, Speakers.y - 200);
