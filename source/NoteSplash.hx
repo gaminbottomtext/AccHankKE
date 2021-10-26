@@ -1,48 +1,53 @@
 package;
-
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.graphics.frames.FlxAtlasFrames;
 
 class NoteSplash extends FlxSprite
 {
-	var setPosX:Float = 0;
-	var setPosY:Float = 0;
-	var swagWidthShit:Float = 0;
+	public static var scales:Array<Float> = [0.7, 0.6, 0.55, 0.46];
+	public static var swidths:Array<Float> = [160, 120, 110, 90];
+	public static var posRest:Array<Int> = [0, 35, 50, 70];
+
 	public static var anims:Array<String> = ['purple', 'blue', 'green', 'red'];
-	public function new(x:Float = 0, y:Float = 0, noteData:Int) 
-	{
+
+	public function new(x:Float = 0, y:Float = 0, noteData:Int) {
 		super(x, y);
 
 		setupNoteSplash(x, y, noteData);
 	}
-	
-	public function setupNoteSplash(x:Float = 0, y:Float = 0, noteData:Int = 0) {
-		swagWidthShit = Note.swagWidth;
+
+	public function setupNoteSplash(x:Float, y:Float, noteData:Int) {
 		frames = Paths.getSparrowAtlas('NOTE_splashes');
-		antialiasing = FlxG.save.data.antialiasing;
+		antialiasing = true;
+
         switch (noteData)
         {
             case 0: //Purple
-				setPosX = x - swagWidthShit * 0.95 + 45;
-				setPosY = y - swagWidthShit + 32;
+                setPosition(x - Note.swagWidth * 0.95 + 45, y - Note.swagWidth + 32);
             case 1: //Blue
-				setPosX = x - swagWidthShit * 0.95 + 55;
-				setPosY = y - swagWidthShit + 32;
+                setPosition(x - Note.swagWidth * 0.95 + 55, y - Note.swagWidth + 32);
             case 2: //Green
-				setPosX = x - swagWidthShit * 0.95 + 45;
-				setPosY = y - swagWidthShit + 32;
+                setPosition(x - Note.swagWidth * 0.95 + 45, y - Note.swagWidth + 32);
             case 3: //Red
-				setPosX = x - swagWidthShit * 0.95 + 45;
-				setPosY = y - swagWidthShit + 32;
+                setPosition(x - Note.swagWidth * 0.95 + 45, y - Note.swagWidth + 32);
         }
-		setPosition(setPosX,setPosY);
-		animation.addByPrefix(anims[noteData], 'notesplash ' + anims[noteData], 48, false);
+
+		alpha = 1;
+
+		for (i in 0...anims.length) {
+			animation.addByPrefix(anims[i], 'notesplash ' + anims[i], 48, false);
+		}
+
+		//x -= 100;
+		//y -= 100;
+
         animation.play(anims[noteData]);
 	}
 
-	override function update(elapsed:Float) { 
-		if(animation.curAnim.finished) kill(); 
-		super.update(elapsed); 
+	override function update(elapsed:Float) {
+		if(animation.curAnim.finished) kill();
+
+		super.update(elapsed);
 	}
 }

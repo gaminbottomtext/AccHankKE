@@ -482,16 +482,19 @@ class PlayState extends MusicBeatState
 					
 								add(cliffLol);
 
-								sanford = new FlxSprite(1256, -181);
-								sanford.frames = Paths.getSparrowAtlas('hank/sanford', 'shared');
+								sanford = new FlxSprite(1056, -181);
+								sanford.frames = Paths.getSparrowAtlas('hank/sanford_deimos', 'shared');
 								sanford.animation.addByPrefix('bop', 'sanford', 24, false);
+								sanford.animation.addByPrefix('shoot', 'shoot sanford', 24, false);
 								sanford.visible = false;
 								sanford.scrollFactor.set(1, 1);
+								sanford.flipX = true;
 								add(sanford);
 
 								deimos = new FlxSprite(-530, -143);
-								deimos.frames = Paths.getSparrowAtlas('hank/deimos', 'shared');
+								deimos.frames = Paths.getSparrowAtlas('hank/sanford_deimos', 'shared');
 								deimos.animation.addByPrefix('bop', 'deimos', 24, false);
+								deimos.animation.addByPrefix('shoot', 'shoot deimos', 24, false);
 								deimos.visible = false;
 								deimos.scrollFactor.set(1, 1);
 								add(deimos);
@@ -1370,32 +1373,6 @@ class PlayState extends MusicBeatState
 		#if !debug
 		perfectMode = false;
 		#end
-
-		if (FlxG.keys.justPressed.C)
-			hellclown.visible = !hellclown.visible;
-
-		if (FlxG.keys.justPressed.V) {
-			hellclown.scale.x += 0.1;
-			hellclown.scale.y += 0.1;
-			trace(hellclown.scale.x + ' ' + hellclown.scale.y);
-		}
-
-		if (FlxG.keys.pressed.W) {
-			hellclown.y -= 1;
-			trace(hellclown.y);
-		} 
-		if (FlxG.keys.pressed.S) {
-			hellclown.y += 1;
-			trace(hellclown.y);
-		}
-		if (FlxG.keys.pressed.D) {
-			hellclown.x += 1;
-			trace(hellclown.x);
-		}
-		if (FlxG.keys.pressed.A) {
-			hellclown.x -= 1;
-			trace(hellclown);
-		}
 
 		if (gfTargeted)
 			camFollow.setPosition(gf.getGraphicMidpoint().x + 40, gf.getGraphicMidpoint().y + 40);
@@ -3666,6 +3643,8 @@ class PlayState extends MusicBeatState
 			hellclown.animation.play('idle');
 
 			switch (curBeat) {
+				case 1:
+					resyncVocals();	//I felt like doing this cuz funny haxe is weird and desyncs vocals
 				case 6:
 					dad.playAnim('ready', true);
 					FlxG.sound.play(Paths.sound('hankReady'), 0.5);
@@ -3691,7 +3670,8 @@ class PlayState extends MusicBeatState
 						}
 					);
 
-					createSpookyText('HEY!!!', Speakers.x - 200, Speakers.y - 200);
+					if (!spookyRendered)
+						createSpookyText('HEY!!!', Speakers.x - 200, Speakers.y - 200);
 				case 238:
 					if (storyDifficulty == 3 && !spookyRendered) {
 						createSpookyText('NO', Speakers.x - 200, Speakers.y - 200);

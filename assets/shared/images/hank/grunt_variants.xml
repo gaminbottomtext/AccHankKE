@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="grunt_variants.png">
+	<!-- Created with Adobe Animate version 21.0.7.42652 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="bussiness0000" x="3430" y="297" width="343" height="297"/>
+	<SubTexture name="bussiness0001" x="3430" y="297" width="343" height="297"/>
+	<SubTexture name="bussiness0002" x="0" y="594" width="343" height="297"/>
+	<SubTexture name="bussiness0003" x="0" y="594" width="343" height="297"/>
+	<SubTexture name="bussiness0004" x="343" y="594" width="343" height="297"/>
+	<SubTexture name="bussiness0005" x="343" y="594" width="343" height="297"/>
+	<SubTexture name="bussiness0006" x="686" y="594" width="343" height="297"/>
+	<SubTexture name="bussiness0007" x="686" y="594" width="343" height="297"/>
+	<SubTexture name="bussiness0008" x="1029" y="594" width="343" height="297"/>
+	<SubTexture name="bussiness0009" x="1029" y="594" width="343" height="297"/>
+	<SubTexture name="bussiness0010" x="0" y="0" width="343" height="297"/>
+	<SubTexture name="bussiness0011" x="0" y="0" width="343" height="297"/>
+	<SubTexture name="bussiness0012" x="343" y="0" width="343" height="297"/>
+	<SubTexture name="bussiness0013" x="343" y="0" width="343" height="297"/>
+	<SubTexture name="bussiness0014" x="686" y="0" width="343" height="297"/>
+	<SubTexture name="bussiness0015" x="686" y="0" width="343" height="297"/>
+	<SubTexture name="bussiness0016" x="1029" y="0" width="343" height="297"/>
+	<SubTexture name="bussiness0017" x="1029" y="0" width="343" height="297"/>
+	<SubTexture name="bussiness0018" x="1372" y="0" width="343" height="297"/>
+	<SubTexture name="bussiness0019" x="1372" y="0" width="343" height="297"/>
+	<SubTexture name="bussiness0020" x="1715" y="0" width="343" height="297"/>
+	<SubTexture name="bussiness0021" x="1715" y="0" width="343" height="297"/>
+	<SubTexture name="bussiness0022" x="2058" y="0" width="343" height="297"/>
+	<SubTexture name="bussiness0023" x="2058" y="0" width="343" height="297"/>
+	<SubTexture name="bussiness0024" x="2401" y="0" width="343" height="297"/>
+	<SubTexture name="bussiness0025" x="2401" y="0" width="343" height="297"/>
+	<SubTexture name="bussiness0026" x="2744" y="0" width="343" height="297"/>
+	<SubTexture name="bussiness0027" x="2744" y="0" width="343" height="297"/>
+	<SubTexture name="bussiness0028" x="3087" y="0" width="343" height="297"/>
+	<SubTexture name="bussiness0029" x="3087" y="0" width="343" height="297"/>
+	<SubTexture name="bussiness0030" x="3430" y="0" width="343" height="297"/>
+	<SubTexture name="bussiness0031" x="3430" y="0" width="343" height="297"/>
+	<SubTexture name="electronic0000" x="3430" y="297" width="343" height="297"/>
+	<SubTexture name="electronic0001" x="3430" y="297" width="343" height="297"/>
+	<SubTexture name="electronic0002" x="0" y="594" width="343" height="297"/>
+	<SubTexture name="electronic0003" x="0" y="594" width="343" height="297"/>
+	<SubTexture name="electronic0004" x="343" y="594" width="343" height="297"/>
+	<SubTexture name="electronic0005" x="343" y="594" width="343" height="297"/>
+	<SubTexture name="electronic0006" x="686" y="594" width="343" height="297"/>
+	<SubTexture name="electronic0007" x="686" y="594" width="343" height="297"/>
+	<SubTexture name="electronic0008" x="1029" y="594" width="343" height="297"/>
+	<SubTexture name="electronic0009" x="1029" y="594" width="343" height="297"/>
+	<SubTexture name="electronic0010" x="0" y="297" width="343" height="295" frameX="0" frameY="0" frameWidth="343" frameHeight="297"/>
+	<SubTexture name="electronic0011" x="0" y="297" width="343" height="295" frameX="0" frameY="0" frameWidth="343" frameHeight="297"/>
+	<SubTexture name="electronic0012" x="343" y="297" width="343" height="295" frameX="0" frameY="0" frameWidth="343" frameHeight="297"/>
+	<SubTexture name="electronic0013" x="343" y="297" width="343" height="295" frameX="0" frameY="0" frameWidth="343" frameHeight="297"/>
+	<SubTexture name="electronic0014" x="686" y="297" width="343" height="295" frameX="0" frameY="0" frameWidth="343" frameHeight="297"/>
+	<SubTexture name="electronic0015" x="686" y="297" width="343" height="295" frameX="0" frameY="0" frameWidth="343" frameHeight="297"/>
+	<SubTexture name="electronic0016" x="1029" y="297" width="343" height="295" frameX="0" frameY="0" frameWidth="343" frameHeight="297"/>
+	<SubTexture name="electronic0017" x="1029" y="297" width="343" height="295" frameX="0" frameY="0" frameWidth="343" frameHeight="297"/>
+	<SubTexture name="electronic0018" x="1372" y="297" width="343" height="295" frameX="0" frameY="0" frameWidth="343" frameHeight="297"/>
+	<SubTexture name="electronic0019" x="1372" y="297" width="343" height="295" frameX="0" frameY="0" frameWidth="343" frameHeight="297"/>
+	<SubTexture name="electronic0020" x="1715" y="297" width="343" height="295" frameX="0" frameY="0" frameWidth="343" frameHeight="297"/>
+	<SubTexture name="electronic0021" x="1715" y="297" width="343" height="295" frameX="0" frameY="0" frameWidth="343" frameHeight="297"/>
+	<SubTexture name="electronic0022" x="2058" y="297" width="343" height="295" frameX="0" frameY="0" frameWidth="343" frameHeight="297"/>
+	<SubTexture name="electronic0023" x="2058" y="297" width="343" height="295" frameX="0" frameY="0" frameWidth="343" frameHeight="297"/>
+	<SubTexture name="electronic0024" x="2401" y="297" width="343" height="295" frameX="0" frameY="0" frameWidth="343" frameHeight="297"/>
+	<SubTexture name="electronic0025" x="2401" y="297" width="343" height="295" frameX="0" frameY="0" frameWidth="343" frameHeight="297"/>
+	<SubTexture name="electronic0026" x="2744" y="297" width="343" height="295" frameX="0" frameY="0" frameWidth="343" frameHeight="297"/>
+	<SubTexture name="electronic0027" x="2744" y="297" width="343" height="295" frameX="0" frameY="0" frameWidth="343" frameHeight="297"/>
+	<SubTexture name="electronic0028" x="3087" y="297" width="343" height="295" frameX="0" frameY="0" frameWidth="343" frameHeight="297"/>
+	<SubTexture name="electronic0029" x="3087" y="297" width="343" height="295" frameX="0" frameY="0" frameWidth="343" frameHeight="297"/>
+	<SubTexture name="electronic0030" x="3087" y="297" width="343" height="295" frameX="0" frameY="0" frameWidth="343" frameHeight="297"/>
+	<SubTexture name="electronic0031" x="3087" y="297" width="343" height="295" frameX="0" frameY="0" frameWidth="343" frameHeight="297"/>
+	<SubTexture name="normal0000" x="3430" y="297" width="343" height="297"/>
+	<SubTexture name="normal0001" x="3430" y="297" width="343" height="297"/>
+	<SubTexture name="normal0002" x="0" y="594" width="343" height="297"/>
+	<SubTexture name="normal0003" x="0" y="594" width="343" height="297"/>
+	<SubTexture name="normal0004" x="343" y="594" width="343" height="297"/>
+	<SubTexture name="normal0005" x="343" y="594" width="343" height="297"/>
+	<SubTexture name="normal0006" x="686" y="594" width="343" height="297"/>
+	<SubTexture name="normal0007" x="686" y="594" width="343" height="297"/>
+	<SubTexture name="normal0008" x="1029" y="594" width="343" height="297"/>
+	<SubTexture name="normal0009" x="1029" y="594" width="343" height="297"/>
+	<SubTexture name="normal0010" x="1372" y="594" width="343" height="297"/>
+	<SubTexture name="normal0011" x="1372" y="594" width="343" height="297"/>
+	<SubTexture name="normal0012" x="1715" y="594" width="343" height="297"/>
+	<SubTexture name="normal0013" x="1715" y="594" width="343" height="297"/>
+	<SubTexture name="normal0014" x="2058" y="594" width="343" height="297"/>
+	<SubTexture name="normal0015" x="2058" y="594" width="343" height="297"/>
+	<SubTexture name="normal0016" x="2401" y="594" width="343" height="297"/>
+	<SubTexture name="normal0017" x="2401" y="594" width="343" height="297"/>
+	<SubTexture name="normal0018" x="2744" y="594" width="343" height="297"/>
+	<SubTexture name="normal0019" x="2744" y="594" width="343" height="297"/>
+	<SubTexture name="normal0020" x="3087" y="594" width="343" height="297"/>
+	<SubTexture name="normal0021" x="3087" y="594" width="343" height="297"/>
+	<SubTexture name="normal0022" x="3430" y="594" width="343" height="297"/>
+	<SubTexture name="normal0023" x="3430" y="594" width="343" height="297"/>
+	<SubTexture name="normal0024" x="0" y="891" width="343" height="297"/>
+	<SubTexture name="normal0025" x="0" y="891" width="343" height="297"/>
+	<SubTexture name="normal0026" x="343" y="891" width="343" height="297"/>
+	<SubTexture name="normal0027" x="343" y="891" width="343" height="297"/>
+	<SubTexture name="normal0028" x="686" y="891" width="343" height="297"/>
+	<SubTexture name="normal0029" x="686" y="891" width="343" height="297"/>
+	<SubTexture name="normal0030" x="1029" y="891" width="343" height="297"/>
+	<SubTexture name="normal0031" x="1029" y="891" width="343" height="297"/>
+</TextureAtlas>
