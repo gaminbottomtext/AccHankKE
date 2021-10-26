@@ -3647,18 +3647,6 @@ class PlayState extends MusicBeatState
 
 			if (hellclownIsThere) {
 				hellclownShader.visible = true;
-
-				if (FlxG.random.bool(50)) {
-					if (hellclownShader.alpha < 0.6)
-						hellclownShader.alpha += FlxG.random.float(0.1, 0.2);
-					else if (hellclownShader.alpha > 0.6)
-						hellclownShader.alpha = 0.4;
-				} else {
-					if (hellclownShader.alpha < 0.6)
-						hellclownShader.alpha -= FlxG.random.float(0.5, 0.9);
-					else if (hellclownShader.alpha > 0.6)
-						hellclownShader.alpha = 0.4;
-				}
 			}
 				
 			//if (FlxG.save.data.distractions) {	Who da fuck put this here?? This literally causes no events to run if user disables the option
