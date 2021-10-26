@@ -3660,7 +3660,7 @@ class PlayState extends MusicBeatState
 					}
 				}
 			}
-
+			if (FlxG.save.data.distractions) {
 			sanford.animation.play('bop');
 			deimos.animation.play('bop');
 			hellclown.animation.play('idle');
@@ -3729,6 +3729,7 @@ class PlayState extends MusicBeatState
 				case 255:
 					gfRunning = false;
 			}
+		}
 		}
 	}
 
