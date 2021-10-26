@@ -90,6 +90,7 @@ class PlayState extends MusicBeatState
 	public static var bads:Int = 0;
 	public static var goods:Int = 0;
 	public static var sicks:Int = 0;
+	var hellclownShader:FlxSprite;
 
 	public static var songPosBG:FlxSprite;
 	public static var songPosBar:FlxBar;
@@ -741,6 +742,11 @@ class PlayState extends MusicBeatState
 		grpNoteSplashes.add(splash);
 		splash.alpha = 0.0;
 
+		hellclownShader = new FlxSprite(-100, -100).makeGraphic(2000, 2000, FlxColor.RED);
+		hellclownShader.alpha = 0.456;
+		hellclownShader.visible = false;
+		add(hellclownShader);
+
 		grpNoteSplashes.cameras = [camHUD];
 		strumLineNotes.cameras = [camHUD];
 		notes.cameras = [camHUD];
@@ -750,6 +756,7 @@ class PlayState extends MusicBeatState
 		iconP2.cameras = [camHUD];
 		scoreTxt.cameras = [camHUD];
 		doof.cameras = [camHUD];
+		hellclownShader.cameras = [camHUD];
 
 		startingSong = true;
 
@@ -3637,7 +3644,24 @@ class PlayState extends MusicBeatState
 					}
 				}
 			}
-			if (FlxG.save.data.distractions) {
+
+			if (hellclownIsThere) {
+				hellclownShader.visible = true;
+
+				if (FlxG.random.bool(50)) {
+					if (hellclownShader.alpha < 0.6)
+						hellclownShader.alpha += FlxG.random.float(0.1, 0.2);
+					else if (hellclownShader.alpha > 0.6)
+						hellclownShader.alpha = 0.4;
+				} else {
+					if (hellclownShader.alpha < 0.6)
+						hellclownShader.alpha -= FlxG.random.float(0.5, 0.9);
+					else if (hellclownShader.alpha > 0.6)
+						hellclownShader.alpha = 0.4;
+				}
+			}
+				
+			//if (FlxG.save.data.distractions) {	Who da fuck put this here?? This literally causes no events to run if user disables the option
 			sanford.animation.play('bop');
 			deimos.animation.play('bop');
 			hellclown.animation.play('idle');
@@ -3709,7 +3733,7 @@ class PlayState extends MusicBeatState
 				case 255:
 					gfRunning = false;
 			}
-		}
+		//}
 		}
 	}
 
