@@ -3647,6 +3647,7 @@ class PlayState extends MusicBeatState
 
 			if (hellclownIsThere) {
 				hellclownShader.visible = true;
+				hellclownShader.alpha = 0.3;
 			}
 				
 			//if (FlxG.save.data.distractions) {	Who da fuck put this here?? This literally causes no events to run if user disables the option
@@ -3656,7 +3657,10 @@ class PlayState extends MusicBeatState
 
 			switch (curBeat) {
 				case 1:
-					resyncVocals();	//I felt like doing this cuz funny haxe is weird and desyncs vocals
+					for (i in 0...10) {
+						trace('resyncing da vocals ! ' + i);
+						resyncVocals();	//I felt like doing this cuz funny haxe is weird and desyncs vocals
+					}
 				case 6:
 					dad.playAnim('ready', true);
 					FlxG.sound.play(Paths.sound('hankReady'), 0.5);
