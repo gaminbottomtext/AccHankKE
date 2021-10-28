@@ -1261,20 +1261,23 @@ class PlayState extends MusicBeatState
 			babyArrow.updateHitbox();
 			babyArrow.scrollFactor.set();
 
-			if (!isStoryMode)
-			{
-				babyArrow.y -= 10;
-				babyArrow.alpha = 0;
-				FlxTween.tween(babyArrow, {y: babyArrow.y + 10, alpha: 1}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
-			}
+			babyArrow.y -= 10;
+			babyArrow.alpha = 0;
+			FlxTween.tween(babyArrow, {y: babyArrow.y + 10, alpha: 0.8}, 1, {ease: FlxEase.circOut, startDelay: 0.5 + (0.2 * i)});
 
 			babyArrow.ID = i;
 
 			switch (player)
 			{
 				case 0:
+					if (!PlayStateChangeables.Optimize)
+						babyArrow.x += 70;
+
 					cpuStrums.add(babyArrow);
 				case 1:
+					if (!PlayStateChangeables.Optimize)
+						babyArrow.x += 25;
+
 					playerStrums.add(babyArrow);
 			}
 
@@ -2148,7 +2151,7 @@ class PlayState extends MusicBeatState
 						daNote.x = playerStrums.members[Math.floor(Math.abs(daNote.noteData))].x;
 						if (!daNote.isSustainNote)
 							daNote.angle = playerStrums.members[Math.floor(Math.abs(daNote.noteData))].angle;
-						daNote.alpha = playerStrums.members[Math.floor(Math.abs(daNote.noteData))].alpha;
+						daNote.alpha = 1;
 					}
 					else if (!daNote.wasGoodHit && !daNote.modifiedByLua)
 					{
@@ -2156,7 +2159,7 @@ class PlayState extends MusicBeatState
 						daNote.x = strumLineNotes.members[Math.floor(Math.abs(daNote.noteData))].x;
 						if (!daNote.isSustainNote)
 							daNote.angle = strumLineNotes.members[Math.floor(Math.abs(daNote.noteData))].angle;
-						daNote.alpha = strumLineNotes.members[Math.floor(Math.abs(daNote.noteData))].alpha;
+						daNote.alpha = 1;
 					}
 					
 					
@@ -2171,9 +2174,13 @@ class PlayState extends MusicBeatState
 					}
 					if (daNote.noteType == 2)
 						{
- // was going to say do nada but ehh fuck it lets do  somethin
- daNote.x -= 231;
+ 							// was going to say do nada but ehh fuck it lets do  somethin
+ 							daNote.x -= 231;
 						}
+					if (daNote.noteType == 3) {
+						if (daNote.noteData == 0 || daNote.noteData == 3)
+							daNote.x -= 5;
+					}
 
 					//trace(daNote.y);
 					// WIP interpolation shit? Need to fix the pause issue
@@ -2294,6 +2301,7 @@ class PlayState extends MusicBeatState
 
 	function endSong():Void
 	{
+		//shit go here
 		FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN,handleInput);
 		if (useVideo)
 			{
@@ -2548,6 +2556,7 @@ class PlayState extends MusicBeatState
 			rating.screenCenter(X);
 			rating.y = 65;
 			rating.x += 55;
+			rating.x += 70;
 			
 			if (FlxG.save.data.changedHit)
 			{
@@ -2680,6 +2689,7 @@ class PlayState extends MusicBeatState
 				numScore.y += 170;
 
 				numScore.x -= 150;
+				numScore.x += 70;
 
 				if (!curStage.startsWith('school'))
 				{
@@ -3307,6 +3317,10 @@ class PlayState extends MusicBeatState
 							FlxG.sound.play(Paths.sound('hankshoot'));
 							boyfriend.playAnim('dodge', true);
 							hellclown.animation.play('bop', true);
+							if (hellclownIsThere) {
+								sanford.animation.play('shoot');
+								deimos.animation.play('shoot');
+							}
 							trace("we damm dodged da bullet"); // for bullets 
 							trace("warning note hit");
 						}

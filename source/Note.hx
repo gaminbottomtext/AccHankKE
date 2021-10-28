@@ -174,6 +174,11 @@ class Note extends FlxSprite
 		if (FlxG.save.data.downscroll && sustainNote) 
 			flipY = true;
 
+		if (noteType == 3) {
+			if (noteData == 0 || noteData == 3)
+				x -= 5;
+		}
+
 		if (isSustainNote && prevNote != null)
 		{
 			noteScore * 0.2;
