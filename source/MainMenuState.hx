@@ -1,6 +1,8 @@
 package;
 
 //import flixel.system.macros.FlxAssetPaths;
+import flixel.ui.FlxBar;
+import flixel.util.helpers.FlxRangeBounds;
 import flixel.addons.transition.FlxTransitionSprite.GraphicTransTileDiamond;
 import flixel.graphics.FlxGraphic;
 import flixel.addons.transition.TransitionData;
@@ -60,12 +62,19 @@ class MainMenuState extends MusicBeatState
 	
 	public var imageThing:FlxSprite;
 	var mem:FlxText;
+	var behindOptions:FlxSprite;
+	var loadingBarBG:FlxSprite;
+	var loadingBar:FlxBar;
+
+	var daxp:Int = 1;
 
 	override function create()
 	{
 		#if debug
 		FlxG.debugger.drawDebug = true;
 		#end
+
+		daxp = FlxG.save.data.userRank;
 
 		#if windows
 		// Updating Discord Rich Presence
@@ -119,7 +128,10 @@ class MainMenuState extends MusicBeatState
 		add(magenta);
 		// magenta.scrollFactor.set();*/
 
-		var behindOptions = new FlxSprite(0, 0).loadGraphic(Paths.image('behind_options', 'shared'));
+		behindOptions = new FlxSprite(0, -10);
+		behindOptions.frames = Paths.getSparrowAtlas('behind_options', 'shared');
+		behindOptions.animation.addByPrefix('idle', 'idle', 24, true);
+		behindOptions.animation.play('idle');
 		behindOptions.scrollFactor.set();
 		add(behindOptions);
 
@@ -172,6 +184,14 @@ class MainMenuState extends MusicBeatState
 		mem.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		//add(mem);
 
+		loadingBarBG = new FlxSprite(0, 10).loadGraphic(Paths.image('levelBar', 'shared'));
+		loadingBarBG.x = (FlxG.width - loadingBarBG.width) - 8;
+		add(loadingBarBG);
+        loadingBar = new FlxBar(loadingBarBG.x + 6, loadingBarBG.y + 4, LEFT_TO_RIGHT, Std.int(loadingBarBG.width - 12), Std.int(loadingBarBG.height - 8), this,
+        'daxp', 0, 100);
+        loadingBar.createFilledBar(0xff4e0000, 0xffa52a00);
+        add(loadingBar);
+
 		// NG.core.calls.event.logEvent('swag').send();
 
 
@@ -192,6 +212,8 @@ class MainMenuState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
+		behindOptions.y = Math.sin(10);
+
 		if (FlxG.sound.music.volume < 0.8)
 		{
 			FlxG.sound.music.volume += 0.5 * FlxG.elapsed;

@@ -83,7 +83,10 @@ class HankSelectSubstate extends MusicBeatSubstate
         add(accelerantWord);
         FlxTween.tween(accelerantWord, {x: 460}, 1, {ease: FlxEase.expoInOut});
 
-        var behindOptions = new FlxSprite(0, 0).loadGraphic(Paths.image('behind_options', 'shared'));
+        var behindOptions = new FlxSprite(0, 0);
+		behindOptions.frames = Paths.getSparrowAtlas('behind_options', 'shared');
+		behindOptions.animation.addByPrefix('idle', 'idle', 24, true);
+		behindOptions.animation.play('idle');
 		behindOptions.scrollFactor.set();
 		add(behindOptions);
 

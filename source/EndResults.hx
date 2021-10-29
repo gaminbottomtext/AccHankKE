@@ -229,6 +229,14 @@ class EndResults extends MusicBeatState
                     FlxG.sound.play(Paths.sound('confirmMenu'));
                     FlxG.camera.flash(0xFFffffff, 1);
                     FlxTween.tween(pressEnter,{x: -1000},2,{ease: FlxEase.expoInOut});
+
+                    //save data shit!
+                    FlxG.save.data.userRank += intAccuracy;
+                    if (FlxG.save.data.userRank > 100) {
+                        FlxG.save.data.userRank = 0;
+                        FlxG.save.data.userLevel++;
+                    }
+
                     new FlxTimer().start(2, function(tmr:FlxTimer)
                         {
                             FlxG.switchState(new MainMenuState());
