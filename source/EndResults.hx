@@ -68,10 +68,13 @@ class EndResults extends MusicBeatState
 
     override function create() {
 
-        setRatingString(); 
+        setRatingString();
+
+        persistentUpdate = true;
+		persistentDraw = true;
 
         intAccuracy = Std.int(PlayState.accuracy);
-        score = Std.int(PlayState.instance.songScore);
+        score = Std.int(PlayState.instance.songScoreAcc);
         topCombo = Std.int(PlayState.highestCombo);
         misses = Std.int(PlayState.misses);
 
@@ -97,7 +100,7 @@ class EndResults extends MusicBeatState
         add(missesAddUp);
 
 
-        backdrop = new FlxBackdrop(Paths.image('menuDesat'));
+        backdrop = new FlxBackdrop(Paths.image('menuDesat'), 1, 0, true, false);
 		backdrop.y = 0;
 		backdrop.velocity.set(50, 0);
 		add(backdrop);
