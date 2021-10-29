@@ -134,7 +134,7 @@ class Caching extends MusicBeatState
 
         trace("Finished caching...");
 
-        FlxG.switchState(new TitleState());
+        FlxG.switchState(new SaveKeybinds());
     }
 
 }
