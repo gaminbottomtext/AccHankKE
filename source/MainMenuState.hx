@@ -65,8 +65,10 @@ class MainMenuState extends MusicBeatState
 	var behindOptions:FlxSprite;
 	var loadingBarBG:FlxSprite;
 	var loadingBar:FlxBar;
+	var levelText:FlxText;
 
 	var daxp:Int = 1;
+	var daLevel:Int = 0;
 
 	override function create()
 	{
@@ -75,6 +77,10 @@ class MainMenuState extends MusicBeatState
 		#end
 
 		daxp = FlxG.save.data.userRank;
+		if (FlxG.save.data.userLevel != null)
+			daLevel = FlxG.save.data.userLevel;
+		else
+			daLevel = 0;
 
 		#if windows
 		// Updating Discord Rich Presence
@@ -192,6 +198,10 @@ class MainMenuState extends MusicBeatState
         loadingBar.createFilledBar(0xff4e0000, 0xffa52a00);
         add(loadingBar);
 
+		levelText = new FlxText(loadingBarBG.x, loadingBarBG.y + 30, loadingBarBG.width, '', 20);
+		levelText.setFormat("VCR OSD Mono", 20, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		levelText.text = 'Level: ' + daLevel + '\nXP: ' + daxp + '\nXP to go ' + (100 - daxp) + 'XP';
+		add(levelText);
 		// NG.core.calls.event.logEvent('swag').send();
 
 
@@ -297,6 +307,16 @@ class MainMenuState extends MusicBeatState
 						}
 				}
 		});
+
+		if (FlxG.mouse.overlaps(loadingBarBG)) {
+			FlxTween.tween(loadingBarBG, {alpha: 1}, 0.5);
+			FlxTween.tween(loadingBar, {alpha: 1}, 0.5);
+			FlxTween.tween(levelText, {alpha: 1}, 0.5);
+		} else {
+			FlxTween.tween(loadingBarBG, {alpha: 0.5}, 0.5);
+			FlxTween.tween(loadingBar, {alpha: 0.5}, 0.5);
+			FlxTween.tween(levelText, {alpha: 0.5}, 0.5);
+		}
 	}
 }
 

@@ -60,6 +60,9 @@ class TitleState extends MusicBeatState
 			sys.FileSystem.createDirectory(Sys.getCwd() + "/assets/replays");
 		#end
 
+		FlxG.save.data.userLevel = 0;
+		FlxG.save.data.userRank = 0;
+
 		@:privateAccess
 		{
 			trace("Loaded " + openfl.Assets.getLibrary("default").assetsLoaded + " assets (DEFAULT)");
@@ -310,7 +313,7 @@ class TitleState extends MusicBeatState
 
 			new FlxTimer().start(2, function(tmr:FlxTimer)
 			{
-				FlxG.switchState(new MainMenuState());
+				FlxG.switchState(new SaveKeybinds());
 			});
 			// FlxG.sound.play(Paths.music('titleShoot'), 0.7);
 		}

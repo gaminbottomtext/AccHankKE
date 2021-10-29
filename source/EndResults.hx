@@ -233,7 +233,7 @@ class EndResults extends MusicBeatState
                     //save data shit!
                     FlxG.save.data.userRank += intAccuracy;
                     if (FlxG.save.data.userRank > 100) {
-                        FlxG.save.data.userRank = 0;
+                        FlxG.save.data.userRank = (intAccuracy + FlxG.save.data.userRank) - 100;
                         FlxG.save.data.userLevel++;
                     }
 

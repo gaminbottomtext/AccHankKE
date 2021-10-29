@@ -25,8 +25,8 @@ class SaveKeybinds extends MusicBeatState
             holdTimer = 0;
         }
 
-        if (holdTimer > 0.5) {
-            FlxG.switchState(new TitleState());
+        if (holdTimer > 1) {
+            FlxG.switchState(new MainMenuState());
         }
     }
 }
