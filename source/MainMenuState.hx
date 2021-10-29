@@ -67,8 +67,8 @@ class MainMenuState extends MusicBeatState
 	var loadingBar:FlxBar;
 	var levelText:FlxText;
 
-	var daxp:Int = 1;
-	var daLevel:Int = 0;
+	public static var daxp:Int = 1;
+	public static var daLevel:Int = 0;
 
 	override function create()
 	{
@@ -76,7 +76,11 @@ class MainMenuState extends MusicBeatState
 		FlxG.debugger.drawDebug = true;
 		#end
 
-		daxp = FlxG.save.data.userRank;
+		if (FlxG.save.data.userRank != null)
+			daxp = FlxG.save.data.userRank
+		else
+			daxp = 0;
+
 		if (FlxG.save.data.userLevel != null)
 			daLevel = FlxG.save.data.userLevel;
 		else

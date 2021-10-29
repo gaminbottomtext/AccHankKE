@@ -11,6 +11,9 @@ import flixel.addons.display.FlxBackdrop;
 
 using StringTools;
 
+/**
+ * do not enter this class without playing or else everything will be null lmao
+ */
 class EndResults extends MusicBeatState
 {
 
@@ -65,7 +68,9 @@ class EndResults extends MusicBeatState
 
     var rawAccuracy:Float;
 
-
+    /**
+     * the
+     */
     override function create() {
 
         setRatingString();
@@ -117,6 +122,9 @@ class EndResults extends MusicBeatState
             });
     }
 
+    /**
+     * This is where i add the numbers every 0.09 s
+     */
     function addScore() {
         new FlxTimer().start(0.09, function(tmr:FlxTimer)
             {
@@ -146,6 +154,9 @@ class EndResults extends MusicBeatState
             }, times);
     }
 
+    /**
+     * funny kade
+     */
     function setRatingString() {
         ratingString = 'N/A'; 
         if (!PlayStateChangeables.botPlay) {
@@ -164,6 +175,9 @@ class EndResults extends MusicBeatState
         }
     }
 
+    /**
+     * dis the numbers that popup
+     */
     function popupNumbers() {
         var comboSplit:Array<String> = (curVal + "").split('');
 
@@ -233,7 +247,7 @@ class EndResults extends MusicBeatState
                     //save data shit!
                     FlxG.save.data.userRank += intAccuracy;
                     if (FlxG.save.data.userRank > 100) {
-                        FlxG.save.data.userRank = (intAccuracy + FlxG.save.data.userRank) - 100;
+                        FlxG.save.data.userRank = (intAccuracy + MainMenuState.daxp) - 100;
                         FlxG.save.data.userLevel++;
                     }
 

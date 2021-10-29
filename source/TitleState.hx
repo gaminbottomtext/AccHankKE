@@ -60,8 +60,8 @@ class TitleState extends MusicBeatState
 			sys.FileSystem.createDirectory(Sys.getCwd() + "/assets/replays");
 		#end
 
-		FlxG.save.data.userLevel = 0;
-		FlxG.save.data.userRank = 0;
+		FlxG.save.data.userLevel = null;
+		FlxG.save.data.userRank = null;
 
 		@:privateAccess
 		{
