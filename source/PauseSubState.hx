@@ -32,6 +32,7 @@ class PauseSubState extends MusicBeatSubstate
 
 	public function new(x:Float, y:Float)
 	{
+		PlayState.allowedToCountTime = false;
 		super();
 
 		if (PlayState.instance.useVideo)
@@ -206,6 +207,7 @@ class PauseSubState extends MusicBeatSubstate
 			switch (daSelected)
 			{
 				case "Resume":
+					PlayState.allowedToCountTime = true;
 					close();
 				case "Restart Song":
 					if (PlayState.instance.useVideo)
@@ -214,11 +216,25 @@ class PauseSubState extends MusicBeatSubstate
 						PlayState.instance.remove(PlayState.instance.videoSprite);
 						PlayState.instance.removedVideo = true;
 					}
+					PlayState.seconds = 0;
+					PlayState.daSecs = 0;
+					PlayState.daMins = 0;
+					PlayState.daFullMins = 0;
+					PlayState.daFullSecs = 0;
+					PlayState.daFullTime = 0;
+					PlayState.daTimeRaising = 0;
 					FlxG.resetState();
 				case "Exit to menu":
 					MainMenuState.finishedFunnyMove = false;
 					MainMenuState.firstStart = false;
 					MainMenuState.selectedSomethin = false;
+					PlayState.seconds = 0;
+					PlayState.daSecs = 0;
+					PlayState.daMins = 0;
+					PlayState.daFullMins = 0;
+					PlayState.daFullSecs = 0;
+					PlayState.daFullTime = 0;
+					PlayState.daTimeRaising = 0;
 					FlxG.switchState(new MainMenuState());
 			}
 		}

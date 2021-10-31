@@ -91,6 +91,8 @@ class PlayState extends MusicBeatState
 	public static var goods:Int = 0;
 	public static var sicks:Int = 0;
 	var hellclownShader:FlxSprite;
+	public static var allowedToCountTime:Bool = true;
+	public static var missedTime:Int = 0;
 
 	public static var songPosBG:FlxSprite;
 	public static var songPosBar:FlxBar;
@@ -108,6 +110,13 @@ class PlayState extends MusicBeatState
 
 	var songLength:Float = 0;
 	var kadeEngineWatermark:FlxText;
+	public static var seconds:Int;
+	public static var daSecs:Int;
+	public static var daMins:Int;
+	public static var daFullTime:Int;
+	public static var daTimeRaising:Int;
+	public static var daFullSecs:Int;
+	public static var daFullMins:Int;
 	
 	#if windows
 	// Discord RPC variables
@@ -790,6 +799,8 @@ class PlayState extends MusicBeatState
 		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN,handleInput);
 
 		super.create();
+
+		daFullTime = Std.int(FlxG.sound.music.length / 1000);
 	}
 
 	var startTimer:FlxTimer;
@@ -1008,6 +1019,12 @@ class PlayState extends MusicBeatState
 		FlxG.sound.music.onComplete = endSong;
 		vocals.play();
 
+
+		new FlxTimer().start(1, function(tmr:FlxTimer)
+			{	
+				countTime();
+			}, 99999999);
+
 		// Song duration in a float, useful for the time left feature
 		songLength = FlxG.sound.music.length;
 		
@@ -1025,6 +1042,22 @@ class PlayState extends MusicBeatState
 		// Updating Discord Rich Presence (with Time Left)
 		DiscordClient.changePresence(detailsText + " " + SONG.song + " (" + storyDifficultyText + ") " + Ratings.GenerateLetterRank(accuracy), "\nAcc: " + HelperFunctions.truncateFloat(accuracy, 2) + "% | Score: " + songScoreAcc + " | Misses: " + misses  , iconRPC);
 		#end
+	}
+
+	function countTime() {
+		if (allowedToCountTime) {
+			if (seconds != daFullTime) {
+				seconds++;
+
+				daSecs++;
+				if (seconds % 60 == 0) {
+					daMins++;
+					daSecs = 0;
+				}
+	
+				trace('Time elapsed: 0' + daMins + ':' + daSecs + ' / 0' + daFullMins + ':' + daFullSecs);
+			}
+		}
 	}
 
 	var debugNum:Int = 0;
@@ -1380,6 +1413,18 @@ class PlayState extends MusicBeatState
 	override public function update(elapsed:Float)
 	{
         FlxG.mouse.visible = false;
+
+		if (daTimeRaising != daFullTime) {
+			daTimeRaising++;
+			daFullSecs++;
+			
+			if (daTimeRaising % 60 == 0) {
+				daFullMins++;
+				daFullSecs = 0;
+			}
+
+			trace('Full time: 0' + daFullMins + ':' + daFullSecs);
+		}
 
 		#if !debug
 		perfectMode = false;
@@ -3668,12 +3713,7 @@ class PlayState extends MusicBeatState
 			deimos.animation.play('bop');
 			hellclown.animation.play('idle');
 
-			switch (curBeat) {
-				case 1:
-					for (i in 0...10) {
-						trace('resyncing da vocals ! ' + i);
-						resyncVocals();	//I felt like doing this cuz funny haxe is weird and desyncs vocals
-					}
+			switch (curBeat) {	
 				case 6:
 					dad.playAnim('ready', true);
 					FlxG.sound.play(Paths.sound('hankReady'), 0.5);
