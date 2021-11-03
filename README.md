@@ -18,4 +18,6 @@ gamingbottomtext - LOL for existing and doing some code / 40 Percent of the code
 
 
 tpo - The guy that did 70% of the code 
+
+
 panda funny - All I did was give you guys the assets you guys told me to do lmao.. and 0.001% of code
