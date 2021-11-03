@@ -14,7 +14,7 @@ Also Clickteam Fusion 2.5 sucks, and all those other ports don't actually use al
 
 ## Credits
 
-gamingbottomtext - LOL for existing and doing some code / 40 Percent of the code :trol:
+gamingbottomtext - LOL for existing and doing some code / 40 Percent of the code and alot of the gameplay stuff :trol: 
 
 
 tpo - The guy that did 70% of the code 
