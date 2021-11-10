@@ -216,25 +216,17 @@ class PauseSubState extends MusicBeatSubstate
 						PlayState.instance.remove(PlayState.instance.videoSprite);
 						PlayState.instance.removedVideo = true;
 					}
-					PlayState.seconds = 0;
-					PlayState.daSecs = 0;
-					PlayState.daMins = 0;
-					PlayState.daFullMins = 0;
-					PlayState.daFullSecs = 0;
-					PlayState.daFullTime = 0;
-					PlayState.daTimeRaising = 0;
+					PlayState.curTime = 0;
+					PlayState.curSecond = 0;
+					PlayState.curMinute = 0;
 					FlxG.resetState();
 				case "Exit to menu":
 					MainMenuState.finishedFunnyMove = false;
 					MainMenuState.firstStart = false;
 					MainMenuState.selectedSomethin = false;
-					PlayState.seconds = 0;
-					PlayState.daSecs = 0;
-					PlayState.daMins = 0;
-					PlayState.daFullMins = 0;
-					PlayState.daFullSecs = 0;
-					PlayState.daFullTime = 0;
-					PlayState.daTimeRaising = 0;
+					PlayState.curTime = 0;
+					PlayState.curSecond = 0;
+					PlayState.curMinute = 0;
 					FlxG.switchState(new MainMenuState());
 			}
 		}

@@ -110,13 +110,13 @@ class PlayState extends MusicBeatState
 
 	var songLength:Float = 0;
 	var kadeEngineWatermark:FlxText;
-	public static var seconds:Int;
-	public static var daSecs:Int;
-	public static var daMins:Int;
-	public static var daFullTime:Int;
-	public static var daTimeRaising:Int;
-	public static var daFullSecs:Int;
-	public static var daFullMins:Int;
+
+	public static var curTime:Int;
+	public static var curSecond:Int;
+	public static var curMinute:Int;
+	public static var daZerosSecs:String;
+	public static var daZerosMins:String;
+
 	
 	#if windows
 	// Discord RPC variables
@@ -799,8 +799,6 @@ class PlayState extends MusicBeatState
 		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN,handleInput);
 
 		super.create();
-
-		daFullTime = Std.int(FlxG.sound.music.length / 1000);
 	}
 
 	var startTimer:FlxTimer;
@@ -1019,12 +1017,6 @@ class PlayState extends MusicBeatState
 		FlxG.sound.music.onComplete = endSong;
 		vocals.play();
 
-
-		new FlxTimer().start(1, function(tmr:FlxTimer)
-			{	
-				countTime();
-			}, 99999999);
-
 		// Song duration in a float, useful for the time left feature
 		songLength = FlxG.sound.music.length;
 		
@@ -1042,22 +1034,6 @@ class PlayState extends MusicBeatState
 		// Updating Discord Rich Presence (with Time Left)
 		DiscordClient.changePresence(detailsText + " " + SONG.song + " (" + storyDifficultyText + ") " + Ratings.GenerateLetterRank(accuracy), "\nAcc: " + HelperFunctions.truncateFloat(accuracy, 2) + "% | Score: " + songScoreAcc + " | Misses: " + misses  , iconRPC);
 		#end
-	}
-
-	function countTime() {
-		if (allowedToCountTime) {
-			if (seconds != daFullTime) {
-				seconds++;
-
-				daSecs++;
-				if (seconds % 60 == 0) {
-					daMins++;
-					daSecs = 0;
-				}
-	
-				trace('Time elapsed: 0' + daMins + ':' + daSecs + ' / 0' + daFullMins + ':' + daFullSecs);
-			}
-		}
 	}
 
 	var debugNum:Int = 0;
@@ -1414,16 +1390,22 @@ class PlayState extends MusicBeatState
 	{
         FlxG.mouse.visible = false;
 
-		if (daTimeRaising != daFullTime) {
-			daTimeRaising++;
-			daFullSecs++;
-			
-			if (daTimeRaising % 60 == 0) {
-				daFullMins++;
-				daFullSecs = 0;
+		if (!paused) {
+			curTime = Std.int(FlxG.sound.music.time / 1000);
+			trace(Std.int(FlxG.sound.music.time / 1000));
+
+			if (songStarted) {
+				if (curTime % 60 == 0) {
+					curMinute++;
+					curSecond = 0;
+				}
+
+				if (curTime % 1 == 0) {
+					curSecond++;
+				}
 			}
 
-			trace('Full time: 0' + daFullMins + ':' + daFullSecs);
+			trace(curMinute+':'+curSecond);
 		}
 
 		#if !debug
